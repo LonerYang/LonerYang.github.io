@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="Yang">
 <meta property="og:description" content="一、ExecutorExecutor是所有线程池的接口，定义了一个用于执行Runnable任务的execute方法，它没有实现类只有另一个重要的子接口ExecutorService，线程池中方法都是实现该子接口而来的。 自己实现Executor接口 12345678910111213public class T01_MyExecutor implements Executor &amp;#123;	pub">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-05-18T10:34:37.891Z">
+<meta property="og:updated_time" content="2019-05-23T04:45:49.025Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="线程池">
 <meta name="twitter:description" content="一、ExecutorExecutor是所有线程池的接口，定义了一个用于执行Runnable任务的execute方法，它没有实现类只有另一个重要的子接口ExecutorService，线程池中方法都是实现该子接口而来的。 自己实现Executor接口 12345678910111213public class T01_MyExecutor implements Executor &amp;#123;	pub">
@@ -119,6 +119,13 @@
     <div class="post-title-bar">
       <ul>
           
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/并发/">并发</a>
+                  
+              </li>
+          
         <li>
           <i class="fa fa-calendar"></i>  2019-05-18
         </li>
@@ -206,7 +213,7 @@
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">Executor 所有线程池的接口</span><br><span class="line">ExecutorService Executor的子接口</span><br><span class="line"></span><br><span class="line">   Runnable和Callable的区别</span><br><span class="line">      1、Runnable没有返回值，Callable有返回值</span><br><span class="line">      2、Runnable异常只能内部消化，Callable可以throws出去，Callable使用FutureTask的get方法(阻塞)		   获取返回值</span><br><span class="line">Callable 自定义任务的接口</span><br><span class="line">Future     线程池执行完任务返回的值，通过它get()到返回值</span><br><span class="line">Executors 工具类，可以用来创建线程池</span><br><span class="line"></span><br><span class="line">六种线程池</span><br><span class="line">使用线程池：先创建一个任务，然后丢给线程池，线程池中的线程会来执行该任务</span><br><span class="line">fixed  指定固定大小的线程池</span><br><span class="line">cached  弹性的</span><br><span class="line">       不能指定容量的线程池，来一个任务线程池中没有空闲的线程就会创建一个线程来执行，线程池中最多数量是CPU能支撑最多的数量</span><br><span class="line">       一个线程默认60秒不使用系统自动销毁</span><br><span class="line">single  这个线程池中只有一个线程</span><br><span class="line">        优点：任务是按顺序执行的</span><br><span class="line">scheduled  定时执行任务的线程池</span><br><span class="line">workstealing   线程池中某个线程执行完了自己的任务会主动去拿别人没有执行的任务来执行（操作系统CPU几核就会				给你自动创建几个线程）</span><br><span class="line">forkjoin   大数据计算的时候，使用该线程池分而治之，最后将结果加起来。类似递归</span><br><span class="line"></span><br><span class="line">ThreadPoolExecutor 自定义线程池，所有的线程池背后都是使用ThreadPoolExecutor来实现的</span><br><span class="line">               也可以继承这个类自定义线程池，需要指定一些参数</span><br><span class="line">ParallelStreamAPI  多线程计算数据的API</span><br></pre></td></tr></table></figure>
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2019年05月18日 18:34</p>
+        <p>最后更新： 2019年05月23日 12:45</p>
         <p>原始链接： <a class="post-url" href="/2019/05/18/2019-05-18-线程池/" title="线程池">http://yoursite.com/2019/05/18/2019-05-18-线程池/</a></p>
         <footer>
             <a href="http://yoursite.com">
@@ -405,10 +412,10 @@
 <div class="sidebar-menu-box" id="sidebar-menu-box">
     <div class="sidebar-menu-box-container">
         <div id="sidebar-menu-box-categories">
-            <a class="category-link" href="/categories/SpringBoot/">SpringBoot</a>
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Linux/">Linux</a><a class="category-link" href="/categories/SpringBoot/">SpringBoot</a><a class="category-link" href="/categories/代码的艺术/">代码的艺术</a><a class="category-link" href="/categories/并发/">并发</a><a class="category-link" href="/categories/随笔/">随笔</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/WebSocket/" style="font-size: 10px;">WebSocket</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -441,7 +448,7 @@
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/WebSocket/" style="font-size: 10px;">WebSocket</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
         </div>
     </div>
 </div>

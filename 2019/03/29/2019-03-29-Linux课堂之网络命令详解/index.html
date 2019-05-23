@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="Yang">
 <meta property="og:description" content="一、网络相关命令1、用ping命令测试Linux是否联网ping[选项] [网址/ip] ping 网址还是会被解析成 ip 地址 选项：-c n  Linux中 ping 默认是无限 ping ，可以使用 -c选择设置 ping 的次数，如果不使用 -c选项，无限 ping 可以使用 Ctrl + c 退出 eg：使用 ping -c 3 www.baidu.com 命令 ping 百度3次 1">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-03-29T03:15:08.253Z">
+<meta property="og:updated_time" content="2019-05-23T04:34:41.071Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux课堂之网络命令详解">
 <meta name="twitter:description" content="一、网络相关命令1、用ping命令测试Linux是否联网ping[选项] [网址/ip] ping 网址还是会被解析成 ip 地址 选项：-c n  Linux中 ping 默认是无限 ping ，可以使用 -c选择设置 ping 的次数，如果不使用 -c选项，无限 ping 可以使用 Ctrl + c 退出 eg：使用 ping -c 3 www.baidu.com 命令 ping 百度3次 1">
@@ -119,6 +119,13 @@
     <div class="post-title-bar">
       <ul>
           
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Linux/">Linux</a>
+                  
+              </li>
+          
         <li>
           <i class="fa fa-calendar"></i>  2019-03-29
         </li>
@@ -157,7 +164,7 @@
 <p>4.2、<code>netstat -an</code> 查看本地所有网络连接</p>
 <p>4.3、<code>netstat -rn</code> 查看本地路由网关</p>
 <h2 id="二、扩展命令"><a href="#二、扩展命令" class="headerlink" title="二、扩展命令"></a>二、扩展命令</h2><h3 id="5、finger-用户名-查看用户信息"><a href="#5、finger-用户名-查看用户信息" class="headerlink" title="5、finger [用户名] 查看用户信息"></a>5、<code>finger</code> [用户名] 查看用户信息</h3><p>eg：查看 root 用户信息</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# finger root</span><br><span class="line"><span class="meta">#</span><span class="bash">登录名						  <span class="comment">#用户名</span></span></span><br><span class="line">Login: root           			Name: root</span><br><span class="line"><span class="meta">#</span><span class="bash">用户所拥有的路径						  <span class="comment">#使用bash shell</span></span></span><br><span class="line">Directory: /root                    	Shell: /bin/bash</span><br><span class="line"><span class="meta">#</span><span class="bash">什么时候开机的</span></span><br><span class="line">On since Fri Mar 29 08:38 (CST) on pts/0 from 192.168.25.1</span><br><span class="line">   3 seconds idle</span><br><span class="line">No mail.</span><br><span class="line">No Plan.</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# finger root</span><br><span class="line"><span class="meta">#</span>登录名						  #用户名</span><br><span class="line">Login: root           			Name: root</span><br><span class="line"><span class="meta">#</span>用户所拥有的路径						  #使用bash shell</span><br><span class="line">Directory: /root                    	Shell: /bin/bash</span><br><span class="line"><span class="meta">#</span>什么时候开机的</span><br><span class="line">On since Fri Mar 29 08:38 (CST) on pts/0 from 192.168.25.1</span><br><span class="line">   3 seconds idle</span><br><span class="line">No mail.</span><br><span class="line">No Plan.</span><br></pre></td></tr></table></figure>
 <p><code>finger</code> 相当于 <code>env</code></p>
 <p><code>env</code>：查看当前用户的环境信息</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# env</span><br><span class="line">XDG_SESSION_ID=1</span><br><span class="line">HOSTNAME=localhost.localdomain</span><br><span class="line">SELINUX_ROLE_REQUESTED=</span><br><span class="line">TERM=xterm</span><br><span class="line">SHELL=/bin/bash</span><br><span class="line">HISTSIZE=1000</span><br><span class="line">SSH_CLIENT=192.168.25.1 9652 22</span><br><span class="line">SELINUX_USE_CURRENT_RANGE=</span><br><span class="line">SSH_TTY=/dev/pts/0</span><br><span class="line">USER=root</span><br><span class="line">LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=01;05;37;41:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=01;36:*.au=01;36:*.flac=01;36:*.mid=01;36:*.midi=01;36:*.mka=01;36:*.mp3=01;36:*.mpc=01;36:*.ogg=01;36:*.ra=01;36:*.wav=01;36:*.axa=01;36:*.oga=01;36:*.spx=01;36:*.xspf=01;36:</span><br><span class="line">MAIL=/var/spool/mail/root</span><br><span class="line">PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin</span><br><span class="line">PWD=/root</span><br><span class="line">LANG=en_US.UTF-8</span><br><span class="line">SELINUX_LEVEL_REQUESTED=</span><br><span class="line">HISTCONTROL=ignoredups</span><br><span class="line">SHLVL=1</span><br><span class="line">HOME=/root</span><br><span class="line">LOGNAME=root</span><br><span class="line">SSH_CONNECTION=192.168.25.1 9652 192.168.25.157 22</span><br><span class="line">LESSOPEN=||/usr/bin/lesspipe.sh %s</span><br><span class="line">XDG_RUNTIME_DIR=/run/user/0</span><br><span class="line">_=/usr/bin/env</span><br><span class="line">OLDPWD=/home</span><br></pre></td></tr></table></figure>
@@ -166,7 +173,7 @@
 <p>2、echo [信息] &gt;&gt; [文件名] ：追加内容到文件后面</p>
 <p>​      echo [信息] &gt; [文件名]：将内容覆盖文件中原有的内容</p>
 <p>eg：通过<code>echo bb &gt;&gt; a.txt</code> 将字符串 bb 追加到 a.txt 文件中</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">a.txt文件中本来就有aa字符串</span></span><br><span class="line">[root@localhost study-linux]# cat a.txt</span><br><span class="line">aa</span><br><span class="line"><span class="meta">#</span><span class="bash">使用<span class="built_in">echo</span>命令追加</span></span><br><span class="line">[root@localhost study-linux]# echo bb &gt;&gt; a.txt</span><br><span class="line"><span class="meta">#</span><span class="bash">查看a.txt文件中的内容发现bb已经追加到aa后面了</span></span><br><span class="line">[root@localhost study-linux]# cat a.txt</span><br><span class="line">aa</span><br><span class="line">bb</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>a.txt文件中本来就有aa字符串</span><br><span class="line">[root@localhost study-linux]# cat a.txt</span><br><span class="line">aa</span><br><span class="line"><span class="meta">#</span>使用echo命令追加</span><br><span class="line">[root@localhost study-linux]# echo bb &gt;&gt; a.txt</span><br><span class="line"><span class="meta">#</span>查看a.txt文件中的内容发现bb已经追加到aa后面了</span><br><span class="line">[root@localhost study-linux]# cat a.txt</span><br><span class="line">aa</span><br><span class="line">bb</span><br></pre></td></tr></table></figure>
 <p>eg：通过 <code>echo cc &gt; a.txt</code> 将字符串 cc 覆盖 a.txt原有的内容</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost study-linux]# cat a.txt</span><br><span class="line">aa</span><br><span class="line">bb</span><br><span class="line">[root@localhost study-linux]# echo cc &gt; a.txt</span><br><span class="line">[root@localhost study-linux]# cat a.txt</span><br><span class="line">cc</span><br></pre></td></tr></table></figure>
 <h3 id="7、有关时间的命令"><a href="#7、有关时间的命令" class="headerlink" title="7、有关时间的命令"></a>7、有关时间的命令</h3><p>date ：查看当前系统时间</p>
@@ -193,7 +200,7 @@
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2019年03月29日 11:15</p>
+        <p>最后更新： 2019年05月23日 12:34</p>
         <p>原始链接： <a class="post-url" href="/2019/03/29/2019-03-29-Linux课堂之网络命令详解/" title="Linux课堂之网络命令详解">http://yoursite.com/2019/03/29/2019-03-29-Linux课堂之网络命令详解/</a></p>
         <footer>
             <a href="http://yoursite.com">
@@ -392,10 +399,10 @@
 <div class="sidebar-menu-box" id="sidebar-menu-box">
     <div class="sidebar-menu-box-container">
         <div id="sidebar-menu-box-categories">
-            <a class="category-link" href="/categories/SpringBoot/">SpringBoot</a>
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Linux/">Linux</a><a class="category-link" href="/categories/SpringBoot/">SpringBoot</a><a class="category-link" href="/categories/代码的艺术/">代码的艺术</a><a class="category-link" href="/categories/并发/">并发</a><a class="category-link" href="/categories/随笔/">随笔</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/WebSocket/" style="font-size: 10px;">WebSocket</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -428,7 +435,7 @@
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/WebSocket/" style="font-size: 10px;">WebSocket</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
         </div>
     </div>
 </div>

@@ -104,34 +104,47 @@
       <div class="outer">
         <section id="main" class="body-wrap">
   
-    <article id="post-2019-04-12-SpringBoot学习12_安全" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-2019-04-04-SpringBoot学习04_外部Servlet容器启动原理" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/12/2019-04-12-SpringBoot学习12_安全/">Spring Boot学习12_安全</a>
+      <a class="article-title" href="/2019/04/04/2019-04-04-SpringBoot学习04_外部Servlet容器启动原理/">Spring Boot学习04_外部Servlet容器启动原理</a>
     </h1>
   
 
+          
+              <span class="header-cate">
+                <i class="fa fa-map-marker"></i>
+                  
+                  <a href="/categories/SpringBoot/">SpringBoot</a>
+                  
+              </span>
           
       </header>
     
     <div class="article-entry " itemprop="articleBody">
       
         <div class="article-img">
-            <a href="/2019/04/12/2019-04-12-SpringBoot学习12_安全/">
+            <a href="/2019/04/04/2019-04-04-SpringBoot学习04_外部Servlet容器启动原理/">
                 
-                <img src="http://yoursite.com/false" alt="Spring Boot学习12_安全" title="Spring Boot学习12_安全">
+                <img src="http://yoursite.com/false" alt="Spring Boot学习04_外部Servlet容器启动原理" title="Spring Boot学习04_外部Servlet容器启动原理">
                 
             </a>
         </div>
         <div class="article-feed">
             <p>
-                一、Demo（使用Thymeleaf整合Security）
-pom.xml
-1234567891011121314151617181920212223242526&lt;properties&gt;       &lt;!-- 切换Thymeleaf版本 --&gt;       &lt;thymeleaf.version&gt;3.0.11.RELEASE&lt;/th...
+                1、创建使用外部Servlet容器的Spring Boot的项目，会多一个类。
+
+2、通过外部的tomcat的启动时会发现先启动tomcat，然后就会启动之前Spring Boot的主配置类程序。
+
+3、在Servlet3.0的有几个规范
+
+服务器启动（web应用启动）会创建当前web应用里面每一个jar包里面ServletContainerInitializer实例
+
+...
             </p>
         </div>
       
@@ -141,7 +154,7 @@ pom.xml
         
         <ul class="article-footer-menu">
             
-                <li><i class="fa fa-calendar"></i>2019-04-12</li>
+                <li><i class="fa fa-calendar"></i>2019-04-04</li>
             
             
   <li class="article-footer-tags">
@@ -153,7 +166,7 @@ pom.xml
 
         </ul>
         
-            <a href="/2019/04/12/2019-04-12-SpringBoot学习12_安全/#more" class="article-more-link">more&gt;&gt;</a>
+            <a href="/2019/04/04/2019-04-04-SpringBoot学习04_外部Servlet容器启动原理/#more" class="article-more-link">more&gt;&gt;</a>
         
     </footer>
   </div>
@@ -161,35 +174,48 @@ pom.xml
 
 
   
-    <article id="post-2019-04-12-SpringBoot学习11_任务与邮件" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-2019-04-04-SpringBoot学习04_外部Servlet容器JSP支持" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/12/2019-04-12-SpringBoot学习11_任务与邮件/">Spring Boot学习11_任务&amp;邮件</a>
+      <a class="article-title" href="/2019/04/04/2019-04-04-SpringBoot学习04_外部Servlet容器JSP支持/">Spring Boot学习04_外部Servlet容器JSP支持</a>
     </h1>
   
 
+          
+              <span class="header-cate">
+                <i class="fa fa-map-marker"></i>
+                  
+                  <a href="/categories/SpringBoot/">SpringBoot</a>
+                  
+              </span>
           
       </header>
     
     <div class="article-entry " itemprop="articleBody">
       
         <div class="article-img">
-            <a href="/2019/04/12/2019-04-12-SpringBoot学习11_任务与邮件/">
+            <a href="/2019/04/04/2019-04-04-SpringBoot学习04_外部Servlet容器JSP支持/">
                 
-                <img src="http://yoursite.com/false" alt="Spring Boot学习11_任务&邮件" title="Spring Boot学习11_任务&邮件">
+                <img src="http://yoursite.com/false" alt="Spring Boot学习04_外部Servlet容器JSP支持" title="Spring Boot学习04_外部Servlet容器JSP支持">
                 
             </a>
         </div>
         <div class="article-feed">
             <p>
-                一、异步任务​        在Java应用中，绝大多数情况下都是通过同步的方式来实现交互处理的；但是在处理与第三方系统交互的时候，容易造成响应迟缓的情况，之前大部分都是使用多线程来完成此类任务，其实，在Spring 3.x之后，就已经内置了@Async来完美解决这个问题。
+                Spring Boot的嵌入式的Servlet容器虽然方便，快捷，支持jar包的方式运行项目
+但是却是不能支持jsp的，这时候我们可以使用外部的Servlet容器。
+1、新建一个Module，然后next
 
-主配置类（@EnableAsync开启异步注解功能）
-12345678@EnableAsync ...
+2、项目的坐标，这里要改成war包，下一步
+
+3、选中web模块，然后next，再finish完成项目的创建
+
+
+4、但是我们项目中并没有webapp，不需要自己创建...
             </p>
         </div>
       
@@ -199,7 +225,7 @@ pom.xml
         
         <ul class="article-footer-menu">
             
-                <li><i class="fa fa-calendar"></i>2019-04-12</li>
+                <li><i class="fa fa-calendar"></i>2019-04-04</li>
             
             
   <li class="article-footer-tags">
@@ -211,7 +237,7 @@ pom.xml
 
         </ul>
         
-            <a href="/2019/04/12/2019-04-12-SpringBoot学习11_任务与邮件/#more" class="article-more-link">more&gt;&gt;</a>
+            <a href="/2019/04/04/2019-04-04-SpringBoot学习04_外部Servlet容器JSP支持/#more" class="article-more-link">more&gt;&gt;</a>
         
     </footer>
   </div>
@@ -219,46 +245,41 @@ pom.xml
 
 
   
-    <article id="post-2019-04-09-Linux用户管理" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-2019-04-04-SpringBoot学习04_嵌入式Servlet容器启动原理" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/09/2019-04-09-Linux用户管理/">Linux用户管理</a>
+      <a class="article-title" href="/2019/04/04/2019-04-04-SpringBoot学习04_嵌入式Servlet容器启动原理/">Spring Boot学习04_嵌入式Servlet容器启动原理</a>
     </h1>
   
 
+          
+              <span class="header-cate">
+                <i class="fa fa-map-marker"></i>
+                  
+                  <a href="/categories/SpringBoot/">SpringBoot</a>
+                  
+              </span>
           
       </header>
     
     <div class="article-entry " itemprop="articleBody">
       
         <div class="article-img">
-            <a href="/2019/04/09/2019-04-09-Linux用户管理/">
+            <a href="/2019/04/04/2019-04-04-SpringBoot学习04_嵌入式Servlet容器启动原理/">
                 
-                <img src="http://yoursite.com/false" alt="Linux用户管理" title="Linux用户管理">
+                <img src="http://yoursite.com/false" alt="Spring Boot学习04_嵌入式Servlet容器启动原理" title="Spring Boot学习04_嵌入式Servlet容器启动原理">
                 
             </a>
         </div>
         <div class="article-feed">
             <p>
-                一、Linux用户配置文件Linux配置文件是非常多的，这里只说四个重要的
-
-/etc/passwd用户信息文件
-
-/etc/shadow 影子文件
-
-/etc/group组信息文件
-
-/etc/gshadow组密码文件
-
-
-1、用户信息文件​    /etc/passwd
-
-用户管理简介:
-越是对服务器安全性要求高的服务器，越需要建立合理的用户权限等级制度和服务器操作规...
+                注：看完这一篇再回头看上一篇就会理解了
+上一篇文章解释了嵌入式Servlet容器的默认配置和修改配置的原理，但其前提条件是创建嵌入式Servlet容器工厂。下面就进行debug解释嵌入式Servlet容器是怎么启动的。
+1、来到ServletWebServerFactoryConfiguration类给组件TomcatServletWebServerFactory打上断点...
             </p>
         </div>
       
@@ -268,7 +289,74 @@ pom.xml
         
         <ul class="article-footer-menu">
             
-                <li><i class="fa fa-calendar"></i>2019-04-09</li>
+                <li><i class="fa fa-calendar"></i>2019-04-04</li>
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/SpringBoot/" class="color1">SpringBoot</a>
+      
+  </li>
+
+        </ul>
+        
+            <a href="/2019/04/04/2019-04-04-SpringBoot学习04_嵌入式Servlet容器启动原理/#more" class="article-more-link">more&gt;&gt;</a>
+        
+    </footer>
+  </div>
+</article>
+
+
+  
+    <article id="post-2019-04-02-Linux文本编辑器vim" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/02/2019-04-02-Linux文本编辑器vim/">Linux文本编辑器vi/vim</a>
+    </h1>
+  
+
+          
+              <span class="header-cate">
+                <i class="fa fa-map-marker"></i>
+                  
+                  <a href="/categories/Linux/">Linux</a>
+                  
+              </span>
+          
+      </header>
+    
+    <div class="article-entry " itemprop="articleBody">
+      
+        <div class="article-img">
+            <a href="/2019/04/02/2019-04-02-Linux文本编辑器vim/">
+                
+                <img src="http://yoursite.com/false" alt="Linux文本编辑器vi/vim" title="Linux文本编辑器vi/vim">
+                
+            </a>
+        </div>
+        <div class="article-feed">
+            <p>
+                只会总结常用命令，不常用的文档就行
+一、介绍1、Vim是从 vi 发展出来的一个文本编辑器。代码补完、编译及错误跳转等方便编程的功能特别丰富，在程序员中被广泛使用。
+2、二者的区别
+vi：相当于普通文本打开，默认Linux系统自带
+vim：相当于一个IDE，如果有特殊的代码或者关键字会有不同颜色的显示（没有自带，使用 yum -y install vim 安装）
+3、vi...
+            </p>
+        </div>
+      
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+                <li><i class="fa fa-calendar"></i>2019-04-02</li>
             
             
   <li class="article-footer-tags">
@@ -280,7 +368,7 @@ pom.xml
 
         </ul>
         
-            <a href="/2019/04/09/2019-04-09-Linux用户管理/#more" class="article-more-link">more&gt;&gt;</a>
+            <a href="/2019/04/02/2019-04-02-Linux文本编辑器vim/#more" class="article-more-link">more&gt;&gt;</a>
         
     </footer>
   </div>
@@ -288,34 +376,41 @@ pom.xml
 
 
   
-    <article id="post-2019-04-08-SpringBoot学习10_整合Elasticsearch" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-2019-03-29-Linux课堂之网络命令详解" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/08/2019-04-08-SpringBoot学习10_整合Elasticsearch/">Spring Boot学习10_整合Elasticsearch</a>
+      <a class="article-title" href="/2019/03/29/2019-03-29-Linux课堂之网络命令详解/">Linux课堂之网络命令详解</a>
     </h1>
   
 
+          
+              <span class="header-cate">
+                <i class="fa fa-map-marker"></i>
+                  
+                  <a href="/categories/Linux/">Linux</a>
+                  
+              </span>
           
       </header>
     
     <div class="article-entry " itemprop="articleBody">
       
         <div class="article-img">
-            <a href="/2019/04/08/2019-04-08-SpringBoot学习10_整合Elasticsearch/">
+            <a href="/2019/03/29/2019-03-29-Linux课堂之网络命令详解/">
                 
-                <img src="http://yoursite.com/false" alt="Spring Boot学习10_整合Elasticsearch" title="Spring Boot学习10_整合Elasticsearch">
+                <img src="http://yoursite.com/false" alt="Linux课堂之网络命令详解" title="Linux课堂之网络命令详解">
                 
             </a>
         </div>
         <div class="article-feed">
             <p>
-                一、Elasticsearch概念•以 员工文档 的形式存储为例：一个文档代表一个员工数据。存储数据到 ElasticSearch 的行为叫做 索引 ，但在索引一个文档之前，需要确定将文档存储在哪里。
-•一个 ElasticSearch 集群可以 包含多个 索引 ，相应的每个索引可以包含多个 类型 。 这些不同的类型存储着多个 文档 ，每个文档又有 多个 属性 。
-•类似...
+                一、网络相关命令1、用ping命令测试Linux是否联网ping[选项] [网址/ip] ping 网址还是会被解析成 ip 地址
+选项：-c n  Linux中 ping 默认是无限 ping ，可以使用 -c选择设置 ping 的次数，如果不使用 -c选项，无限 ping 可以使用 Ctrl + c 退出
+eg：使用 ping -c 3 www.baidu.com 命...
             </p>
         </div>
       
@@ -325,7 +420,72 @@ pom.xml
         
         <ul class="article-footer-menu">
             
-                <li><i class="fa fa-calendar"></i>2019-04-08</li>
+                <li><i class="fa fa-calendar"></i>2019-03-29</li>
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Linux/" class="color1">Linux</a>
+      
+  </li>
+
+        </ul>
+        
+            <a href="/2019/03/29/2019-03-29-Linux课堂之网络命令详解/#more" class="article-more-link">more&gt;&gt;</a>
+        
+    </footer>
+  </div>
+</article>
+
+
+  
+    <article id="post-2019-03-28-SpringBoot学习04_嵌入式Servlet容器自动配置原理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/28/2019-03-28-SpringBoot学习04_嵌入式Servlet容器自动配置原理/">Spring Boot学习04_嵌入式Servlet容器自动配置原理</a>
+    </h1>
+  
+
+          
+              <span class="header-cate">
+                <i class="fa fa-map-marker"></i>
+                  
+                  <a href="/categories/SpringBoot/">SpringBoot</a>
+                  
+              </span>
+          
+      </header>
+    
+    <div class="article-entry " itemprop="articleBody">
+      
+        <div class="article-img">
+            <a href="/2019/03/28/2019-03-28-SpringBoot学习04_嵌入式Servlet容器自动配置原理/">
+                
+                <img src="http://yoursite.com/false" alt="Spring Boot学习04_嵌入式Servlet容器自动配置原理" title="Spring Boot学习04_嵌入式Servlet容器自动配置原理">
+                
+            </a>
+        </div>
+        <div class="article-feed">
+            <p>
+                在Spring Boot的自动配置包下，找到web模块中的servlet文件夹下的ServletWebServerFactoryConfiguration类
+一、嵌入式Servlet容器默认的配置原理1、该类中有三个静态内部类（都是配置类）：
+EmbeddedUndertow、EmbeddedJetty、EmbeddedTomcat
+这里拿EmbeddedTomcat来举...
+            </p>
+        </div>
+      
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+                <li><i class="fa fa-calendar"></i>2019-03-28</li>
             
             
   <li class="article-footer-tags">
@@ -337,122 +497,7 @@ pom.xml
 
         </ul>
         
-            <a href="/2019/04/08/2019-04-08-SpringBoot学习10_整合Elasticsearch/#more" class="article-more-link">more&gt;&gt;</a>
-        
-    </footer>
-  </div>
-</article>
-
-
-  
-    <article id="post-2019-04-05-SpringBoot学习09_整合RabbitMQ" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/05/2019-04-05-SpringBoot学习09_整合RabbitMQ/">Spring Boot学习09_整合RabbitMQ</a>
-    </h1>
-  
-
-          
-      </header>
-    
-    <div class="article-entry " itemprop="articleBody">
-      
-        <div class="article-img">
-            <a href="/2019/04/05/2019-04-05-SpringBoot学习09_整合RabbitMQ/">
-                
-                <img src="http://yoursite.com/false" alt="Spring Boot学习09_整合RabbitMQ" title="Spring Boot学习09_整合RabbitMQ">
-                
-            </a>
-        </div>
-        <div class="article-feed">
-            <p>
-                一、RabbitMQ基本概念简介1、RabbitMQ简介：RabbitMQ是一个由erlang开发的AMQP(Advanved Message Queue Protocol)的开源实现。
-2、核心概念：
-
-Message
-消息，消息是不具名的，它由消息头和消息体组成。消息体是不透明的，而消息头则由一系列的可选属性组成，这些属性包括routing-key（路由键）、prio...
-            </p>
-        </div>
-      
-        
-    </div>
-    <footer class="article-footer">
-        
-        <ul class="article-footer-menu">
-            
-                <li><i class="fa fa-calendar"></i>2019-04-05</li>
-            
-            
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/tags/SpringBoot/" class="color1">SpringBoot</a>
-      
-  </li>
-
-        </ul>
-        
-            <a href="/2019/04/05/2019-04-05-SpringBoot学习09_整合RabbitMQ/#more" class="article-more-link">more&gt;&gt;</a>
-        
-    </footer>
-  </div>
-</article>
-
-
-  
-    <article id="post-2019-04-05-SpringBoot学习08_整合Redis" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/05/2019-04-05-SpringBoot学习08_整合Redis/">Spring Boot学习08_整合Redis</a>
-    </h1>
-  
-
-          
-      </header>
-    
-    <div class="article-entry " itemprop="articleBody">
-      
-        <div class="article-img">
-            <a href="/2019/04/05/2019-04-05-SpringBoot学习08_整合Redis/">
-                
-                <img src="http://yoursite.com/false" alt="Spring Boot学习08_整合Redis" title="Spring Boot学习08_整合Redis">
-                
-            </a>
-        </div>
-        <div class="article-feed">
-            <p>
-                一、环境搭建1、在前面的Demo的基础上在pom文件上添加上redis的starter
-1234&lt;dependency&gt;    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;    &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artif...
-            </p>
-        </div>
-      
-        
-    </div>
-    <footer class="article-footer">
-        
-        <ul class="article-footer-menu">
-            
-                <li><i class="fa fa-calendar"></i>2019-04-05</li>
-            
-            
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/tags/SpringBoot/" class="color1">SpringBoot</a>
-      
-  </li>
-
-        </ul>
-        
-            <a href="/2019/04/05/2019-04-05-SpringBoot学习08_整合Redis/#more" class="article-more-link">more&gt;&gt;</a>
+            <a href="/2019/03/28/2019-03-28-SpringBoot学习04_嵌入式Servlet容器自动配置原理/#more" class="article-more-link">more&gt;&gt;</a>
         
     </footer>
   </div>
@@ -463,7 +508,7 @@ Message
 
 
   <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/page/2/"><< Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/4/">Next >></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><< Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">Next >></a>
   </nav>
 </section>
         
@@ -518,10 +563,10 @@ Message
 <div class="sidebar-menu-box" id="sidebar-menu-box">
     <div class="sidebar-menu-box-container">
         <div id="sidebar-menu-box-categories">
-            <a class="category-link" href="/categories/SpringBoot/">SpringBoot</a>
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Linux/">Linux</a><a class="category-link" href="/categories/SpringBoot/">SpringBoot</a><a class="category-link" href="/categories/代码的艺术/">代码的艺术</a><a class="category-link" href="/categories/并发/">并发</a><a class="category-link" href="/categories/随笔/">随笔</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/WebSocket/" style="font-size: 10px;">WebSocket</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -554,7 +599,7 @@ Message
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/WebSocket/" style="font-size: 10px;">WebSocket</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
         </div>
     </div>
 </div>

@@ -104,69 +104,6 @@
       <div class="outer">
         <section id="main" class="body-wrap">
   
-    <article id="post-2019-04-21-HashMap实现原理" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/21/2019-04-21-HashMap实现原理/">HashMap实现原理</a>
-    </h1>
-  
-
-          
-      </header>
-    
-    <div class="article-entry " itemprop="articleBody">
-      
-        <div class="article-img">
-            <a href="/2019/04/21/2019-04-21-HashMap实现原理/">
-                
-                <img src="http://yoursite.com/false" alt="HashMap实现原理" title="HashMap实现原理">
-                
-            </a>
-        </div>
-        <div class="article-feed">
-            <p>
-                HashMap底层是通过数组加单项链表的方式实现的
-
-初始数组长度为16
-链表中的节点具有的元素为
-hash：用hashCode（哈希码）通过hash算法计算出来的哈希值
-key：键值对的key
-value：键值对的value
-next：下一个节点
-123456static class Node&lt;K,V&gt; implements Map.Entry&lt;K,V...
-            </p>
-        </div>
-      
-        
-    </div>
-    <footer class="article-footer">
-        
-        <ul class="article-footer-menu">
-            
-                <li><i class="fa fa-calendar"></i>2019-04-21</li>
-            
-            
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/tags/Java/" class="color5">Java</a>
-      
-  </li>
-
-        </ul>
-        
-            <a href="/2019/04/21/2019-04-21-HashMap实现原理/#more" class="article-more-link">more&gt;&gt;</a>
-        
-    </footer>
-  </div>
-</article>
-
-
-  
     <article id="post-2019-04-18-计算机的位移运算" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -178,6 +115,13 @@ next：下一个节点
     </h1>
   
 
+          
+              <span class="header-cate">
+                <i class="fa fa-map-marker"></i>
+                  
+                  <a href="/categories/随笔/">随笔</a>
+                  
+              </span>
           
       </header>
     
@@ -236,6 +180,13 @@ next：下一个节点
   
 
           
+              <span class="header-cate">
+                <i class="fa fa-map-marker"></i>
+                  
+                  <a href="/categories/随笔/">随笔</a>
+                  
+              </span>
+          
       </header>
     
     <div class="article-entry " itemprop="articleBody">
@@ -291,6 +242,13 @@ next：下一个节点
     </h1>
   
 
+          
+              <span class="header-cate">
+                <i class="fa fa-map-marker"></i>
+                  
+                  <a href="/categories/SpringBoot/">SpringBoot</a>
+                  
+              </span>
           
       </header>
     
@@ -348,6 +306,13 @@ next：下一个节点
   
 
           
+              <span class="header-cate">
+                <i class="fa fa-map-marker"></i>
+                  
+                  <a href="/categories/SpringBoot/">SpringBoot</a>
+                  
+              </span>
+          
       </header>
     
     <div class="article-entry " itemprop="articleBody">
@@ -394,37 +359,53 @@ next：下一个节点
 
 
   
-    <article id="post-2019-04-13-SpringBoot学习13_分布式" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-2019-04-09-Linux用户管理" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/13/2019-04-13-SpringBoot学习13_分布式/">Spring Boot学习13_分布式</a>
+      <a class="article-title" href="/2019/04/09/2019-04-09-Linux用户管理/">Linux用户管理</a>
     </h1>
   
 
+          
+              <span class="header-cate">
+                <i class="fa fa-map-marker"></i>
+                  
+                  <a href="/categories/Linux/">Linux</a>
+                  
+              </span>
           
       </header>
     
     <div class="article-entry " itemprop="articleBody">
       
         <div class="article-img">
-            <a href="/2019/04/13/2019-04-13-SpringBoot学习13_分布式/">
+            <a href="/2019/04/09/2019-04-09-Linux用户管理/">
                 
-                <img src="http://yoursite.com/false" alt="Spring Boot学习13_分布式" title="Spring Boot学习13_分布式">
+                <img src="http://yoursite.com/false" alt="Linux用户管理" title="Linux用户管理">
                 
             </a>
         </div>
         <div class="article-feed">
             <p>
-                一、在SpringBoot中使用Zookeeper+Dubbo实现分布式调用1、新建一个interface工程，该工程只用来创建接口（将工程打包）
+                一、Linux用户配置文件Linux配置文件是非常多的，这里只说四个重要的
 
-TicketService接口类
+/etc/passwd用户信息文件
 
-123public interface TicketService &#123;    String getTicket(int date);&#125;
-2、新建producer-tic...
+/etc/shadow 影子文件
+
+/etc/group组信息文件
+
+/etc/gshadow组密码文件
+
+
+1、用户信息文件​    /etc/passwd
+
+用户管理简介:
+越是对服务器安全性要求高的服务器，越需要建立合理的用户权限等级制度和服务器操作规...
             </p>
         </div>
       
@@ -434,7 +415,69 @@ TicketService接口类
         
         <ul class="article-footer-menu">
             
-                <li><i class="fa fa-calendar"></i>2019-04-13</li>
+                <li><i class="fa fa-calendar"></i>2019-04-09</li>
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Linux/" class="color1">Linux</a>
+      
+  </li>
+
+        </ul>
+        
+            <a href="/2019/04/09/2019-04-09-Linux用户管理/#more" class="article-more-link">more&gt;&gt;</a>
+        
+    </footer>
+  </div>
+</article>
+
+
+  
+    <article id="post-2019-04-05-SpringBoot学习07_自定义starter" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/05/2019-04-05-SpringBoot学习07_自定义starter/">Spring Boot学习07_自定义starter</a>
+    </h1>
+  
+
+          
+              <span class="header-cate">
+                <i class="fa fa-map-marker"></i>
+                  
+                  <a href="/categories/SpringBoot/">SpringBoot</a>
+                  
+              </span>
+          
+      </header>
+    
+    <div class="article-entry " itemprop="articleBody">
+      
+        <div class="article-img">
+            <a href="/2019/04/05/2019-04-05-SpringBoot学习07_自定义starter/">
+                
+                <img src="http://yoursite.com/false" alt="Spring Boot学习07_自定义starter" title="Spring Boot学习07_自定义starter">
+                
+            </a>
+        </div>
+        <div class="article-feed">
+            <p>
+                ​       查看Spring Boot的源码，starter包并没有真正的代码，代码都在autoconfigurer包中，所以我也可以照葫芦画瓢，创建一个starter项目和一个autoconfigurer项目，在autoconfigurer项目中写自动配置类，在starter项目中依赖autoconfigurer项目，到时候别人用就直接引入starter的坐标就能使...
+            </p>
+        </div>
+      
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+                <li><i class="fa fa-calendar"></i>2019-04-05</li>
             
             
   <li class="article-footer-tags">
@@ -446,7 +489,7 @@ TicketService接口类
 
         </ul>
         
-            <a href="/2019/04/13/2019-04-13-SpringBoot学习13_分布式/#more" class="article-more-link">more&gt;&gt;</a>
+            <a href="/2019/04/05/2019-04-05-SpringBoot学习07_自定义starter/#more" class="article-more-link">more&gt;&gt;</a>
         
     </footer>
   </div>
@@ -457,7 +500,7 @@ TicketService接口类
 
 
   <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/"><< Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/3/">Next >></a>
+    <a class="extend prev" rel="prev" href="/"><< Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">Next >></a>
   </nav>
 </section>
         
@@ -512,10 +555,10 @@ TicketService接口类
 <div class="sidebar-menu-box" id="sidebar-menu-box">
     <div class="sidebar-menu-box-container">
         <div id="sidebar-menu-box-categories">
-            <a class="category-link" href="/categories/SpringBoot/">SpringBoot</a>
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Linux/">Linux</a><a class="category-link" href="/categories/SpringBoot/">SpringBoot</a><a class="category-link" href="/categories/代码的艺术/">代码的艺术</a><a class="category-link" href="/categories/并发/">并发</a><a class="category-link" href="/categories/随笔/">随笔</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/WebSocket/" style="font-size: 10px;">WebSocket</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -548,7 +591,7 @@ TicketService接口类
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/WebSocket/" style="font-size: 10px;">WebSocket</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
         </div>
     </div>
 </div>

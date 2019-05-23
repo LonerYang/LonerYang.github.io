@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="Yang">
 <meta property="og:description" content="一、Linux用户配置文件Linux配置文件是非常多的，这里只说四个重要的  /etc/passwd用户信息文件  /etc/shadow 影子文件  /etc/group组信息文件  /etc/gshadow组密码文件   1、用户信息文件​    /etc/passwd  用户管理简介: 越是对服务器安全性要求高的服务器，越需要建立合理的用户权限等级制度和服务器操作规范，在linux中主要是通">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-04-12T11:35:06.290Z">
+<meta property="og:updated_time" content="2019-05-23T04:41:19.275Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux用户管理">
 <meta name="twitter:description" content="一、Linux用户配置文件Linux配置文件是非常多的，这里只说四个重要的  /etc/passwd用户信息文件  /etc/shadow 影子文件  /etc/group组信息文件  /etc/gshadow组密码文件   1、用户信息文件​    /etc/passwd  用户管理简介: 越是对服务器安全性要求高的服务器，越需要建立合理的用户权限等级制度和服务器操作规范，在linux中主要是通">
@@ -119,6 +119,13 @@
     <div class="post-title-bar">
       <ul>
           
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Linux/">Linux</a>
+                  
+              </li>
+          
         <li>
           <i class="fa fa-calendar"></i>  2019-04-09
         </li>
@@ -172,7 +179,7 @@
 <p>​           普通用户：/home/用户名/</p>
 <p>​           超级用户：/root/</p>
 <p>第七字段：登录之后的shell</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"> 1 root:x:0:0:root:/root:/bin/bash</span><br><span class="line"> 2 bin:x:1:1:bin:/bin:/sbin/nologin</span><br><span class="line"> 3 daemon:x:2:2:daemon:/sbin:/sbin/nologin</span><br><span class="line"> 4 adm:x:3:4:adm:/var/adm:/sbin/nologin</span><br><span class="line"> 5 lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin</span><br><span class="line"> 6 sync:x:5:0:sync:/sbin:/bin/sync</span><br><span class="line"> 7 shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown</span><br><span class="line"> 8 halt:x:7:0:halt:/sbin:/sbin/halt</span><br><span class="line"> 9 mail:x:8:12:mail:/var/spool/mail:/sbin/nologin</span><br><span class="line">10 operator:x:11:0:operator:/root:/sbin/nologin</span><br><span class="line">11 games:x:12:100:games:/usr/games:/sbin/nologin</span><br><span class="line">12 ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin</span><br><span class="line">13 nobody:x:99:99:Nobody:/:/sbin/nologin</span><br><span class="line">14 avahi-autoipd:x:170:170:Avahi IPv4LL Stack:/var/lib/avahi-autoipd:/sbin/nologin</span><br><span class="line">15 systemd-bus-proxy:x:999:997:systemd Bus Proxy:/:/sbin/nologin</span><br><span class="line">16 systemd-network:x:998:996:systemd Network Management:/:/sbin/nologin</span><br><span class="line">17 dbus:x:81:81:System message bus:/:/sbin/nologin</span><br><span class="line">18 polkitd:x:997:995:User for polkitd:/:/sbin/nologin</span><br><span class="line">19 tss:x:59:59:Account used by the trousers package to sandbox the tcsd </span><br><span class="line">	daemon:/dev/null:/sbin/nologin</span><br><span class="line">20 postfix:x:89:89::/var/spool/postfix:/sbin/nologin</span><br><span class="line">21 sshd:x:74:74:Privilege-separated SSH:/var/empty/sshd:/sbin/nologin</span><br><span class="line">22 dockerroot:x:996:993:Docker User:/var/lib/docker:/sbin/nologin</span><br><span class="line"><span class="meta">	#</span><span class="bash">下面是自己添加的用户</span></span><br><span class="line">23 zhangsan:x:1000:1000::/home/zhangsan:/bin/bash</span><br><span class="line">24 lisi:x:1001:1001::/home/lisi:/bin/bash</span><br><span class="line">25 testuser:x:1002:1002:test user:/home/testuser:/bin/bash</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"> 1 root:x:0:0:root:/root:/bin/bash</span><br><span class="line"> 2 bin:x:1:1:bin:/bin:/sbin/nologin</span><br><span class="line"> 3 daemon:x:2:2:daemon:/sbin:/sbin/nologin</span><br><span class="line"> 4 adm:x:3:4:adm:/var/adm:/sbin/nologin</span><br><span class="line"> 5 lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin</span><br><span class="line"> 6 sync:x:5:0:sync:/sbin:/bin/sync</span><br><span class="line"> 7 shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown</span><br><span class="line"> 8 halt:x:7:0:halt:/sbin:/sbin/halt</span><br><span class="line"> 9 mail:x:8:12:mail:/var/spool/mail:/sbin/nologin</span><br><span class="line">10 operator:x:11:0:operator:/root:/sbin/nologin</span><br><span class="line">11 games:x:12:100:games:/usr/games:/sbin/nologin</span><br><span class="line">12 ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin</span><br><span class="line">13 nobody:x:99:99:Nobody:/:/sbin/nologin</span><br><span class="line">14 avahi-autoipd:x:170:170:Avahi IPv4LL Stack:/var/lib/avahi-autoipd:/sbin/nologin</span><br><span class="line">15 systemd-bus-proxy:x:999:997:systemd Bus Proxy:/:/sbin/nologin</span><br><span class="line">16 systemd-network:x:998:996:systemd Network Management:/:/sbin/nologin</span><br><span class="line">17 dbus:x:81:81:System message bus:/:/sbin/nologin</span><br><span class="line">18 polkitd:x:997:995:User for polkitd:/:/sbin/nologin</span><br><span class="line">19 tss:x:59:59:Account used by the trousers package to sandbox the tcsd </span><br><span class="line">	daemon:/dev/null:/sbin/nologin</span><br><span class="line">20 postfix:x:89:89::/var/spool/postfix:/sbin/nologin</span><br><span class="line">21 sshd:x:74:74:Privilege-separated SSH:/var/empty/sshd:/sbin/nologin</span><br><span class="line">22 dockerroot:x:996:993:Docker User:/var/lib/docker:/sbin/nologin</span><br><span class="line"><span class="meta">	#</span>下面是自己添加的用户</span><br><span class="line">23 zhangsan:x:1000:1000::/home/zhangsan:/bin/bash</span><br><span class="line">24 lisi:x:1001:1001::/home/lisi:/bin/bash</span><br><span class="line">25 testuser:x:1002:1002:test user:/home/testuser:/bin/bash</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <h3 id="2、影子文件"><a href="#2、影子文件" class="headerlink" title="2、影子文件"></a>2、影子文件</h3><p>​    /etc/shadow </p>
@@ -307,7 +314,7 @@
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2019年04月12日 19:35</p>
+        <p>最后更新： 2019年05月23日 12:41</p>
         <p>原始链接： <a class="post-url" href="/2019/04/09/2019-04-09-Linux用户管理/" title="Linux用户管理">http://yoursite.com/2019/04/09/2019-04-09-Linux用户管理/</a></p>
         <footer>
             <a href="http://yoursite.com">
@@ -432,19 +439,19 @@
 
 <nav id="article-nav">
   
-    <a href="/2019/04/12/2019-04-12-SpringBoot学习11_任务与邮件/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/04/13/2019-04-13-SpringBoot学习14_热部署/" id="article-nav-newer" class="article-nav-link-wrap">
 
       <span class="article-nav-title">
         <i class="fa fa-hand-o-left" aria-hidden="true"></i>
         
-          Spring Boot学习11_任务&amp;邮件
+          Spring Boot学习14_热部署
         
       </span>
     </a>
   
   
-    <a href="/2019/04/08/2019-04-08-SpringBoot学习10_整合Elasticsearch/" id="article-nav-older" class="article-nav-link-wrap">
-      <span class="article-nav-title">Spring Boot学习10_整合Elasticsearch</span>
+    <a href="/2019/04/05/2019-04-05-SpringBoot学习07_自定义starter/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Spring Boot学习07_自定义starter</span>
       <i class="fa fa-hand-o-right" aria-hidden="true"></i>
     </a>
   
@@ -506,10 +513,10 @@
 <div class="sidebar-menu-box" id="sidebar-menu-box">
     <div class="sidebar-menu-box-container">
         <div id="sidebar-menu-box-categories">
-            <a class="category-link" href="/categories/SpringBoot/">SpringBoot</a>
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Linux/">Linux</a><a class="category-link" href="/categories/SpringBoot/">SpringBoot</a><a class="category-link" href="/categories/代码的艺术/">代码的艺术</a><a class="category-link" href="/categories/并发/">并发</a><a class="category-link" href="/categories/随笔/">随笔</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/WebSocket/" style="font-size: 10px;">WebSocket</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -542,7 +549,7 @@
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/WebSocket/" style="font-size: 10px;">WebSocket</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
         </div>
     </div>
 </div>
