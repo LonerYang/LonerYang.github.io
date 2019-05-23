@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>去掉烦人的if-else嵌套（转载） | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Yang,Yang's Blog">
+  
+  <meta name="description" content="转载公众号:Java团长（以后方便查看） 写在前面不知大家有没遇到过像“横放着的金字塔”一样的if else嵌套： 12345678910111213if (true) &amp;#123;   if (true) &amp;#123;       if (true) &amp;#123;           if (true) &amp;#123;               if (true) &amp;#123;">
+<meta name="keywords" content="代码的艺术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="去掉烦人的if-else嵌套（转载）">
+<meta property="og:url" content="http://yoursite.com/2019/03/24/2019-03-24-去掉烦人的if-else嵌套/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="转载公众号:Java团长（以后方便查看） 写在前面不知大家有没遇到过像“横放着的金字塔”一样的if else嵌套： 12345678910111213if (true) &amp;#123;   if (true) &amp;#123;       if (true) &amp;#123;           if (true) &amp;#123;               if (true) &amp;#123;">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-03-24T13:46:13.321Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="去掉烦人的if-else嵌套（转载）">
+<meta name="twitter:description" content="转载公众号:Java团长（以后方便查看） 写在前面不知大家有没遇到过像“横放着的金字塔”一样的if else嵌套： 12345678910111213if (true) &amp;#123;   if (true) &amp;#123;       if (true) &amp;#123;           if (true) &amp;#123;               if (true) &amp;#123;">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Yang&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Yang&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        一个专注 Java 开发的技术博客
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Yang" target="_blank" href="//yangrijian.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/loneryang">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/printf杨氏子">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-2019-03-24-去掉烦人的if-else嵌套" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      去掉烦人的if-else嵌套（转载）
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-03-24
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <p><strong>转载公众号:Java团长（以后方便查看）</strong></p>
+<h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>不知大家有没遇到过像“横放着的金字塔”一样的<code>if else</code>嵌套：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">   <span class="keyword">if</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">       <span class="keyword">if</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">           <span class="keyword">if</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">               <span class="keyword">if</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                   <span class="keyword">if</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                       </span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我并没夸大其词，我是真的遇到过了！嵌套6、7层，一个函数几百行，简！直！看！死！人！</p>
+<p><code>if else</code>作为每种编程语言都不可或缺的条件语句，我们在编程时会大量的用到。但<code>if else</code>一般不建议嵌套超过三层，如果一段代码存在过多的<code>if else</code>嵌套，代码的可读性就会急速下降，后期维护难度也大大提高。所以，我们程序员都应该尽量避免过多的<code>if else</code>嵌套。下面将会谈谈我在工作中如何减少<code>if else</code>嵌套的。</p>
+<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><p>在谈我的方法之前，不妨先用个例子来说明<code>if else</code>嵌套过多的弊端。</p>
+<p>想象下一个简单分享的业务需求：支持分享链接、图片、文本和图文，分享结果回调给用户（为了不跑题，这里简略了业务，实际复杂得多）。当接手到这么一个业务时，是不是觉得很简单，稍动下脑就可以动手了：</p>
+<p>先定义分享的类型、分享Bean和分享回调类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> TYPE_LINK = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> TYPE_IMAGE = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> TYPE_TEXT = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> TYPE_IMAGE_TEXT = <span class="number">3</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ShareItem</span> </span>&#123;</span><br><span class="line">   <span class="keyword">int</span> type;</span><br><span class="line">   String title;</span><br><span class="line">   String content;</span><br><span class="line">   String imagePath;</span><br><span class="line">   String link;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ShareListener</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">int</span> STATE_SUCC = <span class="number">0</span>;</span><br><span class="line">   <span class="keyword">int</span> STATE_FAIL = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">void</span> <span class="title">onCallback</span><span class="params">(<span class="keyword">int</span> state, String msg)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>好了，然后在定义个分享接口，对每种类型分别进行分享就ok了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">share</span> <span class="params">(ShareItem item, ShareListener listener)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">if</span> (item != <span class="keyword">null</span>) &#123;</span><br><span class="line">       <span class="keyword">if</span> (item.type == TYPE_LINK) &#123;</span><br><span class="line">           <span class="comment">// 分享链接</span></span><br><span class="line">           <span class="keyword">if</span> (!TextUtils.isEmpty(item.link) &amp;&amp; !TextUtils.isEmpty(item.title)) &#123;</span><br><span class="line">               doShareLink(item.link, item.title, item.content, listener);</span><br><span class="line">           &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               <span class="keyword">if</span> (listener != <span class="keyword">null</span>) &#123;</span><br><span class="line">                   listener.onCallback(ShareListener.STATE_FAIL, <span class="string">"分享信息不完整"</span>);</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125; <span class="keyword">else</span> <span class="keyword">if</span> (item.type == TYPE_IMAGE) &#123;</span><br><span class="line">           <span class="comment">// 分享图片</span></span><br><span class="line">           <span class="keyword">if</span> (!TextUtils.isEmpty(item.imagePath)) &#123;</span><br><span class="line">               doShareImage(item.imagePath, listener);</span><br><span class="line">           &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               <span class="keyword">if</span> (listener != <span class="keyword">null</span>) &#123;</span><br><span class="line">                   listener.onCallback(ShareListener.STATE_FAIL, <span class="string">"分享信息不完整"</span>);</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125; <span class="keyword">else</span> <span class="keyword">if</span> (item.type == TYPE_TEXT) &#123;</span><br><span class="line">           <span class="comment">// 分享文本</span></span><br><span class="line">           <span class="keyword">if</span> (!TextUtils.isEmpty(item.content)) &#123;</span><br><span class="line">               doShareText(item.content, listener);</span><br><span class="line">           &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               <span class="keyword">if</span> (listener != <span class="keyword">null</span>) &#123;</span><br><span class="line">                   listener.onCallback(ShareListener.STATE_FAIL, <span class="string">"分享信息不完整"</span>);</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125; <span class="keyword">else</span> <span class="keyword">if</span> (item.type == TYPE_IMAGE_TEXT) &#123;</span><br><span class="line">           <span class="comment">// 分享图文</span></span><br><span class="line">           <span class="keyword">if</span> (!TextUtils.isEmpty(item.imagePath) &amp;&amp; !TextUtils.isEmpty(item.content)) &#123;</span><br><span class="line">               doShareImageAndText(item.imagePath, item.content, listener);</span><br><span class="line">           &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               <span class="keyword">if</span> (listener != <span class="keyword">null</span>) &#123;</span><br><span class="line">                   listener.onCallback(ShareListener.STATE_FAIL, <span class="string">"分享信息不完整"</span>);</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">           <span class="keyword">if</span> (listener != <span class="keyword">null</span>) &#123;</span><br><span class="line">               listener.onCallback(ShareListener.STATE_FAIL, <span class="string">"不支持的分享类型"</span>);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">       <span class="keyword">if</span> (listener != <span class="keyword">null</span>) &#123;</span><br><span class="line">           listener.onCallback(ShareListener.STATE_FAIL, <span class="string">"ShareItem 不能为 null"</span>);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>到此，简单的分享模型就做出来了。有没问题？老实说，如果没什么追求的话，还真没什么问题，至少思路是清晰的。但一周后呢？一个月后呢？或者一年后呢？<code>share</code>方法的分支有15条，这意味着你每次回看代码得让自己的大脑变成微型的处理器，考虑15种情况。如果出现bug，你又得考虑15种情况，并15种情况都要测试下。再如果现在需要加多分享小视频功能，你又得添加多3个分支，还要改代码，一点都不“开放-闭合”。再再如果后面项目交接给他人跟进，他人又要把自己大脑变成处理器来想每个分支的作用，我敢肯定有百分之八十的人都会吐槽代码。</p>
+<p>我们程序员的脑力不应该花费在无止境的分支语句里的，应该专注于业务本身。所以我们很有必要避免写出多分支嵌套的语句。好的，我们来分析下上面的代码多分支的原因：</p>
+<ol>
+<li>空值判断</li>
+<li>业务判断</li>
+<li>状态判断</li>
+</ol>
+<p>几乎所有的业务都离不开这几个判断，从而导致<code>if else</code>嵌套过多。那是不是没办法解决了？答案肯定不是的。</p>
+<p>上面的代码我是用java写的，对于java程序员来说，空值判断简直使人很沮丧，让人身心疲惫。上面的代码每次回调都要判断一次<code>listener</code>是否为空，又要判断用户传入的<code>ShareItem</code>是否为空，还要判断<code>ShareItem</code>里面的字段是否为空……</p>
+<p>对于这种情况，我采用的方法很简单：接口分层。</p>
+<h5 id="减少-if-else-方法一：接口分层"><a href="#减少-if-else-方法一：接口分层" class="headerlink" title="减少 if else 方法一：接口分层"></a>减少 if else 方法一：接口分层</h5><p><strong>所谓接口分层指的是：把接口分为外部和内部接口，所有空值判断放在外部接口完成，只处理一次；而内部接口传入的变量由外部接口保证不为空，从而减少空值判断。</strong></p>
+<p>来，看代码更加直观：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">share</span><span class="params">(ShareItem item, ShareListener listener)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">if</span> (item == <span class="keyword">null</span>) &#123;</span><br><span class="line">       <span class="keyword">if</span> (listener != <span class="keyword">null</span>) &#123;</span><br><span class="line">           listener.onCallback(ShareListener.STATE_FAIL, <span class="string">"ShareItem 不能为 null"</span>);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span>;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span> (listener == <span class="keyword">null</span>) &#123;</span><br><span class="line">       listener = <span class="keyword">new</span> ShareListener() &#123;</span><br><span class="line">           <span class="meta">@Override</span></span><br><span class="line">           <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCallback</span><span class="params">(<span class="keyword">int</span> state, String msg)</span> </span>&#123;</span><br><span class="line">               Log.i(<span class="string">"DEBUG"</span>, <span class="string">"ShareListener is null"</span>);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   shareImpl(item, listener);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">shareImpl</span> <span class="params">(ShareItem item, ShareListener listener)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">if</span> (item.type == TYPE_LINK) &#123;</span><br><span class="line">       <span class="comment">// 分享链接</span></span><br><span class="line">       <span class="keyword">if</span> (!TextUtils.isEmpty(item.link) &amp;&amp; !TextUtils.isEmpty(item.title)) &#123;</span><br><span class="line">           doShareLink(item.link, item.title, item.content, listener);</span><br><span class="line">       &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">           listener.onCallback(ShareListener.STATE_FAIL, <span class="string">"分享信息不完整"</span>);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125; <span class="keyword">else</span> <span class="keyword">if</span> (item.type == TYPE_IMAGE) &#123;</span><br><span class="line">       <span class="comment">// 分享图片</span></span><br><span class="line">       <span class="keyword">if</span> (!TextUtils.isEmpty(item.imagePath)) &#123;</span><br><span class="line">           doShareImage(item.imagePath, listener);</span><br><span class="line">       &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">           listener.onCallback(ShareListener.STATE_FAIL, <span class="string">"分享信息不完整"</span>);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125; <span class="keyword">else</span> <span class="keyword">if</span> (item.type == TYPE_TEXT) &#123;</span><br><span class="line">       <span class="comment">// 分享文本</span></span><br><span class="line">       <span class="keyword">if</span> (!TextUtils.isEmpty(item.content)) &#123;</span><br><span class="line">           doShareText(item.content, listener);</span><br><span class="line">       &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">           listener.onCallback(ShareListener.STATE_FAIL, <span class="string">"分享信息不完整"</span>);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125; <span class="keyword">else</span> <span class="keyword">if</span> (item.type == TYPE_IMAGE_TEXT) &#123;</span><br><span class="line">       <span class="comment">// 分享图文</span></span><br><span class="line">       <span class="keyword">if</span> (!TextUtils.isEmpty(item.imagePath) &amp;&amp; !TextUtils.isEmpty(item.content)) &#123;</span><br><span class="line">           doShareImageAndText(item.imagePath, item.content, listener);</span><br><span class="line">       &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">           listener.onCallback(ShareListener.STATE_FAIL, <span class="string">"分享信息不完整"</span>);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">       listener.onCallback(ShareListener.STATE_FAIL, <span class="string">"不支持的分享类型"</span>);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，上面的代码分为外部接口<code>share</code>和内部接口<code>shareImpl</code>，<code>ShareItem</code>和<code>ShareListener</code>的判断都放在<code>share</code>里完成，那么<code>shareImpl</code>就减少了<code>if else</code>的嵌套了，相当于把<code>if else</code>分摊了。这样一来，代码的可读性好很多，嵌套也不超过3层了。</p>
+<p>但可以看到，<code>shareImpl</code>里还是包含分享类型的判断，也即业务判断，我们都清楚产品经理的脑洞有多大了，分享的类型随时会改变或添加。嗯说到这里相信大家都想到用多态了。多态不但能应付业务改变的情况，也可以用来减少<code>if else</code>的嵌套。</p>
+<h5 id="减少-if-else-方法二：多态"><a href="#减少-if-else-方法二：多态" class="headerlink" title="减少 if else 方法二：多态"></a>减少 if else 方法二：多态</h5><p>利用多态，每种业务单独处理，在接口不再做任何业务判断。把<code>ShareItem</code>抽象出来，作为基础类，然后针对每种业务各自实现其子类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">ShareItem</span> </span>&#123;</span><br><span class="line">   <span class="keyword">int</span> type;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">ShareItem</span><span class="params">(<span class="keyword">int</span> type)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">this</span>.type = type;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">doShare</span><span class="params">(ShareListener listener)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Link</span> <span class="keyword">extends</span> <span class="title">ShareItem</span> </span>&#123;</span><br><span class="line">   String title;</span><br><span class="line">   String content;</span><br><span class="line">   String link;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">Link</span><span class="params">(String link, String title, String content)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">super</span>(TYPE_LINK);</span><br><span class="line">       <span class="keyword">this</span>.link = !TextUtils.isEmpty(link) ? link : <span class="string">"default"</span>;</span><br><span class="line">       <span class="keyword">this</span>.title = !TextUtils.isEmpty(title) ? title : <span class="string">"default"</span>;</span><br><span class="line">       <span class="keyword">this</span>.content = !TextUtils.isEmpty(content) ? content : <span class="string">"default"</span>;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doShare</span><span class="params">(ShareListener listener)</span> </span>&#123;</span><br><span class="line">       <span class="comment">// do share</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Image</span> <span class="keyword">extends</span> <span class="title">ShareItem</span> </span>&#123;</span><br><span class="line">   String imagePath;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">Image</span><span class="params">(String imagePath)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">super</span>(TYPE_IMAGE);</span><br><span class="line">       <span class="keyword">this</span>.imagePath = !TextUtils.isEmpty(imagePath) ? imagePath : <span class="string">"default"</span>;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doShare</span><span class="params">(ShareListener listener)</span> </span>&#123;</span><br><span class="line">       <span class="comment">// do share</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Text</span> <span class="keyword">extends</span> <span class="title">ShareItem</span> </span>&#123;</span><br><span class="line">   String content;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">Text</span><span class="params">(String content)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">super</span>(TYPE_TEXT);</span><br><span class="line">       <span class="keyword">this</span>.content = !TextUtils.isEmpty(content) ? content : <span class="string">"default"</span>;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doShare</span><span class="params">(ShareListener listener)</span> </span>&#123;</span><br><span class="line">       <span class="comment">// do share</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ImageText</span> <span class="keyword">extends</span> <span class="title">ShareItem</span> </span>&#123;</span><br><span class="line">   String content;</span><br><span class="line">   String imagePath;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">ImageText</span><span class="params">(String imagePath, String content)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">super</span>(TYPE_IMAGE_TEXT);</span><br><span class="line">       <span class="keyword">this</span>.imagePath = !TextUtils.isEmpty(imagePath) ? imagePath : <span class="string">"default"</span>;</span><br><span class="line">       <span class="keyword">this</span>.content = !TextUtils.isEmpty(content) ? content : <span class="string">"default"</span>;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doShare</span><span class="params">(ShareListener listener)</span> </span>&#123;</span><br><span class="line">       <span class="comment">// do share</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>（注意：上面每个子类的构造方法还对每个字段做了空值处理，为空的话，赋值<code>default</code>，这样如果用户传了空值，在调试就会发现问题。）</p>
+<p>实现了多态后，分享接口的就简洁多了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">share</span><span class="params">(ShareItem item, ShareListener listener)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">if</span> (item == <span class="keyword">null</span>) &#123;</span><br><span class="line">       <span class="keyword">if</span> (listener != <span class="keyword">null</span>) &#123;</span><br><span class="line">           listener.onCallback(ShareListener.STATE_FAIL, <span class="string">"ShareItem 不能为 null"</span>);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span>;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span> (listener == <span class="keyword">null</span>) &#123;</span><br><span class="line">       listener = <span class="keyword">new</span> ShareListener() &#123;</span><br><span class="line">           <span class="meta">@Override</span></span><br><span class="line">           <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCallback</span><span class="params">(<span class="keyword">int</span> state, String msg)</span> </span>&#123;</span><br><span class="line">               Log.i(<span class="string">"DEBUG"</span>, <span class="string">"ShareListener is null"</span>);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   shareImpl(item, listener);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">shareImpl</span> <span class="params">(ShareItem item, ShareListener listener)</span> </span>&#123;</span><br><span class="line">   item.doShare(listener);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>嘻嘻，怎样，内部接口一个<code>if else</code>都没了，是不是很酷~ 如果这个分享功能是自己App里面的功能，不是第三方SDK，到这里已经没问题了。但如果是第三方分享SDK的功能的话，这样暴露给用户的类增加了很多（各<code>ShareItem</code>的子类，相当于把<code>if else</code>抛给用户了），用户的接入成本提高，违背了“迪米特原则”了。</p>
+<p>处理这种情况也很简单，再次封装一层即可。把<code>ShareItem</code>的子类的访问权限降低，在暴露给用户的主类里定义几个方法，在内部帮助用户创建具体的分享类型，这样用户就无需知道具体的类了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ShareItem <span class="title">createLinkShareItem</span><span class="params">(String link, String title, String content)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">return</span> <span class="keyword">new</span> Link(link, title, content);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> ShareItem <span class="title">createImageShareItem</span><span class="params">(String ImagePath)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">return</span> <span class="keyword">new</span> Image(ImagePath);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> ShareItem <span class="title">createTextShareItem</span><span class="params">(String content)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">return</span> <span class="keyword">new</span> Text(content);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> ShareItem <span class="title">createImageTextShareItem</span><span class="params">(String ImagePath, String content)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">return</span> <span class="keyword">new</span> ImageText(ImagePath, content);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>或者有人会说，这样用户也需额外了解多几个方法。我个人觉得让用户了解多几个方法好过了解多几个类，而已方法名一看就能知道意图，成本还是挺小，是可以接受的。</p>
+<p>其实这种情况，更多人想到的是使用工厂模式。嗯，工厂模式能解决这个问题（其实也需要用户额外了解多几个<code>type</code>类型），但工厂模式难免又引入分支，我们可以用<code>Map</code>消除分支。</p>
+<h5 id="减少-if-else-方法三：使用Map替代分支语句"><a href="#减少-if-else-方法三：使用Map替代分支语句" class="headerlink" title="减少 if else 方法三：使用Map替代分支语句"></a>减少 if else 方法三：使用Map替代分支语句</h5><p>把所有分享类型预先缓存在<code>Map</code>里，那么就可以直接<code>get</code>获取具体类型，消除分支：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> Map&lt;Integer, Class&lt;? extends ShareItem&gt;&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   map.put(TYPE_LINK, Link.class);</span><br><span class="line">   map.put(TYPE_IMAGE, Image.class);</span><br><span class="line">   map.put(TYPE_TEXT, Text.class);</span><br><span class="line">   map.put(TYPE_IMAGE_TEXT, ImageText.class);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> ShareItem <span class="title">createShareItem</span><span class="params">(<span class="keyword">int</span> type)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">try</span> &#123;</span><br><span class="line">       Class&lt;? extends ShareItem&gt; shareItemClass = map.get(type);</span><br><span class="line">       <span class="keyword">return</span> shareItemClass.newInstance();</span><br><span class="line">   &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">       <span class="keyword">return</span> <span class="keyword">new</span> DefaultShareItem(); <span class="comment">// 返回默认实现，不要返回null</span></span><br><span class="line">   &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这种方式跟上面分为几个方法的方式各有利弊，看大家取舍了~</p>
+<h3 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h3><p>讲到这里大家有没收获呢？总结下减少<code>if else</code>的方法：</p>
+<ul>
+<li><p>把接口分为外部和内部接口，所有空值判断放在外部接口完成；而内部接口传入的变量由外部接口保证不为空，从而减少空值判断。</p>
+</li>
+<li><p>利用多态，把业务判断消除，各子类分别关注自己的实现，并实现子类的创建方法，避免用户了解过多的类。</p>
+</li>
+<li><p>把分支状态信息预先缓存在<code>Map</code>里，直接<code>get</code>获取具体值，消除分支。</p>
+</li>
+</ul>
+<p>好了，到此就介绍完了，希望大家以后写代码能注意，有则避之，无则加勉。希望大家写的代码越来越简洁~</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年03月24日 21:46</p>
+        <p>原始链接： <a class="post-url" href="/2019/03/24/2019-03-24-去掉烦人的if-else嵌套/" title="去掉烦人的if-else嵌套（转载）">http://yoursite.com/2019/03/24/2019-03-24-去掉烦人的if-else嵌套/</a></p>
+        <footer>
+            <a href="http://yoursite.com">
+                <img src="/images/logo.png" alt="John Doe">
+                John Doe
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/03/24/2019-03-24-去掉烦人的if-else嵌套/&title=《去掉烦人的if-else嵌套（转载）》 — Hexo&pic=http://yoursite.comimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/03/24/2019-03-24-去掉烦人的if-else嵌套/&title=《去掉烦人的if-else嵌套（转载）》 — Hexo&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/03/24/2019-03-24-去掉烦人的if-else嵌套/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《去掉烦人的if-else嵌套（转载）》 — Hexo&url=http://yoursite.com/2019/03/24/2019-03-24-去掉烦人的if-else嵌套/&via=http://yoursite.com" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/03/24/2019-03-24-去掉烦人的if-else嵌套/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/03/24/2019-03-24-去掉烦人的if-else嵌套/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/代码的艺术/" class="color1">代码的艺术</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#写在前面"><span class="post-toc-text">写在前面</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#正文"><span class="post-toc-text">正文</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#减少-if-else-方法一：接口分层"><span class="post-toc-text">减少 if else 方法一：接口分层</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#减少-if-else-方法二：多态"><span class="post-toc-text">减少 if else 方法二：多态</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#减少-if-else-方法三：使用Map替代分支语句"><span class="post-toc-text">减少 if else 方法三：使用Map替代分支语句</span></a></li></ol></li></ol><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#写在最后"><span class="post-toc-text">写在最后</span></a></li>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2019/03/24/2019-03-24-编码习惯---Controller规范/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          编码习惯---Controller规范（转载）
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2019/03/21/2019-03-21-SpringBoot学习03_日志使用原理/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Spring Boot学习03_日志使用原理</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2019 John Doe<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://yoursite.com",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

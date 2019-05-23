@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>Linux权限管理 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Yang,Yang's Blog">
+  
+  <meta name="description" content="一、文件属性解释使用ll（ls -l的简写）查看文件的属性 1、文件的所有者：默认创建该文件的用户 2、文件的所有组：默认创建该文件的用户所在的组 1234[root@localhost study-linux]# lltotal 0drwxr-xr-x. 2 root root 6 Mar 26 19:51 aa-rw-rw-r--. 1 root root 0 Mar 19 10:54 a.t">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux权限管理">
+<meta property="og:url" content="http://yoursite.com/2019/03/26/2019-03-26-Linux权限管理/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="一、文件属性解释使用ll（ls -l的简写）查看文件的属性 1、文件的所有者：默认创建该文件的用户 2、文件的所有组：默认创建该文件的用户所在的组 1234[root@localhost study-linux]# lltotal 0drwxr-xr-x. 2 root root 6 Mar 26 19:51 aa-rw-rw-r--. 1 root root 0 Mar 19 10:54 a.t">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-03-27T15:24:32.815Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux权限管理">
+<meta name="twitter:description" content="一、文件属性解释使用ll（ls -l的简写）查看文件的属性 1、文件的所有者：默认创建该文件的用户 2、文件的所有组：默认创建该文件的用户所在的组 1234[root@localhost study-linux]# lltotal 0drwxr-xr-x. 2 root root 6 Mar 26 19:51 aa-rw-rw-r--. 1 root root 0 Mar 19 10:54 a.t">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Yang&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Yang&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        一个专注 Java 开发的技术博客
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Yang" target="_blank" href="//yangrijian.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/loneryang">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/printf杨氏子">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-2019-03-26-Linux权限管理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Linux权限管理
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-03-26
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="一、文件属性解释"><a href="#一、文件属性解释" class="headerlink" title="一、文件属性解释"></a>一、文件属性解释</h2><p>使用<code>ll</code>（<code>ls -l</code>的简写）查看文件的属性</p>
+<p>1、文件的所有者：默认创建该文件的用户</p>
+<p>2、文件的所有组：默认创建该文件的用户所在的组</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost study-linux]# ll</span><br><span class="line">total 0</span><br><span class="line">drwxr-xr-x. 2 root root 6 Mar 26 19:51 aa</span><br><span class="line">-rw-rw-r--. 1 root root 0 Mar 19 10:54 a.txt</span><br></pre></td></tr></table></figure>
+<p>第一列：- 为文件，d为文件夹</p>
+<p>第二列：所有者权限，r 可读，w 可写，x 可执行</p>
+<p>第三列：所有组权限</p>
+<p>第四列：其他权限，其他用户的权限</p>
+<p>第五列：该文件/目录的所有者</p>
+<p>第六列：该文件/目录的所有组</p>
+<p>第七列：该文件/目录的大小（不显示单位就是byte）</p>
+<p>第八列：该文件/目录创建时间</p>
+<p>第九列：该文件/目录名称</p>
+<h2 id="二、修改文件的权限"><a href="#二、修改文件的权限" class="headerlink" title="二、修改文件的权限"></a>二、修改文件的权限</h2><p>u：user代表所有者，g：group代表所有组，o：other代表其他权限，a：all代表所有权限</p>
+<h3 id="1、修改文件权限的方式1"><a href="#1、修改文件权限的方式1" class="headerlink" title="1、修改文件权限的方式1"></a>1、修改文件权限的方式1</h3><p>以上述文件为例把 a.txt 文件的所有者权限加一个可执行，所有组权限加一个可执行，其他权限加一个可写使用 <code>chmod u+x,g+x,o+w a.txt</code> 命令修改</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost study-linux]# chmod u+x,g+x,o+w a.txt</span><br><span class="line">[root@localhost study-linux]# ll</span><br><span class="line">total 4</span><br><span class="line">drwxr-xr-x. 2 root root 6 Mar 26 19:51 aa</span><br><span class="line">-rwxrwxrw-. 1 root root 1 Mar 26 19:54 a.txt</span><br></pre></td></tr></table></figure>
+<p>创建b.txt，通过<code>chmod a+x b.txt</code>来给所有权限增加可执行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost study-linux]# ll</span><br><span class="line">total 0</span><br><span class="line">drwxr-xr-x. 2 root root 6 Mar 26 19:51 aa</span><br><span class="line">-rwxr-xrw-. 1 root root 0 Mar 26 20:13 a.txt</span><br><span class="line">-rw-r--r--. 1 root root 0 Mar 26 20:14 b.txt</span><br><span class="line">[root@localhost study-linux]# chmod a+x b.txt</span><br><span class="line">[root@localhost study-linux]# ll</span><br><span class="line">total 0</span><br><span class="line">drwxr-xr-x. 2 root root 6 Mar 26 19:51 aa</span><br><span class="line">-rwxr-xrw-. 1 root root 0 Mar 26 20:13 a.txt</span><br><span class="line">-rwxr-xr-x. 1 root root 0 Mar 26 20:14 b.txt</span><br></pre></td></tr></table></figure>
+<h3 id="2、修改文件权限的方式2"><a href="#2、修改文件权限的方式2" class="headerlink" title="2、修改文件权限的方式2"></a>2、修改文件权限的方式2</h3><p>创建文件 c.txt ，通过 <code>chmod u=rwx,g=rw,o=- c.txt</code> 命令将所有者权限改为rwx，所有组权限改为rw，将其他权限设置位不可读不可写不可执行。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost study-linux]# touch c.txt</span><br><span class="line">[root@localhost study-linux]# ll</span><br><span class="line">total 0</span><br><span class="line">drwxr-xr-x. 2 root root 6 Mar 26 19:51 aa</span><br><span class="line">-rwxr-xrw-. 1 root root 0 Mar 26 20:13 a.txt</span><br><span class="line">-rwxr-xr-x. 1 root root 0 Mar 26 20:17 b.txt</span><br><span class="line">-rw-r--r--. 1 root root 0 Mar 26 20:17 c.txt</span><br><span class="line">[root@localhost study-linux]# chmod u=rwx,g=rw,o=- c.txt</span><br><span class="line">[root@localhost study-linux]# ll</span><br><span class="line">total 0</span><br><span class="line">drwxr-xr-x. 2 root root 6 Mar 26 19:51 aa</span><br><span class="line">-rwxr-xrw-. 1 root root 0 Mar 26 20:13 a.txt</span><br><span class="line">-rwxr-xr-x. 1 root root 0 Mar 26 20:17 b.txt</span><br><span class="line">-rwxrw----. 1 root root 0 Mar 26 20:17 c.txt</span><br></pre></td></tr></table></figure>
+<p>也可以通过 <code>chmod a=r c.txt</code> 将 c.txt 的所有权限改为r（可读）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost study-linux]# chmod a=r c.txt</span><br><span class="line">[root@localhost study-linux]# ll</span><br><span class="line">total 0</span><br><span class="line">drwxr-xr-x. 2 root root 6 Mar 26 19:51 aa</span><br><span class="line">-rwxr-xrw-. 1 root root 0 Mar 26 20:13 a.txt</span><br><span class="line">-rwxr-xr-x. 1 root root 0 Mar 26 20:17 b.txt</span><br><span class="line">-r--r--r--. 1 root root 0 Mar 26 20:17 c.txt</span><br></pre></td></tr></table></figure>
+<h3 id="3、修改文件权限的方式3"><a href="#3、修改文件权限的方式3" class="headerlink" title="3、修改文件权限的方式3"></a>3、修改文件权限的方式3</h3><p><strong>r w x 对应着数字 4 2 1</strong></p>
+<p>创建 d.txt 文件，通过 <code>chmod 711 d.txt</code> 命令将所有者权限修改为 rwx（4+2+1），所有组修改为 r（1），其他权限修改为 r （1）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost study-linux]# touch d.txt</span><br><span class="line">[root@localhost study-linux]# ll</span><br><span class="line">total 0</span><br><span class="line">drwxr-xr-x. 2 root root 6 Mar 26 19:51 aa</span><br><span class="line">-rwxr-xrw-. 1 root root 0 Mar 26 20:13 a.txt</span><br><span class="line">-rwxr-xr-x. 1 root root 0 Mar 26 20:17 b.txt</span><br><span class="line">-r--r--r--. 1 root root 0 Mar 26 20:17 c.txt</span><br><span class="line">-rw-r--r--. 1 root root 0 Mar 26 20:23 d.txt</span><br><span class="line">[root@localhost study-linux]# chmod 711 d.txt</span><br><span class="line">[root@localhost study-linux]# ll</span><br><span class="line">total 0</span><br><span class="line">drwxr-xr-x. 2 root root 6 Mar 26 19:51 aa</span><br><span class="line">-rwxr-xrw-. 1 root root 0 Mar 26 20:13 a.txt</span><br><span class="line">-rwxr-xr-x. 1 root root 0 Mar 26 20:17 b.txt</span><br><span class="line">-r--r--r--. 1 root root 0 Mar 26 20:17 c.txt</span><br><span class="line">-rwx--x--x. 1 root root 0 Mar 26 20:23 d.txt</span><br></pre></td></tr></table></figure>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年03月27日 23:24</p>
+        <p>原始链接： <a class="post-url" href="/2019/03/26/2019-03-26-Linux权限管理/" title="Linux权限管理">http://yoursite.com/2019/03/26/2019-03-26-Linux权限管理/</a></p>
+        <footer>
+            <a href="http://yoursite.com">
+                <img src="/images/logo.png" alt="John Doe">
+                John Doe
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/03/26/2019-03-26-Linux权限管理/&title=《Linux权限管理》 — Hexo&pic=http://yoursite.comimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/03/26/2019-03-26-Linux权限管理/&title=《Linux权限管理》 — Hexo&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/03/26/2019-03-26-Linux权限管理/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Linux权限管理》 — Hexo&url=http://yoursite.com/2019/03/26/2019-03-26-Linux权限管理/&via=http://yoursite.com" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/03/26/2019-03-26-Linux权限管理/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/03/26/2019-03-26-Linux权限管理/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Linux/" class="color1">Linux</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、文件属性解释"><span class="post-toc-text">一、文件属性解释</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二、修改文件的权限"><span class="post-toc-text">二、修改文件的权限</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1、修改文件权限的方式1"><span class="post-toc-text">1、修改文件权限的方式1</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2、修改文件权限的方式2"><span class="post-toc-text">2、修改文件权限的方式2</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3、修改文件权限的方式3"><span class="post-toc-text">3、修改文件权限的方式3</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2019/03/27/2019-03-27-Linux压缩解压文件/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Linux压缩解压文件
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2019/03/24/2019-03-24-编码习惯---Controller规范/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">编码习惯---Controller规范（转载）</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2019 John Doe<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://yoursite.com",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

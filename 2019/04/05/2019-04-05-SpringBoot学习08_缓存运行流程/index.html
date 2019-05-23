@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>Spring Boot学习08_缓存工作原理 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Yang,Yang's Blog">
+  
+  <meta name="description" content="一、原理分析原理性的东西每次都是XXXAutoConfiguration配置类，缓存应该就是CacheAutoConfiguration类 1、进入CacheAutoConfiguration类上面有个@Import({CacheAutoConfiguration.CacheConfigurationImportSelector.class}) 会导入一个CacheConfigurationImp">
+<meta name="keywords" content="SpringBoot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Boot学习08_缓存工作原理">
+<meta property="og:url" content="http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习08_缓存运行流程/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="一、原理分析原理性的东西每次都是XXXAutoConfiguration配置类，缓存应该就是CacheAutoConfiguration类 1、进入CacheAutoConfiguration类上面有个@Import({CacheAutoConfiguration.CacheConfigurationImportSelector.class}) 会导入一个CacheConfigurationImp">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2nIG6.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2nTxO.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2nhI1.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2nfaR.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2nWZ9.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2n5Px.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2nHMD.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2noRK.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2nxit.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2nbse.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2nqqH.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2nXdA.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2nOZd.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2njII.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2uSRf.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2nzJP.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2uAds.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2upz8.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2uCQS.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2uPsg.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2uiLQ.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2uEon.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2ukZj.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2ueJ0.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2uZiq.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2umWV.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2unzT.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2uMyF.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2uQL4.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2u1eJ.png">
+<meta property="og:updated_time" content="2019-04-05T02:59:57.586Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring Boot学习08_缓存工作原理">
+<meta name="twitter:description" content="一、原理分析原理性的东西每次都是XXXAutoConfiguration配置类，缓存应该就是CacheAutoConfiguration类 1、进入CacheAutoConfiguration类上面有个@Import({CacheAutoConfiguration.CacheConfigurationImportSelector.class}) 会导入一个CacheConfigurationImp">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/04/04/A2nIG6.png">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Yang&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Yang&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        一个专注 Java 开发的技术博客
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Yang" target="_blank" href="//yangrijian.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/loneryang">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/printf杨氏子">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-2019-04-05-SpringBoot学习08_缓存运行流程" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Spring Boot学习08_缓存工作原理
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-04-05
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="一、原理分析"><a href="#一、原理分析" class="headerlink" title="一、原理分析"></a>一、原理分析</h2><p>原理性的东西每次都是XXXAutoConfiguration配置类，缓存应该就是CacheAutoConfiguration类</p>
+<p>1、进入CacheAutoConfiguration类上面有个@Import({CacheAutoConfiguration.CacheConfigurationImportSelector.class})</p>
+<p>会导入一个CacheConfigurationImportSelector类，进入这个类</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2nIG6.png" alt="A2nIG6.png"></p>
+<p>2、CacheConfigurationImportSelector类中有个selectImports方法，这个方法会返回一个数组，debug启动看看返回了些什么</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2nTxO.png" alt="A2nTxO.png"></p>
+<p>3、会返回很多缓存配置类</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2nhI1.png" alt="A2nhI1.png"></p>
+<p>4、在全部配置文件application.properties中指定debug=true，查看只有SimpleCacheConfiguration匹配，其他的配置类都没有被匹配</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">SimpleCacheConfiguration matched:</span><br><span class="line">CaffeineCacheConfiguration:</span><br><span class="line">    Did not match:</span><br><span class="line">CouchbaseCacheConfiguration:</span><br><span class="line">    Did not match:</span><br><span class="line">EhCacheCacheConfiguration:</span><br><span class="line">    Did not match:</span><br><span class="line">GenericCacheConfiguration:</span><br><span class="line">    Did not match:</span><br><span class="line">HazelcastCacheConfiguration:</span><br><span class="line">    Did not match:</span><br><span class="line">InfinispanCacheConfiguration:</span><br><span class="line">    Did not match:</span><br><span class="line">JCacheCacheConfiguration:</span><br><span class="line">    Did not match:</span><br><span class="line">NoOpCacheConfiguration:</span><br><span class="line">    Did not match:</span><br><span class="line">RedisCacheConfiguration:</span><br><span class="line">    Did not match:</span><br></pre></td></tr></table></figure>
+<p>5、进入SimpleCacheConfiguration类，该类会向容器中注册一个ConcurrentMapCacheManager组件，也就是前面提到的CacheManager。进入ConcurrentMapCacheManager类</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2nfaR.png" alt="A2nfaR.png"></p>
+<p>6、里面有个ConcurrentMap用来管理缓存组件</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2nWZ9.png" alt="A2nWZ9.png"></p>
+<p>还有getCache方法，给其打上断点，后面调试用</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2n5Px.png" alt="A2n5Px.png"></p>
+<p>7、getCache方法根据key会获得Cache缓存组件，进入Cache，这是个接口，因为这是ConcurrentMapCacheManager缓存管理器，所以进入ConcurrentMapCache缓存组件</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2nHMD.png" alt="A2nHMD.png"></p>
+<p>8、ConcurrentMapCache类中有个ConcurrentMap用来存储缓存数据的，lookup方法用来从缓存中获取值，put方法把数据存到缓存中，并给两个方法打上断点方便后面测试。</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2noRK.png" alt="A2noRK.png"></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2nxit.png" alt="A2nxit.png"></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2nbse.png" alt="A2nbse.png"></p>
+<h2 id="二、调试"><a href="#二、调试" class="headerlink" title="二、调试"></a>二、调试</h2><p>第一次请求</p>
+<p>1、以@Cacheable注解测试</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2nqqH.png" alt="A2nqqH.png"></p>
+<p>2、Debug启动，并访问EmployeeController（<strong>localhost:8080/emp/1</strong>）</p>
+<p>​    首先会进入到ConcurrentMapCacheManager类的getCache方法，根据cacheNames去缓存管理器中获取对    应的缓存，如果没有就会创建一个ConcurrentMapCache组件并设置到缓存管理器的map中去。</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2nXdA.png" alt="A2nXdA.png"></p>
+<p>3、上一篇文章中讲过@Cacheable注解不设置key的值默认就会是参数。这里的参数为1，也就是对应的参数值。</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2nOZd.png" alt="A2nOZd.png"></p>
+<p>​    3.1、看debug执行的代码顺序，后退几步可以看到有个generateKey方法</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2njII.png" alt="A2njII.png"></p>
+<p>​    3.2、进入generateKey方法==》context.generateKey(result)</p>
+<p>​        ==》protected Object generateKey(@Nullable Object result)</p>
+<p>​            只要注解上指定了key就会走if判断里面的代码，否则走下面这句</p>
+<p>​        ==》return this.metadata.keyGenerator.generate(this.target, this.metadata.method, this.args);</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2uSRf.png" alt="A2uSRf.png"></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2nzJP.png" alt="A2nzJP.png"></p>
+<p>​    3.3、keyGenerator是个接口类型的键生成策略，该接口下面有个实现类为SimpleKeyGenerator类</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2uAds.png" alt="A2uAds.png"></p>
+<p>​    <img src="https://s2.ax1x.com/2019/04/04/A2upz8.png" alt="A2upz8.png"></p>
+<p>​    3.4、进入SimpleKeyGenerator类，上面有行代码就是调用了generate方法</p>
+<blockquote>
+<p>​        return this.metadata.keyGenerator.generate(this.target, this.metadata.method, this.args);$</p>
+</blockquote>
+<p>​    查看SimpleKeyGenerator类的generator方法</p>
+<p>​    SimpleKeyGenerator生成key的默认策略：</p>
+<p>​               如果没有参数：key = new SimpleKey(new Object[0]));</p>
+<p>​               如果有一个参数： key = 参数的值</p>
+<p>​               如果有多个参数：key = new SimpleKey(params)</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2uCQS.png" alt="A2uCQS.png"></p>
+<p>4、回到lookup方法，点击下一步，从缓存组件中获取的值就是空的。</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2uPsg.png" alt="A2uPsg.png"></p>
+<p>5、放行，会执行目标方法从数据库中查询到数据</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2uiLQ.png" alt="A2uiLQ.png"></p>
+<p>6、放行，会执行ConcurrentMapCache的put的方法把数据存到缓存组件中</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2uEon.png" alt="A2uEon.png"></p>
+<p>7、最后放行，浏览器就显示了查到的数据</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2ukZj.png" alt="A2ukZj.png"></p>
+<p>测试第二次请求</p>
+<p>1、访问EmployeeController（<strong>localhost:8080/emp/1</strong>）仍然会进入到ConcurrentMapCacheManager的getCache方法，只不过这次缓存管理器中已经有了key为emp的缓存组件直接将其返回。</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2ueJ0.png" alt="A2ueJ0.png"></p>
+<p>2、放行进入ConcurrentMapCache的lookup方法。</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2uZiq.png" alt="A2uZiq.png"></p>
+<p>3、点击下一步，这次就能从缓存组件中获取到数据。</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2umWV.png" alt="A2umWV.png"></p>
+<p>4、放行，这次没有进入到目标方法，浏览器直接显示了数据</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2unzT.png" alt="A2unzT.png"></p>
+<p><strong>结论：</strong></p>
+<p>运行流程：以@Cacheable为例</p>
+<p>1、方法运行之前先去查询Cache，以cacheNames指定的名字获取</p>
+<p>（CacheManager先获取相应的缓存），第一次获取缓存如果没有Cache组件会自动创建</p>
+<p>2、去Cache中查找缓存的内容，使用一个key，默认就是方法的参数</p>
+<p>​      key是按照某种策略生成的，默认使用SimpleKeyGenerator生成key</p>
+<pre><code>SimpleKeyGenerator生成key的默认策略：
+</code></pre><p>​        如果没有参数：key = new SimpleKey(new Object[0]));</p>
+<p>​        如果有一个参数： key = 参数的值</p>
+<p>​        如果有多个参数：key = new SimpleKey(params)</p>
+<p>3、在缓存中没有查到数据就调用目标方法</p>
+<p>4、将目标方法返回的结果，放进缓存中</p>
+<p><strong>@Cacheable标注的方法执行之前先来检查缓存中有没有这个数据，默认按照参数的值作为key去查询缓存如果没有就运行方法并将结果放入缓存；以后再来调用就可以直接使用缓存中的数据</strong></p>
+<h2 id="三、自定义KeyGenerator"><a href="#三、自定义KeyGenerator" class="headerlink" title="三、自定义KeyGenerator"></a>三、自定义KeyGenerator</h2><p>创建配置类MyKeyGenerator并给容器中注册一个自定义的KeyGenerator，打上断点方便后面测试</p>
+<p>给EmployeeService的查询方法指定自定义的键生成策略</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyKeyGenerator</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> KeyGenerator <span class="title">myGenerator</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">new</span> KeyGenerator()&#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> Object <span class="title">generate</span><span class="params">(Object target, Method method, Object... params)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> method.getName() + Arrays.asList(params).toString() + <span class="string">"yang"</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Cacheable</span>(cacheNames = &#123;<span class="string">"emp"</span>&#125;, keyGenerator = <span class="string">"myGenerator"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> Employee <span class="title">getEmployeeById</span><span class="params">(Integer id)</span> </span>&#123;</span><br><span class="line">    System.out.println(id + <span class="string">"号员工被查询"</span>);</span><br><span class="line">    Employee employee = employeeMapper.selectEmployeeById(id);</span><br><span class="line">    <span class="keyword">return</span> employee;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>1、debug运行，访问EmployeeController（<strong>localhost:8080/emp/1</strong>），第一步还是到ConcurrentMapCacheManager的getCache方法</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2uMyF.png" alt="A2uMyF.png"></p>
+<p>2、放行，进入到了自定义的KeyGenerator的generator方法</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2uQL4.png" alt="A2uQL4.png"></p>
+<p>3、放行，到ConcurrentMapCache组件的lookup方法，发现这个key已经是按照我们自定义的生成了。</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2u1eJ.png" alt="A2u1eJ.png"></p>
+<p><strong>结论：</strong>可以自定义一个KeyGenerator键生成策略，然后注册到容器中，并在缓存注解上指定就会按照自定义生成       的生成策略来生成key</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年04月05日 10:59</p>
+        <p>原始链接： <a class="post-url" href="/2019/04/05/2019-04-05-SpringBoot学习08_缓存运行流程/" title="Spring Boot学习08_缓存工作原理">http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习08_缓存运行流程/</a></p>
+        <footer>
+            <a href="http://yoursite.com">
+                <img src="/images/logo.png" alt="John Doe">
+                John Doe
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习08_缓存运行流程/&title=《Spring Boot学习08_缓存工作原理》 — Hexo&pic=http://yoursite.comimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习08_缓存运行流程/&title=《Spring Boot学习08_缓存工作原理》 — Hexo&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习08_缓存运行流程/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Spring Boot学习08_缓存工作原理》 — Hexo&url=http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习08_缓存运行流程/&via=http://yoursite.com" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习08_缓存运行流程/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习08_缓存运行流程/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/SpringBoot/" class="color1">SpringBoot</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、原理分析"><span class="post-toc-text">一、原理分析</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二、调试"><span class="post-toc-text">二、调试</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#三、自定义KeyGenerator"><span class="post-toc-text">三、自定义KeyGenerator</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2019/04/05/2019-04-05-SpringBoot学习08_整合Redis/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Spring Boot学习08_整合Redis
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2019/04/05/2019-04-05-SpringBoot学习08_常用缓存注解使用/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Spring Boot学习08_常用缓存注解使用</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2019 John Doe<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://yoursite.com",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

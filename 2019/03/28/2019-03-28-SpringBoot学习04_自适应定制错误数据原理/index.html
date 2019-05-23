@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>Spring Boot学习04_自适应定制错误数据原理 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Yang,Yang's Blog">
+  
+  <meta name="description" content="在我们访问Spring Boot应用的时候，出现譬如404，500的错误，默认会跳到如下页面  而做服务端的，浏览器并非为唯一客户端，还有安卓客户端app显示错误数据的方式，如下：（使用postman工具模拟安卓客户端app接受请求），Spring Boot会响应给安卓客户端json数据  这样的页面终归是不友好的，一般会自己定制页面或定制json数据（符合项目风格的错误页面）  前面的文章说了S">
+<meta name="keywords" content="SpringBoot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Boot学习04_自适应定制错误数据原理">
+<meta property="og:url" content="http://yoursite.com/2019/03/28/2019-03-28-SpringBoot学习04_自适应定制错误数据原理/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="在我们访问Spring Boot应用的时候，出现譬如404，500的错误，默认会跳到如下页面  而做服务端的，浏览器并非为唯一客户端，还有安卓客户端app显示错误数据的方式，如下：（使用postman工具模拟安卓客户端app接受请求），Spring Boot会响应给安卓客户端json数据  这样的页面终归是不友好的，一般会自己定制页面或定制json数据（符合项目风格的错误页面）  前面的文章说了S">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwOLTg.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwObm8.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwOISI.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwOT6P.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwOolt.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwO7Of.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwXp60.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwOq0S.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwOXkQ.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwOjYj.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwXSlq.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwXi0U.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwOvfs.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwOzpn.jpg">
+<meta property="og:image" content="https://pic4.zhimg.com/80/v2-74c95dfdda957d361686d0ed3f4cc9d7_hd.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwX9XV.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwXEtJ.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwXMnK.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwXF7F.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwXAk4.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwXuX6.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwXVh9.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwXepR.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwXshj.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwXm11.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwXn6x.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwXQ0O.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwXl7D.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwXt1I.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwXUjP.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwX3Ae.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwX8tH.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwXGhd.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwXY9A.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwXNct.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwXdnf.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwXrNQ.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwXwB8.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwX69s.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwX0HS.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwXDAg.jpg">
+<meta property="og:updated_time" content="2019-03-28T14:07:08.142Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring Boot学习04_自适应定制错误数据原理">
+<meta name="twitter:description" content="在我们访问Spring Boot应用的时候，出现譬如404，500的错误，默认会跳到如下页面  而做服务端的，浏览器并非为唯一客户端，还有安卓客户端app显示错误数据的方式，如下：（使用postman工具模拟安卓客户端app接受请求），Spring Boot会响应给安卓客户端json数据  这样的页面终归是不友好的，一般会自己定制页面或定制json数据（符合项目风格的错误页面）  前面的文章说了S">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/03/28/AwOLTg.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Yang&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Yang&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        一个专注 Java 开发的技术博客
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Yang" target="_blank" href="//yangrijian.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/loneryang">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/printf杨氏子">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-2019-03-28-SpringBoot学习04_自适应定制错误数据原理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Spring Boot学习04_自适应定制错误数据原理
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-03-28
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <p>在我们访问Spring Boot应用的时候，出现譬如404，500的错误，默认会跳到如下页面</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwOLTg.jpg" alt="AwOLTg.jpg"></p>
+<p>而做服务端的，浏览器并非为唯一客户端，还有安卓客户端app显示错误数据的方式，如下：（使用postman工具模拟安卓客户端app接受请求），Spring Boot会响应给安卓客户端json数据</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwObm8.jpg" alt="AwObm8.jpg"></p>
+<p>这样的页面终归是不友好的，一般会自己定制页面或定制json数据（符合项目风格的错误页面）</p>
+<hr>
+<p>前面的文章说了Spring Boot的自动配置一般都会在xxxAutoConfiguration类中</p>
+<h2 id="一、错误页面的自动配置在ErrorMvcAutoConfiguration类中"><a href="#一、错误页面的自动配置在ErrorMvcAutoConfiguration类中" class="headerlink" title="一、错误页面的自动配置在ErrorMvcAutoConfiguration类中"></a>一、错误页面的自动配置在ErrorMvcAutoConfiguration类中</h2><p>1、该类中有个errorPageCustomizer方法，返回的类型是ErrorPageCustomizer（错误页面定制器），只要项目中出现4xx或者5xx错误就会执行该方法。</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwOISI.jpg" alt="AwOISI.jpg"></p>
+<p>2、我们点进ErrorPageCustomizer类中查看registerErrorPages方法，而该方法呢会发送一个getPath()请求，最终获得是@Value(“${error.path:/error}”)，意思是从配置文件中获取error.path的值，如果没有就使用”/error”请求url</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwOT6P.jpg" alt="AwOT6P.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwOolt.jpg" alt="AwOolt.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwO7Of.jpg" alt="AwO7Of.jpg"></p>
+<p>3、只要请求”/error”，那么在ErrorMvcAutoConfigutaion类中注册的BasicErrorController就会起作用了。</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwXp60.jpg" alt="AwXp60.jpg"></p>
+<p>4、点进该类中查看发现该类就是映射”/error”请求的</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwOq0S.jpg" alt="AwOq0S.jpg"></p>
+<p>5、该类中有两个方法errorHtml方法返回ModelAndView，这两个方法都能接收”/error”请求，error方法返回ResponseEntity也就是json数据，说明这两个方法对应的就是浏览器和客户端，errorHtml方法上的produces等于”text/html”，就是响应html类型的数据，而在浏览器中优先接受的就是该类型，客户端优先接受的是application/json类型，所以Spring Boot就能自适应返回不同的数据了</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwOXkQ.jpg" alt="AwOXkQ.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwOjYj.jpg" alt="AwOjYj.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwXSlq.jpg" alt="AwXSlq.jpg"></p>
+<hr>
+<h2 id="二、浏览器怎么定制错误页面-errorHtml方法"><a href="#二、浏览器怎么定制错误页面-errorHtml方法" class="headerlink" title="二、浏览器怎么定制错误页面(errorHtml方法)"></a>二、浏览器怎么定制错误页面(errorHtml方法)</h2><p>1、进入resolveErrorView方法，点进去</p>
+<p><strong>this.resolveErrorView(request, response, status, model);</strong></p>
+<p><strong>–&gt;resolver.resolveErrorView(request, status, model);</strong></p>
+<p>进入到ErrorViewResolver接口，该接口只有一个实现类，进入DefaultErrorViewResolver类中的resolveErrorView方法<strong>（DefaultErrorViewResolver也是在ErrorMvcAutoConfiguration类中进行注册了的）</strong></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwXi0U.jpg" alt="AwXi0U.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwOvfs.jpg" alt="AwOvfs.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwOzpn.jpg" alt="AwOzpn.jpg"></p>
+<p><img src="https://pic4.zhimg.com/80/v2-74c95dfdda957d361686d0ed3f4cc9d7_hd.jpg" alt="img"></p>
+<p>2、resolveErrorView方法会调用resolve方法，会传入状态码和model(后面解释怎么来的)进去，SERIES_VIEWS中有4xx，5xx</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwX9XV.jpg" alt="AwX9XV.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwXEtJ.jpg" alt="AwXEtJ.jpg"></p>
+<p>3、进入到resolve方法，里面会拼一个视图名称”error/“ 加上传进来的状态码(4xx,5xx)，</p>
+<p>这里会根据你的错误类型是什么就会拼成什么类型的视图名称。接着看下面有个方法判断有没有使用模板，如果使用了模板就直接把拼好的视图名称当作逻辑视图名称创建ModelAndView对象返回<strong>（使用了Thymeleaf模板，会有一个Thymeleaf视图解析器：前缀是classpath:templates/,后缀是html）</strong>，如果没有就调用下面resolveResource方法</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwXMnK.jpg" alt="AwXMnK.jpg"></p>
+<p>4、进入resolveResource方法里面的逻辑就是获得静态资源映射的路径(专栏前面的文章有详细讲过<a href="https://zhuanlan.zhihu.com/p/56461534" target="_blank" rel="noopener">(链接)</a>)，然后跟传过来的视图名称拼起来并加上html后缀</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwXF7F.jpg" alt="AwXF7F.jpg"></p>
+<p>5、最后说明我们只要把4xx，5xx命名html错误页面放在error文件夹下，然后把error文件夹放入templates文件夹下Spring Boot就会根据是什么类型的错误而跳转到指定的错误页面中。<strong>静态资源文件夹下的错误页面就不测试了，一定也是有用的</strong></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwXAk4.jpg" alt="AwXAk4.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwXuX6.jpg" alt="AwXuX6.jpg"></p>
+<p>6、之前Spring Boot默认的错误处理页面中的数据是怎么获得的呢</p>
+<p>回到errorHtml方法，点进getErrorAttributes方法</p>
+<p><strong>protected Map&lt;String, Object&gt; getErrorAttributes(HttpServletRequest request,</strong></p>
+<p><strong>boolean includeStackTrace)</strong></p>
+<p><strong>–&gt;return this.errorAttributes.getErrorAttributes(webRequest,</strong></p>
+<p><strong>includeStackTrace);</strong></p>
+<p>this.errorAttributes就是ErrorAttributes接口类型的，该类只有一个实现类<strong>DefaultErrorAttributes(在ErrorMvcAutoConfiguration类中在容器中注册了)</strong></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwXVh9.jpg" alt="AwXVh9.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwXepR.jpg" alt="AwXepR.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwXshj.jpg" alt="AwXshj.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwXm11.jpg" alt="AwXm11.jpg"></p>
+<p>6.1、看getErrorAttributes方法中会创建一个Map，而下面的方法处理就是往该map中添加一些错误数据，比如status状态码，error错误提示信息，exception异常类型。添加完成之后将该Map返回作为model</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwXn6x.jpg" alt="AwXn6x.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwXQ0O.jpg" alt="AwXQ0O.jpg"></p>
+<p>6.2、所以我们在模板里面就能通过表达式取到错误信息了，<strong>异常必须在全局配置中设置项目中包含异常server.error.include-exception=true</strong></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwXl7D.jpg" alt="AwXl7D.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwXt1I.jpg" alt="AwXt1I.jpg"></p>
+<p>7、Spring Boot默认的页面是怎么组成的呢</p>
+<p>如果ModelAndView为空(说明自己在规定的路径中没有自定义错误页面)就自己创建一个ModelAndView，然后返回</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwXUjP.jpg" alt="AwXUjP.jpg"></p>
+<p>7.1、在ErrorMvcAutoConfiguraion类中配置了一个组件name就是error，点进defaultErrorView（StaticView类型）</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwX3Ae.jpg" alt="AwX3Ae.jpg"></p>
+<p>7.2、该类中有个视图渲染方法，就是一个组装好的html字符串和之前Spring Boot默认处理错误页面中的信息一样。</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwX8tH.jpg" alt="AwX8tH.jpg"></p>
+<h2 id="三、客户端怎么定制错误数据（error方法）"><a href="#三、客户端怎么定制错误数据（error方法）" class="headerlink" title="三、客户端怎么定制错误数据（error方法）"></a>三、客户端怎么定制错误数据（error方法）</h2><p>1、error方法中获取Map数据也是和上面一样的逻辑，最后转换成一个json数据返回给安卓客户端</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwXGhd.jpg" alt="AwXGhd.jpg"></p>
+<p>2、之前说了哪个数据的获得其实是在容器中获取一个ErrorAttributes类型的实例然后调用该实例的getErrorAttributes方法，而ErrorAttributes类型的实例又是在ErrorMvcAutoConfiguration中进行了配置。</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwXY9A.jpg" alt="AwXY9A.jpg"></p>
+<p>3、ErrorMvcAutoConfiguration中配置ErrorAttributes的方法上面有@ConditionalOnMissingBean，意思是容器中没有ErrorAttributes这个类型我就自动配置，那我们就可以写一个DefaultErrorAttributes的子类并重写getErrorAttributes方法，然后添加到容器中。这样的话上面Spring Boot的自动配置ErrorAttributes就不会生效，到时候调用getErrorAttributes方法就会调用我们自己重写的方法，以达到我们定制异常数据的效果。</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwXNct.jpg" alt="AwXNct.jpg"></p>
+<p>4、我们这里调用父类的方法，先把Spring Boot默认可以获得到的数据先拿到，然后自己可以添加一些额外的数据并返回，最终获得到的model就是我们这个map，浏览器和客户端的数据都是在这获得到的。</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwXdnf.jpg" alt="AwXdnf.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwXrNQ.jpg" alt="AwXrNQ.jpg"></p>
+<p>5、如果项目中要处理对应的异常类型但是我们又要兼顾Spring Boot的自适应异常处理，在Spring MVC中我们就已经学习了自定义异常处理。这时候我们只需要根据Spring MVC的来做，最终我们请求转发到 “/error”请求，就会由BasicErrorController来处理自适应。最终又会执行到我们重写的getErrorAttributes方法中，我们自定义的异常信息就能放到request域中，在重写的getErrorAttributes中取出来放到map中，在前端就能取到自定义的错误值了。</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwXwB8.jpg" alt="AwXwB8.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwX69s.jpg" alt="AwX69s.jpg"></p>
+<hr>
+<h2 id="总结：在ErrorMvcAutoConfiguration类中自动重要的四个组件"><a href="#总结：在ErrorMvcAutoConfiguration类中自动重要的四个组件" class="headerlink" title="总结：在ErrorMvcAutoConfiguration类中自动重要的四个组件"></a>总结：在ErrorMvcAutoConfiguration类中自动重要的四个组件</h2><p><strong>1、DefaultErrorAttributes：封装异常数据的，getErrorAttributes方法</strong></p>
+<p><strong>2、BasicErrorController：处理异常请求的，映射error请求，进行自适应处理</strong></p>
+<p><strong>3、ErrorPageCustomizer：错误页面定制器，出现了4xx，5xx的错误就会执行该类中的</strong></p>
+<p><strong>registerErrorPages方法，然后发送error请求</strong></p>
+<p><strong>4、DefaultErrorViewResolver：异常视图解析器，resolveErrorView方法根据是什么类型</strong></p>
+<p><strong>的异常就解析成什么视图名称</strong></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwX0HS.jpg" alt="AwX0HS.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwXDAg.jpg" alt="AwXDAg.jpg"></p>
+<p><strong>1、在error文件夹下创建4xx,5xx为名的html后缀的页面，用到了模板就把error文件夹放入templates文件夹。没有用到模板就放到静态资源映射路径文件夹下。项目出现了错误，Spring Boot就可以找到对应的页面。</strong></p>
+<p><strong>2、页面中可以通过模板中的表达式取到错误信息，也可以通过重写方法配合自定义异常处理器来定制错误信息</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 状态码 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>status:[[$&#123;status&#125;]]<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 时间 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h3</span>&gt;</span>time:[[$&#123;#dates.format(timestamp, 'yyyy-MM-dd HH:mm:ss')&#125;]]<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 错误提示 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h3</span>&gt;</span>error:[[$&#123;error&#125;]]<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 异常信息 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h3</span>&gt;</span>message:[[$&#123;message&#125;]]<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 异常对象 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h3</span>&gt;</span>exception:[[$&#123;exception&#125;]]<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年03月28日 22:07</p>
+        <p>原始链接： <a class="post-url" href="/2019/03/28/2019-03-28-SpringBoot学习04_自适应定制错误数据原理/" title="Spring Boot学习04_自适应定制错误数据原理">http://yoursite.com/2019/03/28/2019-03-28-SpringBoot学习04_自适应定制错误数据原理/</a></p>
+        <footer>
+            <a href="http://yoursite.com">
+                <img src="/images/logo.png" alt="John Doe">
+                John Doe
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/03/28/2019-03-28-SpringBoot学习04_自适应定制错误数据原理/&title=《Spring Boot学习04_自适应定制错误数据原理》 — Hexo&pic=http://yoursite.comimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/03/28/2019-03-28-SpringBoot学习04_自适应定制错误数据原理/&title=《Spring Boot学习04_自适应定制错误数据原理》 — Hexo&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/03/28/2019-03-28-SpringBoot学习04_自适应定制错误数据原理/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Spring Boot学习04_自适应定制错误数据原理》 — Hexo&url=http://yoursite.com/2019/03/28/2019-03-28-SpringBoot学习04_自适应定制错误数据原理/&via=http://yoursite.com" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/03/28/2019-03-28-SpringBoot学习04_自适应定制错误数据原理/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/03/28/2019-03-28-SpringBoot学习04_自适应定制错误数据原理/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/SpringBoot/" class="color1">SpringBoot</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、错误页面的自动配置在ErrorMvcAutoConfiguration类中"><span class="post-toc-text">一、错误页面的自动配置在ErrorMvcAutoConfiguration类中</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二、浏览器怎么定制错误页面-errorHtml方法"><span class="post-toc-text">二、浏览器怎么定制错误页面(errorHtml方法)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#三、客户端怎么定制错误数据（error方法）"><span class="post-toc-text">三、客户端怎么定制错误数据（error方法）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#总结：在ErrorMvcAutoConfiguration类中自动重要的四个组件"><span class="post-toc-text">总结：在ErrorMvcAutoConfiguration类中自动重要的四个组件</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2019/03/28/2019-03-28-SpringBoot学习04_嵌入式Servlet容器基本API/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Spring Boot学习04_嵌入式Servlet容器基本API
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2019/03/28/2019-03-28-SpringBoot学习04_例子总结/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Spring Boot学习04_CRUD总结</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2019 John Doe<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://yoursite.com",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

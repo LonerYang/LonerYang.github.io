@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>Spring Boot学习04_嵌入式Servlet容器自动配置原理 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Yang,Yang's Blog">
+  
+  <meta name="description" content="在Spring Boot的自动配置包下，找到web模块中的servlet文件夹下的ServletWebServerFactoryConfiguration类 一、嵌入式Servlet容器默认的配置原理1、该类中有三个静态内部类（都是配置类）： EmbeddedUndertow、EmbeddedJetty、EmbeddedTomcat 这里拿EmbeddedTomcat来举例说明 @Conditio">
+<meta name="keywords" content="SpringBoot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Boot学习04_嵌入式Servlet容器自动配置原理">
+<meta property="og:url" content="http://yoursite.com/2019/03/28/2019-03-28-SpringBoot学习04_嵌入式Servlet容器自动配置原理/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="在Spring Boot的自动配置包下，找到web模块中的servlet文件夹下的ServletWebServerFactoryConfiguration类 一、嵌入式Servlet容器默认的配置原理1、该类中有三个静态内部类（都是配置类）： EmbeddedUndertow、EmbeddedJetty、EmbeddedTomcat 这里拿EmbeddedTomcat来举例说明 @Conditio">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/Awxbgs.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwxH3j.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/Awxo4g.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/Awx5E8.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwxIUS.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/Awx7CQ.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/Awxqvn.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwxOuq.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwzADx.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwxXD0.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwxjbV.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwxxET.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/Awz9C4.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwxzUU.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwzS5F.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwzC8J.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwzP29.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwzivR.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwzkK1.jpg">
+<meta property="og:updated_time" content="2019-03-28T14:50:12.095Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring Boot学习04_嵌入式Servlet容器自动配置原理">
+<meta name="twitter:description" content="在Spring Boot的自动配置包下，找到web模块中的servlet文件夹下的ServletWebServerFactoryConfiguration类 一、嵌入式Servlet容器默认的配置原理1、该类中有三个静态内部类（都是配置类）： EmbeddedUndertow、EmbeddedJetty、EmbeddedTomcat 这里拿EmbeddedTomcat来举例说明 @Conditio">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/03/28/Awxbgs.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Yang&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Yang&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        一个专注 Java 开发的技术博客
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Yang" target="_blank" href="//yangrijian.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/loneryang">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/printf杨氏子">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-2019-03-28-SpringBoot学习04_嵌入式Servlet容器自动配置原理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Spring Boot学习04_嵌入式Servlet容器自动配置原理
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-03-28
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <p>在Spring Boot的自动配置包下，找到web模块中的servlet文件夹下的ServletWebServerFactoryConfiguration类</p>
+<h2 id="一、嵌入式Servlet容器默认的配置原理"><a href="#一、嵌入式Servlet容器默认的配置原理" class="headerlink" title="一、嵌入式Servlet容器默认的配置原理"></a>一、嵌入式Servlet容器默认的配置原理</h2><p>1、该类中有三个静态内部类（都是配置类）：</p>
+<p>EmbeddedUndertow、EmbeddedJetty、EmbeddedTomcat</p>
+<p>这里拿EmbeddedTomcat来举例说明</p>
+<p>@ConditionalOnClass({Servlet.class, Tomcat.class, UpgradeProtocol.class})</p>
+<p>判断classpath下有没有Servlet, Tomcat, UpgradeProtocol这三个类，也就是看maven有没有引入对应的依赖，如果引入了对应的依赖，下面的配置就生效。<strong>（上一篇文章SpringBoot切换嵌入式容器就是根据这里来的</strong><a href="https://zhuanlan.zhihu.com/p/56729383" target="_blank" rel="noopener">链接</a><strong>）</strong></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/Awxbgs.jpg" alt="Awxbgs.jpg"></p>
+<p>2、@ConditionalOnMissingBean(<br>value = {ServletWebServerFactory.<strong>class</strong>},<br>search = SearchStrategy.CURRENT<br>)</p>
+<p>如果容器中没有ServletWebServerFactory这个组件下面的配置就生效</p>
+<p>点进ServletWebServerFactory看，该接口只有一个方法，前面只判断这个类型的组件有没有在容器中，而该类型又只有一个方法，说明最终Spring Boot会调用该接口实现类中的getWebServer方法。</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwxH3j.jpg" alt="AwxH3j.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/Awxo4g.jpg" alt="Awxo4g.jpg"></p>
+<p>3、查看ServletWebServerFactory接口的实现，有三个很面熟的实现类，就是上面ServletWebServerFactoryConfiguration类中要往容器中添加的组件</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/Awx5E8.jpg" alt="Awx5E8.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwxIUS.jpg" alt="AwxIUS.jpg"></p>
+<p>4、进入TomcatServletWebServerFactory类中查看getWebServer方法</p>
+<p>首先会创建一个Tomcat对象，给其设置连接器等一些配置</p>
+<p>最终还会调用getTomcatWebServer方法</p>
+<p><strong>this.getTomcatWebServer(tomcat);</strong></p>
+<p><strong>–&gt;return new TomcatWebServer(tomcat, this.getPort() &gt;= 0);</strong></p>
+<p>端口号默认是8080所以上面传过去的是true，进入<strong>TomcatWebServer的构造方法</strong>TomcatWebServer中，在构造方法中又调用了<strong>this.initialize();</strong>进入initialize方法，该方法就会启动tomcat。<strong>(所以这一切都是建立在创建好嵌入式Servlet容器之后)</strong></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/Awx7CQ.jpg" alt="Awx7CQ.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/Awxqvn.jpg" alt="Awxqvn.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwxOuq.jpg" alt="AwxOuq.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwzADx.jpg" alt="AwzADx.jpg"></p>
+<hr>
+<h2 id="二、修改SpringBoot初始化嵌入式Servlet容器的默认配置原理"><a href="#二、修改SpringBoot初始化嵌入式Servlet容器的默认配置原理" class="headerlink" title="二、修改SpringBoot初始化嵌入式Servlet容器的默认配置原理"></a>二、修改SpringBoot初始化嵌入式Servlet容器的默认配置原理</h2><p>上一篇文章（<a href="https://zhuanlan.zhihu.com/p/56729383" target="_blank" rel="noopener">链接</a>）中我们自己配置个WebServerFactoryCustomizer<strong>&lt;</strong>ConfigurableWebServerFactory<strong>&gt;</strong>组件就可以实现修改SpringBoot初始化嵌入式Servlet容器的默认配置了，下面开始说怎么修改其默认配置的。</p>
+<p>在ServletWebServerFactoryAutoConfiguration类上面有</p>
+<p>@EnableConfigurationProperties，@Import注解</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwxXD0.jpg" alt="AwxXD0.jpg"></p>
+<p>1、@EnableConfigurationProperties({ServerProperties.<strong>class</strong>})</p>
+<p>把ServerProperties注册到容器中，并读取全局配置文件中的数据赋值给类中的属性。</p>
+<p>只有一个有参构造，形参的值(<strong>serverProperties</strong>)会从容器中获取，最终交给ServletWebServerFactoryCustomizer类，进入ServletWebServerFactoryCustomizer类</p>
+<p><strong>该类也是WebServerFactoryCustomizer的子类</strong></p>
+<p>里面有个customize方法会把从容器中获取到的servlerProperties中的值拿出来然后一个一个的设置给factory，最后交给那个map。</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwxjbV.jpg" alt="AwxjbV.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwxxET.jpg" alt="AwxxET.jpg"></p>
+<p>2.1、通过@Import往容器中导入了一个BeanPostProcessorsRegistrar类，该类中的作用是</p>
+<p>bean注册后置处理器：Bean初始化前后（创建好对象，还没赋值）执行初始化工作(<strong>容器中某个组件要创建bean，就会惊动后置处理器，容器中要创建bean这个才会触发，下面的方法才会被调用</strong>)</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/Awz9C4.jpg" alt="Awz9C4.jpg"></p>
+<p>2.2、进入BeanPostProcessorsRegistrar类查看registerBeanDefinitions方法(注册bean的定义)，然后调用registerSyntheticBeanIfMissing方法</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwxzUU.jpg" alt="AwxzUU.jpg"></p>
+<p>2.3、我们点进WebServerFactoryCustomizerBeanPostProcessor类中只需要看postProcessBeforeInitialization方法，在bean创建好之后，初始化之前的调用的方法，该方法首先会判断当前的bean如果为WebServerFactory类型（<strong>我们前面需要往容器中注册三个嵌入式Servlet容器就是该接口的实现类，所以当前这个bean就是嵌入式的Servlet容器</strong>），就调用postProcessBeforeInitialization方法</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwzS5F.jpg" alt="AwzS5F.jpg"></p>
+<p><strong>2.4、进入postProcessBeforeInitialization方法，该方法会获得所有的定制器，然后遍历，调用每个定制器的customize方法，并把嵌入式的Servlet容器传进去。</strong></p>
+<p><strong>上一篇文章（</strong><a href="https://zhuanlan.zhihu.com/p/56729383" target="_blank" rel="noopener">链接</a><strong>）中我们修改嵌入式的Servlet容器的配置也是往容器中添加一个WebServerFactoryCustomizer组件，并在其customize方法中修改配置。</strong></p>
+<p><strong>在前面说到通过配置文件来修改配置也是在WebServerFactoryCustomizer的子类中重写了</strong></p>
+<p><strong>customize方法，并在其customize方法中修改配置。</strong></p>
+<p><strong>回到这里的postProcessBeforeInitialization方法，我们这里把嵌入式的Servlet容器传过去，调用所有定制器的customize方法，不就是调用的上面两种修改配置的重写后的customize方法吗，我们在重写后的customize方法中对参数进行设置值，就是对我们这里传过去的嵌入式Servlet容器设置值，最终通过全局配置文件中配置和往容器中添加一个WebServerFactoryCustomizer组件就可以达到修改嵌入式的Servlet容器的默认值了</strong></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwzC8J.jpg" alt="AwzC8J.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwzP29.jpg" alt="AwzP29.jpg"></p>
+<blockquote>
+<p>往容器中添加一个WebServerFactoryCustomizer组件</p>
+</blockquote>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwzivR.jpg" alt="AwzivR.jpg"></p>
+<blockquote>
+<p>前面说到的，经过一系列的逻辑最终全局配置文件中的值会在这里给嵌入式的Servlet容器进行赋值</p>
+</blockquote>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwzkK1.jpg" alt="AwzkK1.jpg"></p>
+<p><strong>注：看完这一篇文章要结合下一篇文章来理解</strong></p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年03月28日 22:50</p>
+        <p>原始链接： <a class="post-url" href="/2019/03/28/2019-03-28-SpringBoot学习04_嵌入式Servlet容器自动配置原理/" title="Spring Boot学习04_嵌入式Servlet容器自动配置原理">http://yoursite.com/2019/03/28/2019-03-28-SpringBoot学习04_嵌入式Servlet容器自动配置原理/</a></p>
+        <footer>
+            <a href="http://yoursite.com">
+                <img src="/images/logo.png" alt="John Doe">
+                John Doe
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/03/28/2019-03-28-SpringBoot学习04_嵌入式Servlet容器自动配置原理/&title=《Spring Boot学习04_嵌入式Servlet容器自动配置原理》 — Hexo&pic=http://yoursite.comimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/03/28/2019-03-28-SpringBoot学习04_嵌入式Servlet容器自动配置原理/&title=《Spring Boot学习04_嵌入式Servlet容器自动配置原理》 — Hexo&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/03/28/2019-03-28-SpringBoot学习04_嵌入式Servlet容器自动配置原理/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Spring Boot学习04_嵌入式Servlet容器自动配置原理》 — Hexo&url=http://yoursite.com/2019/03/28/2019-03-28-SpringBoot学习04_嵌入式Servlet容器自动配置原理/&via=http://yoursite.com" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/03/28/2019-03-28-SpringBoot学习04_嵌入式Servlet容器自动配置原理/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/03/28/2019-03-28-SpringBoot学习04_嵌入式Servlet容器自动配置原理/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/SpringBoot/" class="color1">SpringBoot</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、嵌入式Servlet容器默认的配置原理"><span class="post-toc-text">一、嵌入式Servlet容器默认的配置原理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二、修改SpringBoot初始化嵌入式Servlet容器的默认配置原理"><span class="post-toc-text">二、修改SpringBoot初始化嵌入式Servlet容器的默认配置原理</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2019/03/29/2019-03-29-Linux课堂之网络命令详解/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Linux课堂之网络命令详解
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2019/03/28/2019-03-28-SpringBoot学习04_嵌入式Servlet容器基本API/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Spring Boot学习04_嵌入式Servlet容器基本API</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2019 John Doe<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://yoursite.com",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

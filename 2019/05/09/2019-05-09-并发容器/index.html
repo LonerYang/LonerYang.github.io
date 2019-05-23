@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>并发容器 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Yang,Yang's Blog">
+  
+  <meta name="description" content="JDK1.5之前给我们提供的线程安全的容器只有Hashtable，Vector之类的容器，底层用synchronized实现的，所以效率很差，JDK1.5给我们提供了一系列的并发容器，下面用几个例子依次介绍。 一、Hashtable、ConcurrentHashMap、ConcurrentSkipListMap、HashMap 创建100个线程并且每个线程需要往Map中插入10000个数，使用Ha">
+<meta name="keywords" content="并发">
+<meta property="og:type" content="article">
+<meta property="og:title" content="并发容器">
+<meta property="og:url" content="http://yoursite.com/2019/05/09/2019-05-09-并发容器/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="JDK1.5之前给我们提供的线程安全的容器只有Hashtable，Vector之类的容器，底层用synchronized实现的，所以效率很差，JDK1.5给我们提供了一系列的并发容器，下面用几个例子依次介绍。 一、Hashtable、ConcurrentHashMap、ConcurrentSkipListMap、HashMap 创建100个线程并且每个线程需要往Map中插入10000个数，使用Ha">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-05-09T15:19:11.935Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="并发容器">
+<meta name="twitter:description" content="JDK1.5之前给我们提供的线程安全的容器只有Hashtable，Vector之类的容器，底层用synchronized实现的，所以效率很差，JDK1.5给我们提供了一系列的并发容器，下面用几个例子依次介绍。 一、Hashtable、ConcurrentHashMap、ConcurrentSkipListMap、HashMap 创建100个线程并且每个线程需要往Map中插入10000个数，使用Ha">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Yang&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Yang&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        一个专注 Java 开发的技术博客
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Yang" target="_blank" href="//yangrijian.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/loneryang">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/printf杨氏子">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-2019-05-09-并发容器" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      并发容器
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-05-09
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <p>JDK1.5之前给我们提供的线程安全的容器只有Hashtable，Vector之类的容器，底层用synchronized实现的，所以效率很差，JDK1.5给我们提供了一系列的并发容器，下面用几个例子依次介绍。</p>
+<h2 id="一、Hashtable、ConcurrentHashMap、ConcurrentSkipListMap、HashMap"><a href="#一、Hashtable、ConcurrentHashMap、ConcurrentSkipListMap、HashMap" class="headerlink" title="一、Hashtable、ConcurrentHashMap、ConcurrentSkipListMap、HashMap"></a>一、Hashtable、ConcurrentHashMap、ConcurrentSkipListMap、HashMap</h2><ul>
+<li>创建100个线程并且每个线程需要往Map中插入10000个数，使用Hashtable、ConcurrentHashMap、ConcurrentSkipListMap、HashMap来测试。<ul>
+<li>HashMap使用Hash表来实现的，执行时间是最快的，但是线程不是安全的；</li>
+<li>用Hashtable是用synchronized加锁的方式实现线程安全，所以效率不是很高；</li>
+<li>Hashtable是锁住整个hash表，一次只能插入一个，ConcurrentHashMap把hash表分成了16份，每次锁住一份，分段锁，因此可以并发的插入。效率比Hashtable要快点</li>
+<li>ConcurrentSkipListMap使用跳表数据结构实现的、高并发并且排序，插入效率较低，查询较高</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">T01_ConcurrentMap</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Random r = <span class="keyword">new</span> Random();</span><br><span class="line">		</span><br><span class="line"><span class="comment">//		Map&lt;String, String&gt; map = new Hashtable&lt;&gt;();</span></span><br><span class="line"><span class="comment">//		Map&lt;String, String&gt; map = new ConcurrentHashMap&lt;&gt;();</span></span><br><span class="line"><span class="comment">//		Map&lt;String, String&gt; map = new ConcurrentSkipListMap&lt;&gt;();</span></span><br><span class="line">		</span><br><span class="line">		<span class="comment">//会有并发问题</span></span><br><span class="line">		Map&lt;String, String&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//初始化10个线程，每个线程都添加10000个数</span></span><br><span class="line">		Thread[] threads = <span class="keyword">new</span> Thread[<span class="number">100</span>];</span><br><span class="line">		CountDownLatch latch = <span class="keyword">new</span> CountDownLatch(threads.length);</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; threads.length; i++) &#123;</span><br><span class="line">			threads[i] = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">				<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">10000</span>; j++) &#123;</span><br><span class="line">					map.put(<span class="string">"a"</span> + r.nextInt(<span class="number">100000</span>), <span class="string">"a"</span> + r.nextInt(<span class="number">100000</span>));</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="comment">//执行完一个线程就减少一个门闩</span></span><br><span class="line">				latch.countDown();</span><br><span class="line">			&#125;);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">long</span> start = System.currentTimeMillis();</span><br><span class="line">		Arrays.asList(threads).forEach(o -&gt; o.start());</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="comment">//主线程等待所有线程执行完就会被唤醒</span></span><br><span class="line">			latch.await();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">long</span> end = System.currentTimeMillis();</span><br><span class="line">		System.out.println(end - start);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="二、ArrayList、Vector、CopyOnWriteArrayList"><a href="#二、ArrayList、Vector、CopyOnWriteArrayList" class="headerlink" title="二、ArrayList、Vector、CopyOnWriteArrayList"></a>二、ArrayList、Vector、CopyOnWriteArrayList</h2><ul>
+<li><p>创建100个线程，每个线程插入1000个数，最终List中会插入100000万个数，用ArrayList、Vector、CopyOnWriteArrayList测试</p>
+<ul>
+<li>ArrayList会有并发问题，但是效率高</li>
+<li>Vector使用synchronized加锁的方式实现线程安全，但是效率很底</li>
+<li>CopyOnWriteArrayList写时复制容器 ，多线程环境下，写时效率低（写的时候加锁并且把之前的数组复制到一个新的数组中），读时效率高，适合多线程环境中写少读多</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">T02_CopyOnWriteList</span> </span>&#123;</span><br><span class="line">   </span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">      List&lt;String&gt; list = </span><br><span class="line"><span class="comment">//          new ArrayList&lt;&gt;(); //这个会有并发问题</span></span><br><span class="line"><span class="comment">//          new Vector&lt;&gt;();</span></span><br><span class="line">            <span class="keyword">new</span> CopyOnWriteArrayList&lt;&gt;();</span><br><span class="line">      Random r = <span class="keyword">new</span> Random(<span class="number">47</span>);</span><br><span class="line">      Thread[] threads = <span class="keyword">new</span> Thread[<span class="number">100</span>];</span><br><span class="line">      </span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; threads.length; i++) &#123;</span><br><span class="line">         threads[i] = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">1000</span>; j++) &#123;</span><br><span class="line">               list.add(<span class="string">"a "</span> + r.nextInt(<span class="number">10000</span>));</span><br><span class="line">            &#125;</span><br><span class="line">         &#125;);</span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">      runAndCompute(threads);</span><br><span class="line">      </span><br><span class="line">      System.out.println(list.size());</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">runAndCompute</span><span class="params">(Thread[] threads)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">long</span> start = System.currentTimeMillis();</span><br><span class="line">      Arrays.asList(threads).forEach(o -&gt; o.start());</span><br><span class="line">      </span><br><span class="line">      Arrays.asList(threads).forEach(o -&gt; &#123;</span><br><span class="line">         <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//当主线程每次执行到这里时就会调用自定义线程的join方法</span></span><br><span class="line">            <span class="comment">//就要让自定义线程执行完才会执行主线程</span></span><br><span class="line">            o.join();</span><br><span class="line">         &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;);</span><br><span class="line">      </span><br><span class="line">      <span class="keyword">long</span> end = System.currentTimeMillis();</span><br><span class="line">      </span><br><span class="line">      System.out.println(end - start);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="三、ConcurrentLinkedQueue、ConcurrentLinkedDeque"><a href="#三、ConcurrentLinkedQueue、ConcurrentLinkedDeque" class="headerlink" title="三、ConcurrentLinkedQueue、ConcurrentLinkedDeque"></a>三、ConcurrentLinkedQueue、ConcurrentLinkedDeque</h2><ul>
+<li><p>测试线程安全的队列的一些API使用，ConcurrentLinkedQueue（单项队列），ConcurrentLinkedDeque（双端队列）</p>
+<ul>
+<li>size()：返回长度</li>
+<li>getFirst()：返回队列第一个元素</li>
+<li>getLast()：返回队列最后一个元素</li>
+<li>offer()：相当于add(),add()添加可能会报异常，offer()会返回是否插入成功</li>
+<li>poll()：返回链表上第一个数，并且从链表中删掉</li>
+<li>peek()：返回链表第一个数，不会删除</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">T03_ConcurrentQueue</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"><span class="comment">//    testConcurrentLinkedQueue();</span></span><br><span class="line">      testConcurrentLinkedDeque();</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testConcurrentLinkedDeque</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="comment">//双端队列</span></span><br><span class="line">      ConcurrentLinkedDeque&lt;String&gt; queue = <span class="keyword">new</span> ConcurrentLinkedDeque&lt;&gt;();</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">         queue.offer(<span class="string">"double"</span> + i);</span><br><span class="line">      &#125;</span><br><span class="line">      System.out.println(<span class="string">"size = "</span> + queue.size());</span><br><span class="line">      System.out.println(<span class="string">"双端队列头："</span> + queue.getFirst());</span><br><span class="line">      System.out.println(<span class="string">"双端队列尾："</span> + queue.getLast());</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testConcurrentLinkedQueue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      Queue&lt;String&gt; queue = <span class="keyword">new</span> ConcurrentLinkedQueue&lt;&gt;();</span><br><span class="line"></span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">         queue.offer(<span class="string">"a"</span> + i);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      System.out.println(<span class="string">"size = "</span> + queue.size());</span><br><span class="line"></span><br><span class="line">      System.out.println(<span class="string">"弹出链表头："</span> + queue.poll());</span><br><span class="line">      System.out.println(<span class="string">"size = "</span> + queue.size());</span><br><span class="line"></span><br><span class="line">      System.out.println(<span class="string">"链表头："</span> + queue.peek());</span><br><span class="line">      System.out.println(<span class="string">"size = "</span> + queue.size());</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="四、LinkedBlockingQueue"><a href="#四、LinkedBlockingQueue" class="headerlink" title="四、LinkedBlockingQueue"></a>四、LinkedBlockingQueue</h2><ul>
+<li><p>使用生产者消费者模式来测试LinkedBlockingQueue（阻塞式的同步链表队列）</p>
+<ul>
+<li>使用put方法添加满了就会阻塞住（之前写生产者消费者模式使用synchronized、wait、notify很麻烦）</li>
+<li>如果队列中为空take()就会等待/阻塞住</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">T04_LinkedBlockingQueue</span> </span>&#123;</span><br><span class="line">   </span><br><span class="line">   <span class="keyword">static</span> BlockingQueue&lt;String&gt; queue = <span class="keyword">new</span> LinkedBlockingQueue&lt;&gt;();</span><br><span class="line">   </span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">      <span class="comment">//启动一个生产者线程</span></span><br><span class="line">      <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">         <span class="comment">//生产100个元素</span></span><br><span class="line">         <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">               queue.put(<span class="string">"a"</span> + i);</span><br><span class="line">               Thread.sleep(<span class="number">500</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">               e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;).start();</span><br><span class="line">      </span><br><span class="line">      <span class="comment">//启动5个消费者线程</span></span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">         <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="comment">//每次消费十个</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">20</span>; j++) &#123;</span><br><span class="line">               <span class="keyword">try</span> &#123;</span><br><span class="line">                  System.out.println(Thread.currentThread().getName() + <span class="string">" take--"</span> + </span><br><span class="line">                                     queue.take());</span><br><span class="line">               &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                  e.printStackTrace();</span><br><span class="line">               &#125;</span><br><span class="line">            &#125;</span><br><span class="line">         &#125;, <span class="string">"c"</span> + i).start();</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="五、ArrayBlockingQueue"><a href="#五、ArrayBlockingQueue" class="headerlink" title="五、ArrayBlockingQueue"></a>五、ArrayBlockingQueue</h2><ul>
+<li><p>测试阻塞式的同步数组队列ArrayBlockingQueue</p>
+<ul>
+<li><p>add()：满了再添加会报异常</p>
+</li>
+<li><p>offer()： 满了添加不会报异常，返回一个boolean值来确认是否插入</p>
+</li>
+<li>offer(“a10”, 1, TimeUnit.SECONDS)：等待/阻塞一秒，如果还不能插入就放弃</li>
+<li>put()：满了会等待/阻塞住</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">T05_ArrayBlockingQueue</span> </span>&#123;</span><br><span class="line">   <span class="keyword">static</span> BlockingQueue&lt;String&gt; queue = <span class="keyword">new</span> ArrayBlockingQueue&lt;&gt;(<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">         queue.offer(<span class="string">"a"</span> + i);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//    queue.add("a10");</span></span><br><span class="line">     </span><br><span class="line"><span class="comment">//    boolean isInsert = queue.offer("a10");</span></span><br><span class="line"><span class="comment">//    System.out.println(isInsert);</span></span><br><span class="line">      </span><br><span class="line"><span class="comment">//    queue.offer("a10", 1, TimeUnit.SECONDS);</span></span><br><span class="line"></span><br><span class="line">      queue.put(<span class="string">"a10"</span>);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="六、DelayQueue"><a href="#六、DelayQueue" class="headerlink" title="六、DelayQueue"></a>六、DelayQueue</h2><ul>
+<li><p>DelayQueue需要添加的是一个Delayed类型的任务，因此要使用它需要实现该接口定义自己的任务，然后在自己的任务类中根据实际的业务逻辑来写对应的代码，这里我简单的使用对比时间，时间快的先执行。（执行定时任务）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">T06_DelayQueue</span> </span>&#123;</span><br><span class="line">   </span><br><span class="line">   <span class="keyword">static</span> BlockingQueue&lt;MyTask&gt; tasks = <span class="keyword">new</span> DelayQueue&lt;&gt;();</span><br><span class="line">   </span><br><span class="line">   <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MyTask</span> <span class="keyword">implements</span> <span class="title">Delayed</span> </span>&#123;</span><br><span class="line">      <span class="keyword">int</span> id;</span><br><span class="line">      <span class="keyword">long</span> runningTime;</span><br><span class="line">      </span><br><span class="line">      MyTask(<span class="keyword">long</span> rt, <span class="keyword">int</span> id) &#123;</span><br><span class="line">         <span class="keyword">this</span>.runningTime = rt;</span><br><span class="line">         <span class="keyword">this</span>.id = id;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="meta">@Override</span></span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(Delayed o)</span> </span>&#123;</span><br><span class="line">          <span class="comment">//比较的方式可以自定义</span></span><br><span class="line">         <span class="keyword">if</span> (<span class="keyword">this</span>.getDelay(TimeUnit.MILLISECONDS) &gt; o.getDelay(TimeUnit.MILLISECONDS)) 			&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">         &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>.getDelay(TimeUnit.MILLISECONDS) &lt; </span><br><span class="line">                    					o.getDelay(TimeUnit.MILLISECONDS)) &#123;</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">         &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="meta">@Override</span></span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getDelay</span><span class="params">(TimeUnit unit)</span> </span>&#123;</span><br><span class="line">          <span class="comment">//在这里可以写自己的业务逻辑</span></span><br><span class="line">         <span class="comment">//将第一个参数中的时间转换为第二个参数中对应的时间单元</span></span><br><span class="line">         <span class="keyword">return</span> unit.convert(<span class="keyword">this</span>.runningTime - System.currentTimeMillis(), </span><br><span class="line">                             TimeUnit.MILLISECONDS);</span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">      <span class="meta">@Override</span></span><br><span class="line">      <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">         <span class="keyword">return</span> id + <span class="string">" --- "</span> + <span class="keyword">this</span>.runningTime;</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">      <span class="keyword">long</span> now = System.currentTimeMillis();</span><br><span class="line">      MyTask t1 = <span class="keyword">new</span> MyTask(now + <span class="number">1000</span>, <span class="number">1</span>);</span><br><span class="line">      MyTask t2 = <span class="keyword">new</span> MyTask(now + <span class="number">500</span>, <span class="number">2</span>);</span><br><span class="line">      MyTask t3 = <span class="keyword">new</span> MyTask(now + <span class="number">2500</span>, <span class="number">3</span>);</span><br><span class="line">      MyTask t4 = <span class="keyword">new</span> MyTask(now + <span class="number">2000</span>, <span class="number">4</span>);</span><br><span class="line">      MyTask t5 = <span class="keyword">new</span> MyTask(now + <span class="number">1500</span>, <span class="number">5</span>);</span><br><span class="line">      </span><br><span class="line">       <span class="comment">//添加任务</span></span><br><span class="line">      tasks.put(t1);</span><br><span class="line">      tasks.put(t2);</span><br><span class="line">      tasks.put(t3);</span><br><span class="line">      tasks.put(t4);</span><br><span class="line">      tasks.put(t5);</span><br><span class="line">      </span><br><span class="line">      System.out.println(tasks);</span><br><span class="line">      </span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">          <span class="comment">//这里消费任务</span></span><br><span class="line">         System.out.println(tasks.take());</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="七、LinkedTransferQueue"><a href="#七、LinkedTransferQueue" class="headerlink" title="七、LinkedTransferQueue"></a>七、LinkedTransferQueue</h2><ul>
+<li><p>LinkedTransferQueue的transfer方法就是</p>
+<ul>
+<li>如果有消费者在等待的话，生产者就不需要先存到队列中，然后再由消费者去队列中拿，而是由生产者直接交给消费者</li>
+<li>没有消费者的话，生产者就会一直等待/阻塞</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">T07_TransferQueue</span> </span>&#123;</span><br><span class="line">   </span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">      LinkedTransferQueue&lt;String&gt; strs = <span class="keyword">new</span> LinkedTransferQueue&lt;&gt;();</span><br><span class="line">      <span class="comment">//启动一个消费者等待</span></span><br><span class="line">      <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">         <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//take()如果队列中为空就会等待/阻塞住</span></span><br><span class="line">            System.out.println(strs.take());</span><br><span class="line">         &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;).start();</span><br><span class="line">      </span><br><span class="line">      <span class="comment">//这里主线程相当于生产者，没有消费者就会阻塞，所以主线程阻塞，下面消费者执行不了，就会一直阻塞在这里</span></span><br><span class="line">      strs.transfer(<span class="string">"aaa"</span>); </span><br><span class="line">     <span class="comment">/** </span></span><br><span class="line"><span class="comment">      new Thread(() -&gt; &#123;</span></span><br><span class="line"><span class="comment">         try &#123;</span></span><br><span class="line"><span class="comment">            //take()如果队列中为空就会等待/阻塞住</span></span><br><span class="line"><span class="comment">            System.out.println(strs.take());</span></span><br><span class="line"><span class="comment">         &#125; catch (InterruptedException e) &#123;</span></span><br><span class="line"><span class="comment">            e.printStackTrace();</span></span><br><span class="line"><span class="comment">         &#125;</span></span><br><span class="line"><span class="comment">      &#125;).start();</span></span><br><span class="line"><span class="comment">      **/</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="八、SynchronousQueue"><a href="#八、SynchronousQueue" class="headerlink" title="八、SynchronousQueue"></a>八、SynchronousQueue</h2><ul>
+<li><p>SynchronousQueue容量为0的队列，不能调用add方法，调用add就会报错。</p>
+<ul>
+<li>使用put阻塞，只要有消费者，生产者就直接将元素交给消费者</li>
+<li>不能使用add()，报错，因为SynchronousQueue容量为0</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">T08_SynchronousQueue</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">      BlockingQueue&lt;String&gt; strs = <span class="keyword">new</span> SynchronousQueue&lt;&gt;();</span><br><span class="line">      </span><br><span class="line">      <span class="comment">//启动消费者线程</span></span><br><span class="line">      <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">         <span class="keyword">try</span> &#123;</span><br><span class="line">            System.out.println(strs.take());</span><br><span class="line">         &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;).start();</span><br><span class="line">      </span><br><span class="line">      <span class="comment">//报错，因为SynchronousQueue容量为0</span></span><br><span class="line"><span class="comment">//    strs.add("aaa");</span></span><br><span class="line">      </span><br><span class="line">      <span class="comment">//生产者使用put(),如果队列满的就阻塞，但是此队列只能为0默认就是满的，</span></span><br><span class="line">      <span class="comment">//所以只要有消费者就会直接给消费者，没有消费者等待就阻塞在这里。一般先启动消费者</span></span><br><span class="line">      <span class="comment">//内部使用的还是transfer()</span></span><br><span class="line">      strs.put(<span class="string">"aaa"</span>);</span><br><span class="line">      </span><br><span class="line">      System.out.println(strs.size());</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">1、对于map/set的选择使用（set底层就是使用map来实现的，存的都是map的key）</span><br><span class="line">   普通情况:</span><br><span class="line">      HashMap</span><br><span class="line">      TreeMap</span><br><span class="line">      LinkedHashMap</span><br><span class="line">   并发量不高的情况下使用</span><br><span class="line">      Hashtable</span><br><span class="line">      Collections.synchronizedXXX</span><br><span class="line">   并发量比较高的情况下</span><br><span class="line">      ConcurrentHashMap</span><br><span class="line">      ConcurrentSkipListMap(且要求排序的话，使用跳表实现的)</span><br><span class="line">2、队列</span><br><span class="line">   普通情况：</span><br><span class="line">      ArrayList</span><br><span class="line">      LinkedList</span><br><span class="line">   并发：</span><br><span class="line">      Collections.synchronizedXXX</span><br><span class="line">      CopyOnWriteList(读多写少)</span><br><span class="line">      ConcurrentLinkedQueue(非阻塞式的并发队列)</span><br><span class="line">      BlockingQueue(阻塞式队列)</span><br><span class="line">         LinkedBlockingQueue(阻塞式的无界队列)</span><br><span class="line">         ArrayBlockingQueue(阻塞式的有界队列)</span><br><span class="line">      下面两个一般用于并发量非常大的情况下，不在容器中进行等待浪费时间，直接由生产者交给消费者</span><br><span class="line">         TransferQueue(有消费者线程在等待，生产者直接把数据交给消费者，没有消费者，生产者就阻塞)</span><br><span class="line">         SynchronusQueue(一种特殊的TransferQueue，容量为0)</span><br><span class="line">   DelayQueue(执行定时任务)</span><br></pre></td></tr></table></figure>
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年05月09日 23:19</p>
+        <p>原始链接： <a class="post-url" href="/2019/05/09/2019-05-09-并发容器/" title="并发容器">http://yoursite.com/2019/05/09/2019-05-09-并发容器/</a></p>
+        <footer>
+            <a href="http://yoursite.com">
+                <img src="/images/logo.png" alt="John Doe">
+                John Doe
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/05/09/2019-05-09-并发容器/&title=《并发容器》 — Hexo&pic=http://yoursite.comimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/05/09/2019-05-09-并发容器/&title=《并发容器》 — Hexo&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/05/09/2019-05-09-并发容器/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《并发容器》 — Hexo&url=http://yoursite.com/2019/05/09/2019-05-09-并发容器/&via=http://yoursite.com" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/05/09/2019-05-09-并发容器/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/05/09/2019-05-09-并发容器/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/并发/" class="color3">并发</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、Hashtable、ConcurrentHashMap、ConcurrentSkipListMap、HashMap"><span class="post-toc-text">一、Hashtable、ConcurrentHashMap、ConcurrentSkipListMap、HashMap</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二、ArrayList、Vector、CopyOnWriteArrayList"><span class="post-toc-text">二、ArrayList、Vector、CopyOnWriteArrayList</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#三、ConcurrentLinkedQueue、ConcurrentLinkedDeque"><span class="post-toc-text">三、ConcurrentLinkedQueue、ConcurrentLinkedDeque</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#四、LinkedBlockingQueue"><span class="post-toc-text">四、LinkedBlockingQueue</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#五、ArrayBlockingQueue"><span class="post-toc-text">五、ArrayBlockingQueue</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#六、DelayQueue"><span class="post-toc-text">六、DelayQueue</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#七、LinkedTransferQueue"><span class="post-toc-text">七、LinkedTransferQueue</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#八、SynchronousQueue"><span class="post-toc-text">八、SynchronousQueue</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#总结"><span class="post-toc-text">总结</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2019/05/18/2019-05-18-线程池/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          线程池
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2019/05/04/2019-05-04-synchronized和ReentrantLock的区别/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">synchronized和ReentrantLock的区别</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2019 John Doe<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://yoursite.com",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

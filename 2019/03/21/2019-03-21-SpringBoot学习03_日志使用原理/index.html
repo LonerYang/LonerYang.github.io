@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>Spring Boot学习03_日志使用原理 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Yang,Yang's Blog">
+  
+  <meta name="description" content="一、Spring Boot的默认日志市面上的日志框架； JUL、JCL、Jboss-logging、logback、log4j、log4j2、slf4j…. 如果仅仅只有一个日志框架的话，中途要换日志框架，我们就得修改代码，维护修改非常麻烦，所以就像JDBC—数据库驱动，使用一个统一接口层，再对其接口进行实现，这样的话我们用的时候只需要使用接口层中的API,要用哪种的日志框架，直接换对应的实现ja">
+<meta name="keywords" content="SpringBoot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Boot学习03_日志使用原理">
+<meta property="og:url" content="http://yoursite.com/2019/03/21/2019-03-21-SpringBoot学习03_日志使用原理/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="一、Spring Boot的默认日志市面上的日志框架； JUL、JCL、Jboss-logging、logback、log4j、log4j2、slf4j…. 如果仅仅只有一个日志框架的话，中途要换日志框架，我们就得修改代码，维护修改非常麻烦，所以就像JDBC—数据库驱动，使用一个统一接口层，再对其接口进行实现，这样的话我们用的时候只需要使用接口层中的API,要用哪种的日志框架，直接换对应的实现ja">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/AReb28.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/AReH8f.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/AReIUI.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARe7PP.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/AReo5t.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/AReqxS.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/AReOKg.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/AReXrQ.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARezan.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARejbj.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARexVs.jpg">
+<meta property="og:updated_time" content="2019-04-04T15:07:02.164Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring Boot学习03_日志使用原理">
+<meta name="twitter:description" content="一、Spring Boot的默认日志市面上的日志框架； JUL、JCL、Jboss-logging、logback、log4j、log4j2、slf4j…. 如果仅仅只有一个日志框架的话，中途要换日志框架，我们就得修改代码，维护修改非常麻烦，所以就像JDBC—数据库驱动，使用一个统一接口层，再对其接口进行实现，这样的话我们用的时候只需要使用接口层中的API,要用哪种的日志框架，直接换对应的实现ja">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/04/04/AReb28.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Yang&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Yang&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        一个专注 Java 开发的技术博客
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Yang" target="_blank" href="//yangrijian.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/loneryang">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/printf杨氏子">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-2019-03-21-SpringBoot学习03_日志使用原理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Spring Boot学习03_日志使用原理
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-03-21
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="一、Spring-Boot的默认日志"><a href="#一、Spring-Boot的默认日志" class="headerlink" title="一、Spring Boot的默认日志"></a>一、Spring Boot的默认日志</h2><p>市面上的日志框架；</p>
+<p>JUL、JCL、Jboss-logging、logback、log4j、log4j2、slf4j….</p>
+<p>如果仅仅只有一个日志框架的话，中途要换日志框架，我们就得修改代码，维护修改非常麻烦，所以就像JDBC—数据库驱动，使用一个统一接口层，再对其接口进行实现，这样的话我们用的时候只需要使用接口层中的API,要用哪种的日志框架，直接换对应的实现jar就可以了。</p>
+<p><strong>日志门面（日志接口层）</strong></p>
+<p>JCL（Jakarta Commons Logging） ：2014年就没更新了，舍弃。</p>
+<p>jboss-logging ：只有一些特定的框架在用，一般用不着，舍弃。</p>
+<p>SLF4j（Simple Logging Facade for Java）：选用SLF4j</p>
+<p><strong>日志实现</strong></p>
+<p>Log4j ：有性能问题，舍弃。</p>
+<p>Logback：与log4j，slf4j出自同一人之手，为了解决Log4j的问题，重新写了一个框架可以使</p>
+<p>用这个</p>
+<p>JUL（java.util.logging） ：Java防止日志市场全部被Log4j抢占，勉强出个这个抵抗下，舍弃</p>
+<p>Log4j2：与Log4j没有任何关系，只是借它之名，很好的一个日志框架，但是很多框架没有适</p>
+<p>配起来，舍弃。</p>
+<p><strong>所以最后我们选用的组合是SLF4j + Logback。Spring Boot使用的也是该组合</strong></p>
+<p><strong>SLF4j的使用：这里引用官网的一张图</strong></p>
+<p>最下面第一个就是抽象层；第二个就是日志实现，第三个是适配层，第四个还是实现。</p>
+<p>因为log4j与JUL出现的时候太早了，那时候还没有SLF4j，所以要写一个适配层的jar包，上面实现SLF4j，使用下面jar包的API，起到承上启下的作用。</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/AReb28.jpg" alt="AReb28.jpg"></p>
+<h2 id="二、遗留的问题"><a href="#二、遗留的问题" class="headerlink" title="二、遗留的问题"></a><strong>二、遗留的问题</strong></h2><p>在我们使用框架开发的时候，它们使用的框架都是不同的，SLF4j也给出了对应的解决方案</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/AReH8f.jpg" alt="AReH8f.jpg"></p>
+<p>我们就拿第一个来解释：</p>
+<p><strong>我们的项目接口层用的是SLF4J，想让项目中所有的日志输出都使用logback，但是别的框架使用的日志框架有commons logging，log4j，java util logging，如果把它们删了的话，框架运行就会报错（比如Spring框架使用的日志框架就是commons logging），SLF4J使用了与之对应的狸猫换太子包，拿第一个来说jcl-over-slf4j.jar来说，这个jar包内部中的包名和类名与commons logging众的包名类名都是一样的，但是其实现却是使用SLF4J的API，这样的话，我们到时候使用就可以把commons logging.jar给排除，然后引入jcl-over-slf4j.jar，就可以实现所有的日志输出就是logback</strong></p>
+<p><strong>总结</strong></p>
+<p><strong>如何让系统中所有的日志都统一到slf4j；</strong></p>
+<p><strong>1、将系统中其他日志框架先排除出去；</strong></p>
+<p><strong>2、用中间包来替换原有的日志框架；</strong></p>
+<p><strong>3、我们导入slf4j其他的实现；</strong></p>
+<h2 id="三、Spring-Boot中的日志"><a href="#三、Spring-Boot中的日志" class="headerlink" title="三、Spring Boot中的日志"></a>三、Spring Boot中的日志</h2><p>1、Spring Boot使用它来做日志功能</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-logging<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>底层依赖关系<strong>(Spring boot 2.1.2使用了log4j-to-slf4j替换了之前的log4j-over-slf4j)</strong></p>
+<p><strong>Spring Boot底层也是使用SLF4J + logback做日志</strong></p>
+<p><strong>使用中间包（狸猫换太子包）把其他的日志换成了SLF4J</strong></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/AReIUI.jpg" alt="AReIUI.jpg"></p>
+<p>2、日志使用</p>
+<p>2.1、说明Spring Boot的默认日志级别是info</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARe7PP.jpg" alt="ARe7PP.jpg"></p>
+<p>2.2、可以通过全部配置文件修改日志级别，输入的格式，默认没有日志文件输出，也可以</p>
+<p>在全局配置文件中指定输出文件目录或者路径</p>
+<p>下面测试了日志文件的输出位置，控制台打印日志的格式，文件中的日志格式，日</p>
+<p>志级别</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/AReo5t.jpg" alt="AReo5t.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/AReqxS.jpg" alt="AReqxS.jpg"></p>
+<p>2.3、默认配置在spring-boot-2.1.2.RELEASE.jar这个包下</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/AReOKg.jpg" alt="AReOKg.jpg"></p>
+<p>在这里指定了默认的日志文件在哪和日志级别的确是info</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/AReXrQ.jpg" alt="AReXrQ.jpg"></p>
+<p>2.4、在classpath路径加入logback.xml，SpringBoot就不使用它的默认配置了，这样命</p>
+<p>命名会跳过Spring Boot的检测，Spring Boot推荐logback-spring.xml命名方式，</p>
+<p>这样可以在里面加<springprofile name="环境名称"></springprofile>标签，这</p>
+<p>样就可以根据不同的环境来切换不同的配置了。</p>
+<p>此时不是dev的环境所以是下面的格式</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARezan.jpg" alt="ARezan.jpg"></p>
+<p>在命令行启动的时候指定环境dev，就是上面这种格式了</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARejbj.jpg" alt="ARejbj.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARexVs.jpg" alt="ARexVs.jpg"></p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年04月04日 23:07</p>
+        <p>原始链接： <a class="post-url" href="/2019/03/21/2019-03-21-SpringBoot学习03_日志使用原理/" title="Spring Boot学习03_日志使用原理">http://yoursite.com/2019/03/21/2019-03-21-SpringBoot学习03_日志使用原理/</a></p>
+        <footer>
+            <a href="http://yoursite.com">
+                <img src="/images/logo.png" alt="John Doe">
+                John Doe
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/03/21/2019-03-21-SpringBoot学习03_日志使用原理/&title=《Spring Boot学习03_日志使用原理》 — Hexo&pic=http://yoursite.comimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/03/21/2019-03-21-SpringBoot学习03_日志使用原理/&title=《Spring Boot学习03_日志使用原理》 — Hexo&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/03/21/2019-03-21-SpringBoot学习03_日志使用原理/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Spring Boot学习03_日志使用原理》 — Hexo&url=http://yoursite.com/2019/03/21/2019-03-21-SpringBoot学习03_日志使用原理/&via=http://yoursite.com" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/03/21/2019-03-21-SpringBoot学习03_日志使用原理/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/03/21/2019-03-21-SpringBoot学习03_日志使用原理/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/SpringBoot/" class="color1">SpringBoot</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、Spring-Boot的默认日志"><span class="post-toc-text">一、Spring Boot的默认日志</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二、遗留的问题"><span class="post-toc-text">二、遗留的问题</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#三、Spring-Boot中的日志"><span class="post-toc-text">三、Spring Boot中的日志</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2019/03/24/2019-03-24-去掉烦人的if-else嵌套/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          去掉烦人的if-else嵌套（转载）
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2019/03/19/2019-03-19-SpringBoot学习02_自动配置原理/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Spring Boot学习02_自动配置原理（精髓）</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2019 John Doe<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://yoursite.com",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

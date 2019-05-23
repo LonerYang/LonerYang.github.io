@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>Spring Boot学习02_自动配置原理（精髓） | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Yang,Yang's Blog">
+  
+  <meta name="description" content="Spring Boot 配置文件中有很多可以写的配置，能写的有哪些呢？ 虽然Spring Boot的官网也有文档，自己引用依赖配置文件中也有提醒，但是这都不是正确的学习方式，如果Spring boot 更新了，难道又去看一遍文档吗？所以我们要学习其中的原理以不变应万变。 在前面我有篇文章写了Spring Boot是怎么启动的，里面说在spring-boot-autoconfigure-2.1.2.">
+<meta name="keywords" content="SpringBoot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Boot学习02_自动配置原理（精髓）">
+<meta property="og:url" content="http://yoursite.com/2019/03/19/2019-03-19-SpringBoot学习02_自动配置原理/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Spring Boot 配置文件中有很多可以写的配置，能写的有哪些呢？ 虽然Spring Boot的官网也有文档，自己引用依赖配置文件中也有提醒，但是这都不是正确的学习方式，如果Spring boot 更新了，难道又去看一遍文档吗？所以我们要学习其中的原理以不变应万变。 在前面我有篇文章写了Spring Boot是怎么启动的，里面说在spring-boot-autoconfigure-2.1.2.">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARem38.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARengS.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/AReV4P.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARee9f.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/AReQBj.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/AReMuQ.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/AReujg.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/AReYCV.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARelHs.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARe3En.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARe8Nq.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARet3T.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/AReG40.jpg">
+<meta property="og:updated_time" content="2019-04-04T14:52:27.102Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring Boot学习02_自动配置原理（精髓）">
+<meta name="twitter:description" content="Spring Boot 配置文件中有很多可以写的配置，能写的有哪些呢？ 虽然Spring Boot的官网也有文档，自己引用依赖配置文件中也有提醒，但是这都不是正确的学习方式，如果Spring boot 更新了，难道又去看一遍文档吗？所以我们要学习其中的原理以不变应万变。 在前面我有篇文章写了Spring Boot是怎么启动的，里面说在spring-boot-autoconfigure-2.1.2.">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/04/04/ARem38.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Yang&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Yang&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        一个专注 Java 开发的技术博客
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Yang" target="_blank" href="//yangrijian.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/loneryang">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/printf杨氏子">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-2019-03-19-SpringBoot学习02_自动配置原理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Spring Boot学习02_自动配置原理（精髓）
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-03-19
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <p>Spring Boot 配置文件中有很多可以写的配置，能写的有哪些呢？</p>
+<p>虽然Spring Boot的官网也有文档，自己引用依赖配置文件中也有提醒，但是这都不是正确的学习方式，如果Spring boot 更新了，难道又去看一遍文档吗？所以我们要学习其中的原理以不变应万变。</p>
+<p>在前面我有篇文章写了Spring Boot是怎么启动的，里面说在<strong>spring-boot-autoconfigure-2.1.2.RELEASE.jar包下能找到集合中的数据，</strong>那么Spring Boot是怎么找到的呢？</p>
+<h3 id="1）、SpringBoot启动的时候加载主配置类，开启了自动配置功能-EnableAutoConfiguration"><a href="#1）、SpringBoot启动的时候加载主配置类，开启了自动配置功能-EnableAutoConfiguration" class="headerlink" title="1）、SpringBoot启动的时候加载主配置类，开启了自动配置功能 ==@EnableAutoConfiguration=="></a><strong>1）、SpringBoot启动的时候加载主配置类，开启了自动配置功能 ==@EnableAutoConfiguration==</strong></h3><p>接着上次的点过去</p>
+<p><strong>@SpringBootApplication–&gt;@EnableAutoConfiguration–&gt;@Import</strong></p>
+<p><strong>–&gt;AutoConfigurationImportSelector</strong></p>
+<p><strong>–&gt;selectImports(AnnotationMetadata annotationMetadata)</strong></p>
+<p><strong>–&gt;getAutoConfigurationEntry(AutoConfigurationMetadata</strong></p>
+<p><strong>autoConfigurationMetadata, AnnotationMetadata annotationMetadata)</strong></p>
+<p><strong>–&gt;getCandidateConfigurations(annotationMetadata, attributes);</strong></p>
+<p><strong>–&gt;SpringFactoriesLoader.loadFactoryNames</strong></p>
+<p><strong>.(this.getSpringFactoriesLoaderFactoryClass(), this.getBeanClassLoader());</strong></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARem38.jpg" alt="ARem38.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARengS.jpg" alt="ARengS.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/AReV4P.jpg" alt="AReV4P.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARee9f.jpg" alt="ARee9f.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/AReQBj.jpg" alt="AReQBj.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/AReMuQ.jpg" alt="AReMuQ.jpg"></p>
+<h3 id="2）、-EnableAutoConfiguration-作用："><a href="#2）、-EnableAutoConfiguration-作用：" class="headerlink" title="2）、@EnableAutoConfiguration 作用："></a><strong>2）、@EnableAutoConfiguration 作用：</strong></h3><p>关键就是这个loadSpringFactories(@Nullable ClassLoader classLoader)方法</p>
+<h4 id="1-该方法会加载所有包下的META-INF-spring-factories文件"><a href="#1-该方法会加载所有包下的META-INF-spring-factories文件" class="headerlink" title="1.该方法会加载所有包下的META-INF/spring.factories文件"></a><strong>1.该方法会加载所有包下的META-INF/spring.factories文件</strong></h4><h4 id="2-把扫描到的这些文件的内容包装成properties对象"><a href="#2-把扫描到的这些文件的内容包装成properties对象" class="headerlink" title="2.把扫描到的这些文件的内容包装成properties对象"></a><strong>2.把扫描到的这些文件的内容包装成properties对象</strong></h4><h4 id="3-从properties中获取到所有的key和value包装成Map返回"><a href="#3-从properties中获取到所有的key和value包装成Map返回" class="headerlink" title="3.从properties中获取到所有的key和value包装成Map返回"></a><strong>3.从properties中获取到所有的key和value包装成Map返回</strong></h4><p><img src="https://s2.ax1x.com/2019/04/04/AReujg.jpg" alt="AReujg.jpg"></p>
+<h4 id="4、这里再根据类名当作key从上面包装好的Map里面获取值"><a href="#4、这里再根据类名当作key从上面包装好的Map里面获取值" class="headerlink" title="4、这里再根据类名当作key从上面包装好的Map里面获取值"></a><strong>4、这里再根据类名当作key从上面包装好的Map里面获取值</strong></h4><p><img src="https://s2.ax1x.com/2019/04/04/AReYCV.jpg" alt="AReYCV.jpg"></p>
+<h4 id="5、而这个类名就是EnableAutoConfiguration-class，最终获取到这个key对应的"><a href="#5、而这个类名就是EnableAutoConfiguration-class，最终获取到这个key对应的" class="headerlink" title="5、而这个类名就是EnableAutoConfiguration.class，最终获取到这个key对应的"></a><strong>5、而这个类名就是EnableAutoConfiguration.class，最终获取到这个key对应的</strong></h4><p><strong>value，封装成List返回</strong></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARelHs.jpg" alt="ARelHs.jpg"></p>
+<p><strong>最终在查找包下面就只有spring-boot-autoconfigure-2.1.2.RELEASE.jar/META-INF/spring.factories这个文件下有EnableAutoConfiguration</strong></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARe3En.jpg" alt="ARe3En.jpg"></p>
+<p><strong>XXXAutoConfiguration每一个这样的类都是容器中的一个组件，都加入到容器中，用它们来做自动配置</strong></p>
+<h3 id="3）、每一个自动配置类进行自动配置功能；"><a href="#3）、每一个自动配置类进行自动配置功能；" class="headerlink" title="3）、每一个自动配置类进行自动配置功能；"></a><strong>3）、每一个自动配置类进行自动配置功能；</strong></h3><h3 id="4）、以HttpEncodingAutoConfiguration（Http编码自动配置）为例解释自动配置原理；"><a href="#4）、以HttpEncodingAutoConfiguration（Http编码自动配置）为例解释自动配置原理；" class="headerlink" title="4）、以HttpEncodingAutoConfiguration（Http编码自动配置）为例解释自动配置原理；"></a><strong>4）、以HttpEncodingAutoConfiguration（Http编码自动配置）为例解释自动配置原理；</strong></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">@Configuration  //表示这是一个配置类，与配置文件一样</span><br><span class="line"></span><br><span class="line">//启动指定类的ConfigurationProperties功能；</span><br><span class="line">//将配置文件中对应的值和HttpEncodingProperties绑定起来；</span><br><span class="line">//并把HttpEncodingProperties加入到ioc容器中</span><br><span class="line">@EnableConfigurationProperties(&#123;HttpProperties.class&#125;)</span><br><span class="line"></span><br><span class="line">//Spring底层@Conditional注解（Spring注解版），根据不同的条件，如果满足指定的条件，</span><br><span class="line">//整个配置类里面的配置就会生效；    判断当前应用是否是web应用，如果是，当前配置类生效</span><br><span class="line">@ConditionalOnWebApplication(</span><br><span class="line">    type = Type.SERVLET</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">//判断当前项目有没有这个类CharacterEncodingFilter；SpringMVC中进行乱码解决的过滤器；</span><br><span class="line">@ConditionalOnClass(&#123;CharacterEncodingFilter.class&#125;)</span><br><span class="line"></span><br><span class="line">//判断配置文件中是否存在某个配置  spring.http.encoding.enabled；如果不存在，判断也是成立的</span><br><span class="line">//即使我们配置文件中不配置pring.http.encoding.enabled=true，也是默认生效的；</span><br><span class="line">@ConditionalOnProperty(</span><br><span class="line">    prefix = &quot;spring.http.encoding&quot;,</span><br><span class="line">    value = &#123;&quot;enabled&quot;&#125;,</span><br><span class="line">    matchIfMissing = true</span><br><span class="line">)</span><br><span class="line">public class HttpEncodingAutoConfiguration &#123;</span><br><span class="line">    //它是HttpProperties中的一个静态内部类</span><br><span class="line">    private final Encoding properties;</span><br><span class="line">    </span><br><span class="line">    //只有一个有参构造，参数的值会自动从容器中拿</span><br><span class="line">    public HttpEncodingAutoConfiguration(HttpProperties properties) &#123;</span><br><span class="line">        this.properties = properties.getEncoding();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">//给容器中添加一个组件 该方法就是在properties中拿到CharacterEncodingFilter的值然后添加给容器</span><br><span class="line">    @Bean </span><br><span class="line">    @ConditionalOnMissingBean //判断容器没有这个组件？</span><br><span class="line">    public CharacterEncodingFilter characterEncodingFilter() &#123;</span><br><span class="line">        CharacterEncodingFilter filter = new OrderedCharacterEncodingFilter();</span><br><span class="line">        filter.setEncoding(this.properties.getCharset().name()); </span><br><span class="line">        filter.setForceRequestEncoding(this.properties.</span><br><span class="line">  shouldForce(org.springframework.boot.autoconfigure.http.HttpProperties.Encoding.Type.REQUEST));</span><br><span class="line">        filter.setForceResponseEncoding(this.properties.</span><br><span class="line">   shouldForce(org.springframework.boot.autoconfigure.http.HttpProperties.Encoding.Type.RESPONSE));</span><br><span class="line">        return filter;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>根据当前不同的条件判断，决定这个配置类是否生效？</p>
+<p>一但这个配置类生效；这个配置类就会给容器中添加各种组件；这些组件的属性是从对应的properties类中获取的，这些类里面的每一个属性又是和配置文件绑定的；</p>
+<h3 id="5）、所有在配置文件中能配置的属性都是在xxxxProperties类中封装者‘；配置文件能配置什么就可以参照某个功能对应的这个属性类，配置文件中spring-http下的属性与该类属性对应"><a href="#5）、所有在配置文件中能配置的属性都是在xxxxProperties类中封装者‘；配置文件能配置什么就可以参照某个功能对应的这个属性类，配置文件中spring-http下的属性与该类属性对应" class="headerlink" title="5）、所有在配置文件中能配置的属性都是在xxxxProperties类中封装者‘；配置文件能配置什么就可以参照某个功能对应的这个属性类，配置文件中spring.http下的属性与该类属性对应"></a><strong>5）、所有在配置文件中能配置的属性都是在xxxxProperties类中封装者‘；配置文件能配置什么就可以参照某个功能对应的这个属性类，配置文件中spring.http下的属性与该类属性对应</strong></h3><p><img src="https://s2.ax1x.com/2019/04/04/ARe8Nq.jpg" alt="ARe8Nq.jpg"></p>
+<h3 id="精髓："><a href="#精髓：" class="headerlink" title="精髓："></a><strong>精髓：</strong></h3><p>​    <strong>1）、SpringBoot启动会加载大量的自动配置类</strong></p>
+<p>​    <strong>2）、我们看我们需要的功能有没有SpringBoot默认写好的自动配置类；</strong></p>
+<p>​    <strong>3）、我们再来看这个自动配置类中到底配置了哪些组件(被@Bean标注的方法)；（只</strong></p>
+<p><strong>要我们要用的组件有，我们就不需要再来配置了，只需要写对应的Properties类</strong></p>
+<p><strong>的属性）</strong></p>
+<p>​    <strong>4）、给容器中自动配置类添加组件的时候，会从Properties类中获取某些属性。我们就</strong></p>
+<p><strong>可以在配置文件中指定这些属性的值；</strong></p>
+<p><strong>xxxxAutoConfigurartion：自动配置类；</strong></p>
+<p><strong>给容器中添加组件</strong></p>
+<p><strong>xxxxProperties:封装配置文件中相关属性；</strong></p>
+<p>自动配置类必须在一定的条件下才能生效；</p>
+<p>我们怎么知道哪些自动配置类生效；</p>
+<p>我们可以通过启用 debug=true属性；来让控制台打印自动配置报告，这样我们就可</p>
+<p>以很方便的知道哪些自动配置类生效；</p>
+<p><strong>自动配置启用的</strong></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARet3T.jpg" alt="ARet3T.jpg"></p>
+<p><strong>没有启动，没有匹配成功的自动配置类</strong></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/AReG40.jpg" alt="AReG40.jpg"></p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年04月04日 22:52</p>
+        <p>原始链接： <a class="post-url" href="/2019/03/19/2019-03-19-SpringBoot学习02_自动配置原理/" title="Spring Boot学习02_自动配置原理（精髓）">http://yoursite.com/2019/03/19/2019-03-19-SpringBoot学习02_自动配置原理/</a></p>
+        <footer>
+            <a href="http://yoursite.com">
+                <img src="/images/logo.png" alt="John Doe">
+                John Doe
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/03/19/2019-03-19-SpringBoot学习02_自动配置原理/&title=《Spring Boot学习02_自动配置原理（精髓）》 — Hexo&pic=http://yoursite.comimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/03/19/2019-03-19-SpringBoot学习02_自动配置原理/&title=《Spring Boot学习02_自动配置原理（精髓）》 — Hexo&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/03/19/2019-03-19-SpringBoot学习02_自动配置原理/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Spring Boot学习02_自动配置原理（精髓）》 — Hexo&url=http://yoursite.com/2019/03/19/2019-03-19-SpringBoot学习02_自动配置原理/&via=http://yoursite.com" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/03/19/2019-03-19-SpringBoot学习02_自动配置原理/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/03/19/2019-03-19-SpringBoot学习02_自动配置原理/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/SpringBoot/" class="color1">SpringBoot</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1）、SpringBoot启动的时候加载主配置类，开启了自动配置功能-EnableAutoConfiguration"><span class="post-toc-text">1）、SpringBoot启动的时候加载主配置类，开启了自动配置功能 ==@EnableAutoConfiguration==</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2）、-EnableAutoConfiguration-作用："><span class="post-toc-text">2）、@EnableAutoConfiguration 作用：</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-该方法会加载所有包下的META-INF-spring-factories文件"><span class="post-toc-text">1.该方法会加载所有包下的META-INF/spring.factories文件</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-把扫描到的这些文件的内容包装成properties对象"><span class="post-toc-text">2.把扫描到的这些文件的内容包装成properties对象</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-从properties中获取到所有的key和value包装成Map返回"><span class="post-toc-text">3.从properties中获取到所有的key和value包装成Map返回</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4、这里再根据类名当作key从上面包装好的Map里面获取值"><span class="post-toc-text">4、这里再根据类名当作key从上面包装好的Map里面获取值</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5、而这个类名就是EnableAutoConfiguration-class，最终获取到这个key对应的"><span class="post-toc-text">5、而这个类名就是EnableAutoConfiguration.class，最终获取到这个key对应的</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3）、每一个自动配置类进行自动配置功能；"><span class="post-toc-text">3）、每一个自动配置类进行自动配置功能；</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4）、以HttpEncodingAutoConfiguration（Http编码自动配置）为例解释自动配置原理；"><span class="post-toc-text">4）、以HttpEncodingAutoConfiguration（Http编码自动配置）为例解释自动配置原理；</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5）、所有在配置文件中能配置的属性都是在xxxxProperties类中封装者‘；配置文件能配置什么就可以参照某个功能对应的这个属性类，配置文件中spring-http下的属性与该类属性对应"><span class="post-toc-text">5）、所有在配置文件中能配置的属性都是在xxxxProperties类中封装者‘；配置文件能配置什么就可以参照某个功能对应的这个属性类，配置文件中spring.http下的属性与该类属性对应</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#精髓："><span class="post-toc-text">精髓：</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2019/03/21/2019-03-21-SpringBoot学习03_日志使用原理/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Spring Boot学习03_日志使用原理
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2019/03/16/2019-03-16-SpringBoot学习02_配置/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Spring Boot学习02_配置(踩坑)</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2019 John Doe<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://yoursite.com",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

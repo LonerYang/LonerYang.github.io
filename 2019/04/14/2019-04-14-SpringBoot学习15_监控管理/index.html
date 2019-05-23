@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>Spring Boot学习15_监控管理（完结） | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Yang,Yang's Blog">
+  
+  <meta name="description" content="通过引入spring-boot-starter-actuator，可以使用Spring Boot为我们提供的准生产环境下的应用监控和管理功能。我们可以通过HTTP，JMX，SSH协议来进行操作，自动得到审计、健康及指标信息等 一、端点介绍通过执行器端点，您可以监控应用程序并与之交互。Spring Boot包含许多内置端点，允许您添加自己的端点。例如， health端点提供基本的应用程序健康信息。">
+<meta name="keywords" content="SpringBoot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Boot学习15_监控管理（完结）">
+<meta property="og:url" content="http://yoursite.com/2019/04/14/2019-04-14-SpringBoot学习15_监控管理/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="通过引入spring-boot-starter-actuator，可以使用Spring Boot为我们提供的准生产环境下的应用监控和管理功能。我们可以通过HTTP，JMX，SSH协议来进行操作，自动得到审计、健康及指标信息等 一、端点介绍通过执行器端点，您可以监控应用程序并与之交互。Spring Boot包含许多内置端点，允许您添加自己的端点。例如， health端点提供基本的应用程序健康信息。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/14/AOJQLq.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/14/AOJnzj.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/14/AOJmWQ.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/14/AOJeJg.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/14/AOJZFS.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/14/AOJKQs.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/14/AOJMyn.png">
+<meta property="og:updated_time" content="2019-04-14T03:25:43.715Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring Boot学习15_监控管理（完结）">
+<meta name="twitter:description" content="通过引入spring-boot-starter-actuator，可以使用Spring Boot为我们提供的准生产环境下的应用监控和管理功能。我们可以通过HTTP，JMX，SSH协议来进行操作，自动得到审计、健康及指标信息等 一、端点介绍通过执行器端点，您可以监控应用程序并与之交互。Spring Boot包含许多内置端点，允许您添加自己的端点。例如， health端点提供基本的应用程序健康信息。">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/04/14/AOJQLq.png">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Yang&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Yang&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        一个专注 Java 开发的技术博客
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Yang" target="_blank" href="//yangrijian.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/loneryang">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/printf杨氏子">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-2019-04-14-SpringBoot学习15_监控管理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Spring Boot学习15_监控管理（完结）
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-04-14
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <p>通过引入spring-boot-starter-actuator，可以使用Spring Boot为我们提供的准生产环境下的应用监控和管理功能。我们可以通过HTTP，JMX，SSH协议来进行操作，自动得到审计、健康及指标信息等</p>
+<h2 id="一、端点介绍"><a href="#一、端点介绍" class="headerlink" title="一、端点介绍"></a>一、端点介绍</h2><p>通过执行器端点，您可以监控应用程序并与之交互。Spring Boot包含许多内置端点，允许您添加自己的端点。例如， <code>health</code>端点提供基本的应用程序健康信息。</p>
+<p>可以启用或禁用每个端点。它控制是否创建端点并且其3bean存在于应用程序上下文中。要进行远程访问，还必须通过JMX或HTTP公开端点。大多数应用程序选择HTTP，其中端点的ID以及前缀<code>/actuator</code>映射到URL。例如，默认情况下，<code>health</code>映射到<code>/actuator/health</code></p>
+<p>下图对每个端点进行了介绍，以及默认情况下是否启用</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>描述</th>
+<th>默认情况下启用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>auditevents</code></td>
+<td>公开当前应用程序的审核事件信息。</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>beans</code></td>
+<td>显示应用程序中所有Spring bean的完整列表。</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>caches</code></td>
+<td>暴露可用的缓存。</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>conditions</code></td>
+<td>显示在配置和自动配置类上评估的条件以及它们匹配或不匹配的原因。</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>configprops</code></td>
+<td>显示所有的整理列表<code>@ConfigurationProperties</code>。</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>env</code></td>
+<td>露出Spring的属性<code>ConfigurableEnvironment</code>。</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>flyway</code></td>
+<td>显示已应用的任何Flyway数据库迁移。</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>health</code></td>
+<td>显示应用健康信息。</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>httptrace</code></td>
+<td>显示HTTP跟踪信息（默认情况下，最后100个HTTP请求 - 响应交换）。</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>info</code></td>
+<td>显示任意应用信息。</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>integrationgraph</code></td>
+<td>显示Spring Integration图。</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>loggers</code></td>
+<td>显示和修改应用程序中记录器的配置。</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>liquibase</code></td>
+<td>显示已应用的任何Liquibase数据库迁移。</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>metrics</code></td>
+<td>显示当前应用程序的“指标”信息。</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>mappings</code></td>
+<td>显示所有<code>@RequestMapping</code>路径的整理列表。</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>scheduledtasks</code></td>
+<td>显示应用程序中的计划任务。</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>sessions</code></td>
+<td>允许从Spring Session支持的会话存储中检索和删除用户会话。使用Spring Session对响应式Web应用程序的支持时不可用。</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>shutdown</code></td>
+<td>允许应用程序正常关闭。</td>
+<td>没有</td>
+</tr>
+<tr>
+<td><code>threaddump</code></td>
+<td>执行线程转储。</td>
+<td>是</td>
+</tr>
+</tbody>
+</table>
+<h2 id="二、启用端点"><a href="#二、启用端点" class="headerlink" title="二、启用端点"></a>二、启用端点</h2><p>默认情况下，除了<code>shutdown</code>之外的端点都会被启用，可以通过<code>management.endpoint.&lt;id&gt;.enabled</code>来启用或禁止某个端点，以下示例启用<code>shutdown</code>端点</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">management.endpoint.shutdown.enabled = true</span><br></pre></td></tr></table></figure>
+<h2 id="三、暴露端点"><a href="#三、暴露端点" class="headerlink" title="三、暴露端点"></a>三、暴露端点</h2><p>端点启用了，要想访问还得通过配置来暴露端点。web端默认暴露的就是<code>health</code>和<code>info</code>其他都不会被暴露。</p>
+<p>可以通过<code>include</code>和<code>exclude</code>来配置</p>
+<p><code>include</code>属性列出了公开的端点的ID。该<code>exclude</code> 属性列出了不应公开的端点的ID。该<code>exclude</code> 属性优先于该<code>include</code>属性。</p>
+<p><code>*</code>可用于选择所有端点。例如，要通过HTTP公开除了<code>env</code>和<code>beans</code>端点之外的所有内容，请使用以下属性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">management.endpoints.web.exposure.include = *</span><br><span class="line">management.endpoints.web.exposure.exclude = env，beans</span><br></pre></td></tr></table></figure>
+<h2 id="四、Demo"><a href="#四、Demo" class="headerlink" title="四、Demo"></a>四、Demo</h2><ul>
+<li><p>pom依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-actuator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>全局配置文件application.properties</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#默认端点都是激活的除了shutdown</span><br><span class="line">management.endpoint.shutdown.enabled=true</span><br><span class="line">#默认端点只有health和info暴露，可以使用如下所示暴露所有端点</span><br><span class="line">management.endpoints.web.exposure.include=*</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动应用，测试<code>http://localhost:8080/actuator/beans</code>返回所有Spring容器中所有bean的信息</p>
+<p><img src="https://s2.ax1x.com/2019/04/14/AOJQLq.png" alt="AOJQLq.png"></p>
+</li>
+<li><p>通过post请求<code>shutdown</code>远程关闭应用</p>
+<p><img src="https://s2.ax1x.com/2019/04/14/AOJnzj.png" alt="AOJnzj.png"></p>
+<p><img src="https://s2.ax1x.com/2019/04/14/AOJmWQ.png" alt="AOJmWQ.png"></p>
+</li>
+<li><p>设置访问端点的前缀（默认是actuator）：<code>management.endpoints.web.base-path=/manage</code></p>
+<p>设置访问端点的端口：<code>management.server.port=9000</code></p>
+<p>通过<code>management.endpoints.web.path-mapping.&lt;id&gt;</code>的方式来自定义某个端点的访问路径</p>
+<p>下面例子展示了自定义<code>beans</code>端点的访问路径</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">management.endpoints.web.path-mapping.beans=mybean</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="五、自定义健康指示器"><a href="#五、自定义健康指示器" class="headerlink" title="五、自定义健康指示器"></a>五、自定义健康指示器</h2><p>1、默认的健康指示器</p>
+<ul>
+<li><p>显示健康具体信息，默认不会 显示</p>
+<p><code>management.endpoint.health.show-details=always</code></p>
+</li>
+<li><p>在<code>org.springframework.boot.actuate</code>包下面有很多SpringBoot为我们写好的指示器，比如Rabbit的，Redis的，只要引入了对应的starter这些指示器就会生效</p>
+<p><img src="https://s2.ax1x.com/2019/04/14/AOJeJg.png" alt="AOJeJg.png"></p>
+</li>
+<li><p>引入redis的starter</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><img src="https://s2.ax1x.com/2019/04/14/AOJZFS.png" alt="AOJZFS.png"></p>
+</li>
+<li><p>我启动虚拟机上的redis，并指定虚拟机的ip，这时候再访问<code>http://localhost:8080/actuator/health</code>就显示了UP，启用状态。这样我们在生产环境中，就可以通过http的方式知道我们环境中的某些组件的运行事健康状态</p>
+<p><img src="https://s2.ax1x.com/2019/04/14/AOJKQs.png" alt="AOJKQs.png"></p>
+</li>
+</ul>
+<p>2、自定义健康指示器</p>
+<ul>
+<li><p>实现HealthIndicator接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyAppHealthIndicator</span> <span class="keyword">implements</span> <span class="title">HealthIndicator</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Health <span class="title">health</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//可以通过自己的业务逻辑来确定健康状态</span></span><br><span class="line">        <span class="keyword">long</span> currentTime = System.currentTimeMillis();</span><br><span class="line">        <span class="keyword">if</span> (currentTime % <span class="number">2</span> == <span class="number">0</span>) &#123;</span><br><span class="line">           <span class="keyword">return</span> Health.up().withDetail(<span class="string">"success"</span>, <span class="string">"健康"</span>).build();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> Health.down().withDetail(<span class="string">"Error Msg"</span>, <span class="string">"You'll never start it, </span></span><br><span class="line"><span class="string">                                            hahaha!"</span>).build();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>访问<code>http://localhost:8080/actuator/health</code>出现自定义的指示器健康状态</p>
+<p><img src="https://s2.ax1x.com/2019/04/14/AOJMyn.png" alt="AOJMyn.png"></p>
+</li>
+</ul>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年04月14日 11:25</p>
+        <p>原始链接： <a class="post-url" href="/2019/04/14/2019-04-14-SpringBoot学习15_监控管理/" title="Spring Boot学习15_监控管理（完结）">http://yoursite.com/2019/04/14/2019-04-14-SpringBoot学习15_监控管理/</a></p>
+        <footer>
+            <a href="http://yoursite.com">
+                <img src="/images/logo.png" alt="John Doe">
+                John Doe
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/04/14/2019-04-14-SpringBoot学习15_监控管理/&title=《Spring Boot学习15_监控管理（完结）》 — Hexo&pic=http://yoursite.comimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/04/14/2019-04-14-SpringBoot学习15_监控管理/&title=《Spring Boot学习15_监控管理（完结）》 — Hexo&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/04/14/2019-04-14-SpringBoot学习15_监控管理/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Spring Boot学习15_监控管理（完结）》 — Hexo&url=http://yoursite.com/2019/04/14/2019-04-14-SpringBoot学习15_监控管理/&via=http://yoursite.com" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/04/14/2019-04-14-SpringBoot学习15_监控管理/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/04/14/2019-04-14-SpringBoot学习15_监控管理/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/SpringBoot/" class="color1">SpringBoot</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、端点介绍"><span class="post-toc-text">一、端点介绍</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二、启用端点"><span class="post-toc-text">二、启用端点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#三、暴露端点"><span class="post-toc-text">三、暴露端点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#四、Demo"><span class="post-toc-text">四、Demo</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#五、自定义健康指示器"><span class="post-toc-text">五、自定义健康指示器</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2019/04/17/2019-04-17-处理同一个用户多处登录/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          处理同一个用户多处登录
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2019/04/13/2019-04-13-SpringBoot学习14_热部署/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Spring Boot学习14_热部署</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2019 John Doe<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://yoursite.com",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

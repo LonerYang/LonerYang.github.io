@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>Spring Boot学习06_整合JDBC | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Yang,Yang's Blog">
+  
+  <meta name="description" content="一、Spring Boot整合JDBC1、创建Spring Boot应用时，除了要添加的WEB模块还需要额外添加JDBC启动器和MySQL启动器  2、创建数据库jdbc并创建一张Employee表，添加一条数据  123456spring:  datasource:    url: jdbc:mysql://localhost/jdbc?serverTimezone=UTC    driver-">
+<meta name="keywords" content="SpringBoot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Boot学习06_整合JDBC">
+<meta property="og:url" content="http://yoursite.com/2019/04/04/2019-04-04-SpringBoot学习06_整合JDBC/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="一、Spring Boot整合JDBC1、创建Spring Boot应用时，除了要添加的WEB模块还需要额外添加JDBC启动器和MySQL启动器  2、创建数据库jdbc并创建一张Employee表，添加一条数据  123456spring:  datasource:    url: jdbc:mysql://localhost/jdbc?serverTimezone=UTC    driver-">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARujqe.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARug2V.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARuc80.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARu2vT.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARu6Cq.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARuWKU.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARufrF.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARuhb4.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARuo5R.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARu5VJ.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARuIa9.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARu7P1.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARub26.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARuH8x.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARuOKO.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARuqxK.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARuXrD.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARuzad.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARuxVH.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARKSIA.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARK9PI.jpg">
+<meta property="og:updated_time" content="2019-04-04T15:55:15.578Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring Boot学习06_整合JDBC">
+<meta name="twitter:description" content="一、Spring Boot整合JDBC1、创建Spring Boot应用时，除了要添加的WEB模块还需要额外添加JDBC启动器和MySQL启动器  2、创建数据库jdbc并创建一张Employee表，添加一条数据  123456spring:  datasource:    url: jdbc:mysql://localhost/jdbc?serverTimezone=UTC    driver-">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/04/04/ARujqe.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Yang&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Yang&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        一个专注 Java 开发的技术博客
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Yang" target="_blank" href="//yangrijian.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/loneryang">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/printf杨氏子">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-2019-04-04-SpringBoot学习06_整合JDBC" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Spring Boot学习06_整合JDBC
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-04-04
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="一、Spring-Boot整合JDBC"><a href="#一、Spring-Boot整合JDBC" class="headerlink" title="一、Spring Boot整合JDBC"></a>一、Spring Boot整合JDBC</h2><p>1、创建Spring Boot应用时，除了要添加的WEB模块还需要额外添加JDBC启动器和MySQL启动器</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARujqe.jpg" alt="ARujqe.jpg"></p>
+<p>2、创建数据库jdbc并创建一张Employee表，添加一条数据</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARug2V.jpg" alt="ARug2V.jpg"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  datasource:</span><br><span class="line">    url: jdbc:mysql://localhost/jdbc?serverTimezone=UTC</span><br><span class="line">    driver-class-name: com.mysql.jdbc.Driver</span><br><span class="line">    username: 用户名</span><br><span class="line">    password: 密码</span><br></pre></td></tr></table></figure>
+<p>4、编写Controller测试，自动注入JdbcTemplate(<strong>Spring Boot自动配置好了</strong>)</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARuc80.jpg" alt="ARuc80.jpg"></p>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>1、在DataSourceConfiguration类中有自动配置的组件，Spring Boot支持<strong>org.apache.tomcat.jdbc.pool.DataSource</strong></p>
+<p><strong>com.zaxxer.hikari.HikariDataSource</strong></p>
+<p><strong>org.apache.commons.dbcp2.BasicDataSource</strong></p>
+<p>Spring Boot默认使用的HikariDataSource这个连接池，在源码中发现Spring Boot也支持通过全局配置文件使用<strong>spring.datasource.type</strong>指定额外的连接池<strong>（通过build方法）</strong></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARu2vT.jpg" alt="ARu2vT.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARu6Cq.jpg" alt="ARu6Cq.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARuWKU.jpg" alt="ARuWKU.jpg"></p>
+<p>2、在JdbcTemplateAutoConfiguration类中会把JdbcTemplate配置到容器中，这也是为什么我们在上面的demo中能直接从容器中自动注入该组件的实例</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARufrF.jpg" alt="ARufrF.jpg"></p>
+<h2 id="二、Spring-Boot还支持启动时能自动创建表和插入数据"><a href="#二、Spring-Boot还支持启动时能自动创建表和插入数据" class="headerlink" title="二、Spring Boot还支持启动时能自动创建表和插入数据"></a>二、Spring Boot还支持启动时能自动创建表和插入数据</h2><p>1、在全局配置进行配置：spring.datasource.schema指定的是启动应用时在数据库执行的sql文件<strong>（建表语句）</strong>，spring.datasource.data指定的也是sql文件<strong>（增删改语句）</strong></p>
+<p><strong>当然也可以不设置这两个属性，默认建表的sql文件名是schema.sql/schema-all.sql，增删改的sql文件名是data.sql/data-all.sql</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  datasource:</span><br><span class="line">  url: jdbc:mysql://localhost/jdbc?serverTimezone=UTC</span><br><span class="line">  driver-class-name: com.mysql.jdbc.Driver</span><br><span class="line">  username: 用户名</span><br><span class="line">  password: 密码</span><br><span class="line">  initialization-mode: always</span><br><span class="line">  schema:</span><br><span class="line">     - classpath:auto_create.sql</span><br><span class="line">  data:</span><br><span class="line">     - classpath:insert.sql</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARuhb4.jpg" alt="ARuhb4.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARuo5R.jpg" alt="ARuo5R.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARu5VJ.jpg" alt="ARu5VJ.jpg"></p>
+<p>2、启动应用测试</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARuIa9.jpg" alt="ARuIa9.jpg"></p>
+<h3 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h3><p>1、在DataSourceInitializationConfiguration配置类中会导入一个DataSourceInitializerInvoker组件</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARu7P1.jpg" alt="ARu7P1.jpg"></p>
+<p>2、点到DataSourceInitializerInvoker类中，官方注释说该bean初始化时会运行<em>schema-<strong>.</strong>schema-\</em>.sql<strong>-*</strong>.sql*</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARub26.jpg" alt="ARub26.jpg"></p>
+<p>3、在DataSourceInitializerInvoker类中有个设置完属性之后会调用的afterPropertiesSet方法，该方法中调用了createSchema方法</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARuH8x.jpg" alt="ARuH8x.jpg"></p>
+<p>4、点进createSchema方法会调用getScripts方法（传入spring.datasource.schema和schema进去）</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARuOKO.jpg" alt="ARuOKO.jpg"></p>
+<p>5、进入getScripts方法，这里面会从classpath路径下获取sql文件，而拼装起来的文件名就是根据传过来的参数所决定的。（platform=”all”）,所以这里的文件名为schema.sql和schema-all.sql</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARuqxK.jpg" alt="ARuqxK.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARuXrD.jpg" alt="ARuXrD.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARuzad.jpg" alt="ARuzad.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARuxVH.jpg" alt="ARuxVH.jpg"></p>
+<p>6、在DataSourceInitializerInvoker类中还有个监听方法，该方法会调用initSchema方法</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARKSIA.jpg" alt="ARKSIA.jpg"></p>
+<p>7、进入initSchema方法又是调用getScripts方法而传入的参数就是spring.datasource.data和data，所以这个一定是获得类路径下的data.sql和data-all.sql文件</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARK9PI.jpg" alt="ARK9PI.jpg"></p>
+<p><strong>所以默认使用的文件名就是schema.sql/schema-all.sql，data.sql/data-all.sql，也可以通过spring.datasource.data/spring.datasource.schema指定自定义文件名的sql文件</strong></p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年04月04日 23:55</p>
+        <p>原始链接： <a class="post-url" href="/2019/04/04/2019-04-04-SpringBoot学习06_整合JDBC/" title="Spring Boot学习06_整合JDBC">http://yoursite.com/2019/04/04/2019-04-04-SpringBoot学习06_整合JDBC/</a></p>
+        <footer>
+            <a href="http://yoursite.com">
+                <img src="/images/logo.png" alt="John Doe">
+                John Doe
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/04/04/2019-04-04-SpringBoot学习06_整合JDBC/&title=《Spring Boot学习06_整合JDBC》 — Hexo&pic=http://yoursite.comimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/04/04/2019-04-04-SpringBoot学习06_整合JDBC/&title=《Spring Boot学习06_整合JDBC》 — Hexo&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/04/04/2019-04-04-SpringBoot学习06_整合JDBC/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Spring Boot学习06_整合JDBC》 — Hexo&url=http://yoursite.com/2019/04/04/2019-04-04-SpringBoot学习06_整合JDBC/&via=http://yoursite.com" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/04/04/2019-04-04-SpringBoot学习06_整合JDBC/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/04/04/2019-04-04-SpringBoot学习06_整合JDBC/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/SpringBoot/" class="color1">SpringBoot</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、Spring-Boot整合JDBC"><span class="post-toc-text">一、Spring Boot整合JDBC</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#原理"><span class="post-toc-text">原理</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二、Spring-Boot还支持启动时能自动创建表和插入数据"><span class="post-toc-text">二、Spring Boot还支持启动时能自动创建表和插入数据</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#原理-1"><span class="post-toc-text">原理</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2019/04/05/2019-04-05-SpringBoot学习06_整合Druid与配置监控数据源/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Spring Boot学习06_整合Druid与配置监控数据源
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2019/04/04/2019-04-04-SpringBoot学习05_Docker入门/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Spring Boot学习05_Docker入门</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2019 John Doe<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://yoursite.com",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

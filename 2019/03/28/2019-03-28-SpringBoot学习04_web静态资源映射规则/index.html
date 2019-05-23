@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>Spring Boot学习04_web静态资源映射规则(源码) | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Yang,Yang's Blog">
+  
+  <meta name="description" content="在前面讲了Spring Boot的自动配置原理，所以静态资源映射的规则自然也能在自动配置类源码中找到，所有的跟web mvc有关的配置都可以在WebMvcAutoConfiguration类中找到 一、Spring Boot提供了一种webjar的方式引入前端的一些资源（如jquery，bootstrap等）WebMvcAutoConfiguration类中有个内部类WebMvcAutoConfi">
+<meta name="keywords" content="SpringBoot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Boot学习04_web静态资源映射规则(源码)">
+<meta property="og:url" content="http://yoursite.com/2019/03/28/2019-03-28-SpringBoot学习04_web静态资源映射规则/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="在前面讲了Spring Boot的自动配置原理，所以静态资源映射的规则自然也能在自动配置类源码中找到，所有的跟web mvc有关的配置都可以在WebMvcAutoConfiguration类中找到 一、Spring Boot提供了一种webjar的方式引入前端的一些资源（如jquery，bootstrap等）WebMvcAutoConfiguration类中有个内部类WebMvcAutoConfi">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwIWnJ.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwIh7R.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwIc1U.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwIgcF.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwIshV.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwIItx.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwIfB9.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwI79K.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwIbcD.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwIoh6.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwIH1O.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwoABj.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwIOnH.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwIXBd.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwIzNt.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwIjHA.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwIxAI.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwoC38.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/Awo99f.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwoEHs.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwokuQ.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/AwoPgS.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/28/Awoijg.jpg">
+<meta property="og:updated_time" content="2019-03-28T12:31:35.982Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring Boot学习04_web静态资源映射规则(源码)">
+<meta name="twitter:description" content="在前面讲了Spring Boot的自动配置原理，所以静态资源映射的规则自然也能在自动配置类源码中找到，所有的跟web mvc有关的配置都可以在WebMvcAutoConfiguration类中找到 一、Spring Boot提供了一种webjar的方式引入前端的一些资源（如jquery，bootstrap等）WebMvcAutoConfiguration类中有个内部类WebMvcAutoConfi">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/03/28/AwIWnJ.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Yang&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Yang&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        一个专注 Java 开发的技术博客
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Yang" target="_blank" href="//yangrijian.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/loneryang">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/printf杨氏子">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-2019-03-28-SpringBoot学习04_web静态资源映射规则" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Spring Boot学习04_web静态资源映射规则(源码)
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-03-28
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <p>在前面讲了Spring Boot的自动配置原理，所以静态资源映射的规则自然也能在自动配置类源码中找到，所有的跟web mvc有关的配置都可以在WebMvcAutoConfiguration类中找到</p>
+<h2 id="一、Spring-Boot提供了一种webjar的方式引入前端的一些资源（如jquery，bootstrap等）"><a href="#一、Spring-Boot提供了一种webjar的方式引入前端的一些资源（如jquery，bootstrap等）" class="headerlink" title="一、Spring Boot提供了一种webjar的方式引入前端的一些资源（如jquery，bootstrap等）"></a>一、Spring Boot提供了一种webjar的方式引入前端的一些资源（如jquery，bootstrap等）</h2><p>WebMvcAutoConfiguration类中有个内部类WebMvcAutoConfigurationAdapter中有个addResourceHandlers方法（添加资源处理器）</p>
+<p>从该方法中可以看出所有匹配/webjars/**这种路径规则的都去</p>
+<p>classpath:/META-INF/resources/webjars/中找，下面进行测试。</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwIWnJ.jpg" alt="AwIWnJ.jpg"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addResourceHandlers</span><span class="params">(ResourceHandlerRegistry registry)</span> </span>&#123;</span><br><span class="line">           <span class="keyword">if</span> (!<span class="keyword">this</span>.resourceProperties.isAddMappings()) &#123;</span><br><span class="line">               logger.debug(<span class="string">"Default resource handling disabled"</span>);</span><br><span class="line">           &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               Duration cachePeriod = <span class="keyword">this</span>.resourceProperties.getCache().getPeriod();</span><br><span class="line">               CacheControl cacheControl = <span class="keyword">this</span>.resourceProperties.getCache().getCachecontrol().</span><br><span class="line">                   toHttpCacheControl();</span><br><span class="line">               <span class="keyword">if</span> (!registry.hasMappingForPattern(<span class="string">"/webjars/**"</span>)) &#123;</span><br><span class="line">                   <span class="keyword">this</span>.customizeResourceHandlerRegistration(registry.</span><br><span class="line">                         addResourceHandler(<span class="keyword">new</span> String[]&#123;<span class="string">"/webjars/**"</span>&#125;).</span><br><span class="line">                           addResourceLocations</span><br><span class="line">                          (<span class="keyword">new</span> String[]&#123;<span class="string">"classpath:/META-INF/resources/webjars/"</span>&#125;).</span><br><span class="line">                               setCachePeriod(<span class="keyword">this</span>.getSeconds(cachePeriod)).</span><br><span class="line">                                    setCacheControl(cacheControl));</span><br><span class="line">               &#125;</span><br><span class="line"></span><br><span class="line">               String staticPathPattern = <span class="keyword">this</span>.mvcProperties.getStaticPathPattern();</span><br><span class="line">               <span class="keyword">if</span> (!registry.hasMappingForPattern(staticPathPattern)) &#123;</span><br><span class="line">                   <span class="keyword">this</span>.customizeResourceHandlerRegistration(registry.addResourceHandler</span><br><span class="line">                   (<span class="keyword">new</span> String[]&#123;staticPathPattern&#125;).</span><br><span class="line">          addResourceLocations(getResourceLocations(<span class="keyword">this</span>.resourceProperties.getStaticLocations())).</span><br><span class="line">          setCachePeriod(<span class="keyword">this</span>.getSeconds(cachePeriod)).setCacheControl(cacheControl));</span><br><span class="line">               &#125;</span><br><span class="line"></span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+<p>1.2、测试：这里引入jquery的webJars，并通过浏览器访问，在jquery的webjars中也有对应的路径</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.webjars<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jquery<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.3.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwIh7R.jpg" alt="AwIh7R.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwIc1U.jpg" alt="AwIc1U.jpg"></p>
+<h2 id="二、自定义静态资源存储路径"><a href="#二、自定义静态资源存储路径" class="headerlink" title="二、自定义静态资源存储路径"></a>二、自定义静态资源存储路径</h2><p>那我们自己引入的静态资源在哪找呢，在上面提到的方法中有一段这个代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">String staticPathPattern = <span class="keyword">this</span>.mvcProperties.getStaticPathPattern();</span><br><span class="line">               <span class="keyword">if</span> (!registry.hasMappingForPattern(staticPathPattern)) &#123;</span><br><span class="line">                   <span class="keyword">this</span>.customizeResourceHandlerRegistration(registry.addResourceHandler</span><br><span class="line">                   (<span class="keyword">new</span> String[]&#123;staticPathPattern&#125;).</span><br><span class="line">          addResourceLocations(getResourceLocations(<span class="keyword">this</span>.resourceProperties.getStaticLocations())).</span><br><span class="line">          setCachePeriod(<span class="keyword">this</span>.getSeconds(cachePeriod)).setCacheControl(cacheControl));</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwIgcF.jpg" alt="AwIgcF.jpg"></p>
+<p><strong>2.1、this.mvcProperties.getStaticPathPattern()**</strong></p>
+<p><strong>–&gt;public String getStaticPathPattern()</strong></p>
+<p><strong>–&gt;this.staticPathPattern = “/\</strong>“**</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwIshV.jpg" alt="AwIshV.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwIItx.jpg" alt="AwIItx.jpg"></p>
+<p><strong>2.2、接着看该代码块的后半部分</strong></p>
+<p><strong>this.resourceProperties.getStaticLocations()</strong></p>
+<p><strong>–&gt;public String[] getStaticLocations()</strong></p>
+<p><strong>–&gt;private String[] staticLocations</strong></p>
+<p><strong>–&gt;this.staticLocations = CLASSPATH_RESOURCE_LOCATIONS</strong></p>
+<p><strong>–&gt;new String[]{“classpath:/META-INF/resources/“, “classpath:/resources/“,</strong></p>
+<p><strong>“classpath:/static/“, “classpath:/public/“};</strong></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwIfB9.jpg" alt="AwIfB9.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwI79K.jpg" alt="AwI79K.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwIbcD.jpg" alt="AwIbcD.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwIoh6.jpg" alt="AwIoh6.jpg"></p>
+<p>==上面的所展现代码的意思是访问项目的任意资源，如果没有对应的Controller映射到都</p>
+<p>去下面四个路径找，优先级从上到下。</p>
+<p><strong>“classpath:/META-INF/resources/“,</strong></p>
+<p><strong>“classpath:/resources/“,</strong></p>
+<p><strong>“classpath:/static/“,</strong></p>
+<p><strong>“classpath:/public/“</strong></p>
+<p>“/“：当前项目的根路径</p>
+<p>测试classpath:/static/asserts/js/feather.min.js</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwIH1O.jpg" alt="AwIH1O.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwoABj.jpg" alt="AwoABj.jpg"></p>
+<h2 id="三、Spring-Boot-中的Welcome-page"><a href="#三、Spring-Boot-中的Welcome-page" class="headerlink" title="三、Spring Boot 中的Welcome page"></a>三、Spring Boot 中的Welcome page</h2><p>Spring Boot默认也提供了欢迎页面，就在前面提到的方法下面有个welcomePageHandlerMapping方法，上面有@Bean，说明也是容器中的一个组件</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwIOnH.jpg" alt="AwIOnH.jpg"></p>
+<p>3.1、这其中有个getStaticLocations（）方法，点进去看自然也是上面提到过的四种静态资源的路径，这里意思就是会在上面那四种路径中找index.html，第二张截图的方法获得的结果是</p>
+<p>/<strong>*，</strong>我们访问项目的默认路径localhost:8080自然也是满足/**的匹配的。</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwIXBd.jpg" alt="AwIXBd.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwIzNt.jpg" alt="AwIzNt.jpg"></p>
+<p>3.2、测试</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwIjHA.jpg" alt="AwIjHA.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwIxAI.jpg" alt="AwIxAI.jpg"></p>
+<h2 id="四、SpringBoot中logo配置"><a href="#四、SpringBoot中logo配置" class="headerlink" title="四、SpringBoot中logo配置"></a>四、SpringBoot中logo配置</h2><p>每个网站都有自己的logo，像Spring Boot官网的logo图标就是这样</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwoC38.jpg" alt="AwoC38.jpg"></p>
+<p>4.1、Spring Boot也提供了这样的功能，在往下面翻会找到一个静态内部类FaviconConfiguration，看里面faviconHandlerMapping()这个方法</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/Awo99f.jpg" alt="Awo99f.jpg"></p>
+<p>4.2、<strong>this.faviconRequestHandler()</strong></p>
+<p><strong>–&gt;public ResourceHttpRequestHandler faviconRequestHandler()</strong></p>
+<p><strong>–&gt;this.resolveFaviconLocations()</strong></p>
+<p><strong>–&gt;private List<resource> resolveFaviconLocations()</resource></strong></p>
+<p><strong>–&gt;this.resourceProperties.getStaticLocations()</strong></p>
+<p>最终还是找到前面提到的那四种静态资源路径，而对应的url是**/favicon.ico，不管多少级的url，最后以favicon.ico结尾的都会去上面四种静态资源路径中找</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwoEHs.jpg" alt="AwoEHs.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwokuQ.jpg" alt="AwokuQ.jpg"></p>
+<p>测试访问</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AwoPgS.jpg" alt="AwoPgS.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/03/28/Awoijg.jpg" alt="Awoijg.jpg"></p>
+<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p><strong>1）、所有 /webjars/\</strong> ，都去 classpath:/META-INF/resources/webjars/ 找资源；==**</p>
+<p><strong>    webjars：以jar包的方式引入静态资源；</strong></p>
+<p><strong>2）、”/\</strong>“ 访问当前项目的任何资源，都去（静态资源的文件夹）找映射**</p>
+<p><strong>“classpath:/META-INF/resources/“,</strong></p>
+<p><strong>“classpath:/resources/“,</strong></p>
+<p><strong>“classpath:/static/“,</strong></p>
+<p><strong>“classpath:/public/“</strong></p>
+<p><strong>“/“：当前项目的根路径</strong></p>
+<p><strong>localhost:8080/abc === 去静态资源文件夹里面找abc</strong></p>
+<p><strong>3）、欢迎页； 静态资源文件夹下的所有index.html页面；被”/\</strong>“映射；==**</p>
+<p><strong>    localhost:8080/ 找index页面</strong></p>
+<p><strong>4）、所有的 \</strong>/favicon.ico 都是在静态资源文件下找；**</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年03月28日 20:31</p>
+        <p>原始链接： <a class="post-url" href="/2019/03/28/2019-03-28-SpringBoot学习04_web静态资源映射规则/" title="Spring Boot学习04_web静态资源映射规则(源码)">http://yoursite.com/2019/03/28/2019-03-28-SpringBoot学习04_web静态资源映射规则/</a></p>
+        <footer>
+            <a href="http://yoursite.com">
+                <img src="/images/logo.png" alt="John Doe">
+                John Doe
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/03/28/2019-03-28-SpringBoot学习04_web静态资源映射规则/&title=《Spring Boot学习04_web静态资源映射规则(源码)》 — Hexo&pic=http://yoursite.comimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/03/28/2019-03-28-SpringBoot学习04_web静态资源映射规则/&title=《Spring Boot学习04_web静态资源映射规则(源码)》 — Hexo&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/03/28/2019-03-28-SpringBoot学习04_web静态资源映射规则/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Spring Boot学习04_web静态资源映射规则(源码)》 — Hexo&url=http://yoursite.com/2019/03/28/2019-03-28-SpringBoot学习04_web静态资源映射规则/&via=http://yoursite.com" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/03/28/2019-03-28-SpringBoot学习04_web静态资源映射规则/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/03/28/2019-03-28-SpringBoot学习04_web静态资源映射规则/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/SpringBoot/" class="color1">SpringBoot</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、Spring-Boot提供了一种webjar的方式引入前端的一些资源（如jquery，bootstrap等）"><span class="post-toc-text">一、Spring Boot提供了一种webjar的方式引入前端的一些资源（如jquery，bootstrap等）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二、自定义静态资源存储路径"><span class="post-toc-text">二、自定义静态资源存储路径</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#三、Spring-Boot-中的Welcome-page"><span class="post-toc-text">三、Spring Boot 中的Welcome page</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#四、SpringBoot中logo配置"><span class="post-toc-text">四、SpringBoot中logo配置</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#总结："><span class="post-toc-text">总结：</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2019/03/28/2019-03-28-SpringBoot学习04_SpringMVC自动配置原理/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Spring Boot学习04_Spring MVC自动配置原理
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2019/03/27/2019-03-27-Linux进程管理方法/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Linux进程管理</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2019 John Doe<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://yoursite.com",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

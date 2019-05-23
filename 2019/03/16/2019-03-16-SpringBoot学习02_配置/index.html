@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>Spring Boot学习02_配置(踩坑) | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Yang,Yang's Blog">
+  
+  <meta name="description" content="注意：本文例子必须使用IDEA中的Project，而不是Module。 1、配置文件Spring Boot 使用全局配置文件，文件名是固定的： application.properties、application.yml 配置文件的作用：修改Spring Boot的默认配置；有些配置是Spring Boot底层给我们配置好 比如修改项目的端口号    YAML（YAML Aisn’t Markup">
+<meta name="keywords" content="SpringBoot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Boot学习02_配置(踩坑)">
+<meta property="og:url" content="http://yoursite.com/2019/03/16/2019-03-16-SpringBoot学习02_配置/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="注意：本文例子必须使用IDEA中的Project，而不是Module。 1、配置文件Spring Boot 使用全局配置文件，文件名是固定的： application.properties、application.yml 配置文件的作用：修改Spring Boot的默认配置；有些配置是Spring Boot底层给我们配置好 比如修改项目的端口号    YAML（YAML Aisn’t Markup">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARVJZn.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARV3rj.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARV1MQ.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARV8qs.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARVtI0.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARVYaq.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARVUiV.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARVaGT.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARVwzF.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARVdRU.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARV4Qe.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARVBM4.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARVDsJ.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARV6d1.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARVrL9.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARVyZR.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARVRJK.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARVcIx.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARV2i6.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARVfzD.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARVILd.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARVTeA.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARV5sH.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARV7dI.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARVHot.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARVLJf.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARVxyQ.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARVqFP.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARVOW8.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARVjSS.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARVvQg.jpg">
+<meta property="og:updated_time" content="2019-04-04T14:45:40.356Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring Boot学习02_配置(踩坑)">
+<meta name="twitter:description" content="注意：本文例子必须使用IDEA中的Project，而不是Module。 1、配置文件Spring Boot 使用全局配置文件，文件名是固定的： application.properties、application.yml 配置文件的作用：修改Spring Boot的默认配置；有些配置是Spring Boot底层给我们配置好 比如修改项目的端口号    YAML（YAML Aisn’t Markup">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/04/04/ARVJZn.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Yang&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Yang&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        一个专注 Java 开发的技术博客
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Yang" target="_blank" href="//yangrijian.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/loneryang">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/printf杨氏子">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-2019-03-16-SpringBoot学习02_配置" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Spring Boot学习02_配置(踩坑)
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-03-16
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <p><strong>注意：本文例子必须使用IDEA中的Project，而不是Module。</strong></p>
+<h2 id="1、配置文件"><a href="#1、配置文件" class="headerlink" title="1、配置文件"></a><strong>1、配置文件</strong></h2><p>Spring Boot 使用全局配置文件，文件名是固定的：</p>
+<p>application.properties、application.yml</p>
+<p>配置文件的作用：修改Spring Boot的默认配置；有些配置是Spring Boot底层给我们配置好</p>
+<p>比如修改项目的端口号</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARVJZn.jpg" alt="ARVJZn.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARV3rj.jpg" alt="ARV3rj.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARV1MQ.jpg" alt="ARV1MQ.jpg"></p>
+<p>YAML（YAML Aisn’t Markup Language）</p>
+<p>YAML 是一个标记语言</p>
+<p>YAML不是一个标记语言</p>
+<p>而不管它官方怎么解释，它仍然是一个标记语言。</p>
+<p>之前使用的标记语言一般都是xxx.xml</p>
+<p>比如表示server的port，这样大量的内容不是真正有用的数据而是标签</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;server&gt;</span><br><span class="line">    &lt;port&gt;8080&lt;/port&gt;</span><br><span class="line">&lt;/server&gt;</span><br></pre></td></tr></table></figure>
+<p>YAML：以数据为中心，比json，xml更适合做配置文件</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">  port:</span> <span class="number">8080</span></span><br></pre></td></tr></table></figure>
+<h2 id="2、YAML语法"><a href="#2、YAML语法" class="headerlink" title="2、YAML语法"></a><strong>2、YAML语法</strong></h2><h3 id="1、YAML基本语法"><a href="#1、YAML基本语法" class="headerlink" title="1、YAML基本语法"></a>1、YAML基本语法</h3><p>使用缩进表示层级关系</p>
+<p>缩进不允许使用Tab，只允许使用空格</p>
+<p>缩进的空格数不重要，只要相同层级的元素左侧对齐即可</p>
+<p>大小写敏感</p>
+<h3 id="2、YAML支持的三种数据结构"><a href="#2、YAML支持的三种数据结构" class="headerlink" title="2、YAML支持的三种数据结构"></a>2、YAML支持的三种数据结构</h3><p><strong>YAML中表示字符串不需要使用双引号和单引号</strong></p>
+<p>双引号：如果使用了双引号括住了一个字符串，特殊字符不会被转义，而是会代表它</p>
+<p>本身表示的意思。eg：”yang \n nick” 结果：yang (换行) nick</p>
+<p>单引号：如果使用单引号括住了一个字符串，特殊字符会被转义，特殊字符就没有任</p>
+<p>何意义，仅仅就是个字符串。eg：’yang \n nick’ 结果：yang \n nick</p>
+<p>2.1、字面量单个的不可再分的值：k:(空格)v</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">name:(空格)Yang</span><br></pre></td></tr></table></figure>
+<p>2.2、对象(Map)键值对</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">person:</span><br><span class="line">   name:(空格)Yang</span><br><span class="line">   age:(空格)19</span><br></pre></td></tr></table></figure>
+<p>行内写法：</p>
+<p>person:(空格){name:(空格)yang, age:(空格)19}</p>
+<p>2.3、数组(Set,List)</p>
+<p>以 - （横杆）代表该数组中一个元素</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pets:</span><br><span class="line">   -(空格)dog</span><br><span class="line">   -(空格)cat</span><br><span class="line">   -(空格)pig</span><br></pre></td></tr></table></figure>
+<p>行内写法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">animals:(空格)[dog, cat, pig]</span><br></pre></td></tr></table></figure>
+<p><strong>YAML还支持嵌套使用：下面表示的就是person对象中有多少个宠物</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">person:</span><br><span class="line">   name:(空格)Yang</span><br><span class="line">   age:(空格)19</span><br><span class="line">   pets:</span><br><span class="line">      -(空格)dog</span><br><span class="line">      -(空格)cat</span><br><span class="line">      -(空格)pig</span><br></pre></td></tr></table></figure>
+<p>行内写法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">person:(空格)&#123;name:(空格)Yang, age:(空格)19, pets:(空格)[dog, cat, pig]&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="3、配置文件值注入"><a href="#3、配置文件值注入" class="headerlink" title="3、配置文件值注入"></a><strong>3、配置文件值注入</strong></h2><h3 id="3-1、-ConfigurationProperties与-Value-Demo"><a href="#3-1、-ConfigurationProperties与-Value-Demo" class="headerlink" title="3.1、@ConfigurationProperties与@Value  Demo"></a>3.1、@ConfigurationProperties与@Value  Demo</h3><p>第一种写法使用@ConfigurationProperties</p>
+<p>1、写好一个Person对象和一个Dog对象</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARV8qs.jpg" alt="ARV8qs.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARVtI0.jpg" alt="ARVtI0.jpg"></p>
+<p>2、在配置文件中写好属性（yml/properties都行）</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARVYaq.jpg" alt="ARVYaq.jpg"></p>
+<p>3、@ConfigurationProperties告诉SpringBoot本类中的所有属性与配置文件中的属性</p>
+<p>进行绑定</p>
+<p>使用该注解一定要使用@Component将该类放入容器中才能提供</p>
+<p>@ConfigurationProperties注解的功能</p>
+<p>prefix=”person” 配置文件中将哪个下面的属性一一映射</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARVUiV.jpg" alt="ARVUiV.jpg"></p>
+<p>4、编写测试类测试成功</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARVaGT.jpg" alt="ARVaGT.jpg"></p>
+<p>第二种写法使用@Value注解</p>
+<p>该注解就相当于之前Spring配置文件中的value那个属性</p>
+<bean class><property name value></property></bean>
+
+<p><img src="https://s2.ax1x.com/2019/04/04/ARVwzF.jpg" alt="ARVwzF.jpg"></p>
+<h3 id="3-2-ConfigurationProperties与-Value的区别"><a href="#3-2-ConfigurationProperties与-Value的区别" class="headerlink" title="3.2@ConfigurationProperties与@Value的区别"></a>3.2@ConfigurationProperties与@Value的区别</h3><p>1、功能</p>
+<p>由上面的例子得到@ConfigurationProperties是批量注入属性的值</p>
+<p>@Value是一个一个注入属性的值</p>
+<p>2、是否支持松散语法</p>
+<p>person.lastName 标准方式</p>
+<p>person.last-name 大写用 -</p>
+<p>person.last_name 大写用 _</p>
+<p>@Value不支持，报错。</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARVdRU.jpg" alt="ARVdRU.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARV4Qe.jpg" alt="ARV4Qe.jpg"></p>
+<p>@ConfigurationProperties支持</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARVBM4.jpg" alt="ARVBM4.jpg"></p>
+<p>3、是否支持JSR303校验</p>
+<p>@Value还是能获取到值不支持校验</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARVDsJ.jpg" alt="ARVDsJ.jpg"></p>
+<p>@ConfigurationProperties报错了，说明支持JSR303校验</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARV6d1.jpg" alt="ARV6d1.jpg"></p>
+<p>4、是否支持SpEl表达式 （#{写表达式}）</p>
+<p>@Value支持</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARVrL9.jpg" alt="ARVrL9.jpg"></p>
+<p>@ConfigurationProperties不支持</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARVyZR.jpg" alt="ARVyZR.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARVRJK.jpg" alt="ARVRJK.jpg"></p>
+<p>5、是否支持复杂类型注入</p>
+<p>@Value不支持</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARVcIx.jpg" alt="ARVcIx.jpg"></p>
+<p>@ConfigurationProperties支持</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARV2i6.jpg" alt="ARV2i6.jpg"></p>
+<p>结论</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>@ConfigurationProperties</th>
+<th>@Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>功能</td>
+<td>批量注入配置文件中的属性</td>
+<td>一个个指定</td>
+</tr>
+<tr>
+<td>松散绑定（松散语法）</td>
+<td>支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>SpEL</td>
+<td>不支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>JSR303数据校验</td>
+<td>支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>复杂类型封装</td>
+<td>支持</td>
+<td>不支持</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-3、-PropertySource、-ImportResource与-Bean-Demo"><a href="#3-3、-PropertySource、-ImportResource与-Bean-Demo" class="headerlink" title="3.3、@PropertySource、@ImportResource与@Bean  Demo"></a>3.3、@PropertySource、@ImportResource与@Bean  Demo</h3><p>1）、一般重要的配置都会写在全局配置文件中，不可能一个简单的POJO对象也要写在全</p>
+<p>局配置文件中，所以这时候我们可以另外写个properties文件然后@PropertySouce</p>
+<p>引入</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARVfzD.jpg" alt="ARVfzD.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARVILd.jpg" alt="ARVILd.jpg"></p>
+<p>2）、如果我们自己要写一些Spring的配置，就可以创建一个xml文件，然后写进去，再通</p>
+<p>通过@ImportSource注解标注在一个配置类上就可以使其生效</p>
+<p>编写一个HelloService类并把其配置到xml文件中，通过@ImportSource注解使其生效</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARVTeA.jpg" alt="ARVTeA.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARV5sH.jpg" alt="ARV5sH.jpg"></p>
+<p>编写测试方法测试</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARV7dI.jpg" alt="ARV7dI.jpg"></p>
+<p>3）、Spring Boot推荐使用注解类的方式来添加组件。</p>
+<p>这里我们使用@Configuration注解标注在类上，该类就是一个注解类。使用@Bean标注</p>
+<p>在方法上该方法的返回值就是要添加到容器中的组件，beanName就是方法名</p>
+<p>@Bean == <bean id="xxx" class="xxx"></bean></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARVHot.jpg" alt="ARVHot.jpg"></p>
+<p>测试通过</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARVLJf.jpg" alt="ARVLJf.jpg"></p>
+<h2 id="4、配置文件占位符"><a href="#4、配置文件占位符" class="headerlink" title="4、配置文件占位符"></a><strong>4、配置文件占位符</strong></h2><p>1、随机数</p>
+<p>​    ${random.value}</p>
+<p>​    ${random.int}</p>
+<p>​    ${random.long}</p>
+<p>​    ${random.int(10)}</p>
+<p>​    ${random.int[1024,65536]}</p>
+<p>2、占位符可以用之前设置的值，如果没有设置可以使用 “ : “指定默认值（没有设置就以表达式为字符串作为值）</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARVxyQ.jpg" alt="ARVxyQ.jpg"></p>
+<h2 id="5、profile"><a href="#5、profile" class="headerlink" title="5、profile"></a><strong>5、profile</strong></h2><p>在开发的时候，我们一般开发时会用开发环境，上线时会用生产环境，这时候就要多</p>
+<p>个配置文件进行切换，Spring Boot当然也提供了几种解决方案</p>
+<h3 id="1、多profile文件"><a href="#1、多profile文件" class="headerlink" title="1、多profile文件"></a>1、多profile文件</h3><p>可以使用application-[profile].properties/yml命名的方式，然后在</p>
+<p>application.properties/yml中使用spring.profiles.active指定用哪个配置文件</p>
+<h3 id="2、yml支持多文档块：一个yml文件中可以使用多个文档块来当作多个不同的配置"><a href="#2、yml支持多文档块：一个yml文件中可以使用多个文档块来当作多个不同的配置" class="headerlink" title="2、yml支持多文档块：一个yml文件中可以使用多个文档块来当作多个不同的配置"></a>2、yml支持多文档块：一个yml文件中可以使用多个文档块来当作多个不同的配置</h3><p>两个文档用 ”—“ 区分</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARVqFP.jpg" alt="ARVqFP.jpg"></p>
+<h3 id="3、激活profile"><a href="#3、激活profile" class="headerlink" title="3、激活profile"></a>3、激活profile</h3><p>1、在配置文件中指定 spring.profiles.active=dev</p>
+<p>2、命令行：</p>
+<p>​    java -jar spring-boot-02-config-0.0.1-SNAPSHOT.jar –</p>
+<p>spring.profiles.active=dev；</p>
+<p>​    可以直接在测试的时候，配置传入命令行参数</p>
+<p>3、虚拟机参数</p>
+<p>​    -Dspring.profiles.active=dev</p>
+<p>这里我们新建了一个application-dev.properties文件，并在主配置文件中指定。</p>
+<p>启动Spring Boot主程序发现使用的就是8088端口</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARVOW8.jpg" alt="ARVOW8.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARVjSS.jpg" alt="ARVjSS.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/ARVvQg.jpg" alt="ARVvQg.jpg"></p>
+<h2 id="6、配置文件加载位置"><a href="#6、配置文件加载位置" class="headerlink" title="6、配置文件加载位置"></a><strong>6、配置文件加载位置</strong></h2><p>./config(项目根路径下的config文件夹)</p>
+<p>./(项目根路径下)</p>
+<p>./resource/config(classpath下的config文件夹)</p>
+<p>./resource(classpath下)</p>
+<p>以上位置的配置文件优先级由高到低，高优先级会覆盖低优先级的重复属性，不一样的</p>
+<p>属性会形成互补配置</p>
+<p><strong>（注意：这里一定要用IDEA中的Project，而不是Module!不知道什么原因，我多次测</strong></p>
+<p><strong>试Module中项目根路径无效，Project有效）</strong></p>
+<p><strong>官方文档说还可以使用打包的方式然后运行该jar包时添加命令</strong></p>
+<p><strong>–spring.config.location指定磁盘上目录配置文件并与jar包互补配置，但我在测试时</strong></p>
+<p><strong>并没有形成互补，只有指定的配置文件中的属性才有效。希望大神能够指出来哪里问题</strong></p>
+<h2 id="7、外部加载顺序"><a href="#7、外部加载顺序" class="headerlink" title="7、外部加载顺序"></a><strong>7、外部加载顺序</strong></h2><p>==SpringBoot也可以从以下位置加载配置； 优先级从高到低；高优先级的配置覆盖低</p>
+<p>优先级的配置，所有的配置会形成互补配置==</p>
+<p>1.命令行参数</p>
+<p>所有的配置都可以在命令行上进行指定</p>
+<p>java -jar spring-boot-02-config-02-0.0.1-SNAPSHOT.jar –server.port=8087 –</p>
+<p>server.context-path=/abc</p>
+<p>多个配置用空格分开； –配置项=值</p>
+<p>2.来自java:comp/env的JNDI属性</p>
+<p>3.Java系统属性（System.getProperties()）</p>
+<p>4.操作系统环境变量</p>
+<p>5.RandomValuePropertySource配置的random.*属性值</p>
+<p>由jar包外向jar包内进行寻找；</p>
+<p>==优先加载带profile==</p>
+<p>6.jar包外部的application-{profile}.properties或application.yml(带spring.profile)配置</p>
+<p>文件</p>
+<p>7.jar包内部的application-{profile}.properties或application.yml(带spring.profile)配置</p>
+<p>文件</p>
+<p>==再来加载不带profile==</p>
+<p>8.jar包外部的application.properties或application.yml(不带spring.profile)配置文件</p>
+<p>9.jar包内部的application.properties或application.yml(不带spring.profile)配置文件</p>
+<p>10.@Configuration注解类上的@PropertySource</p>
+<p>11.通过SpringApplication.setDefaultProperties指定的默认属性</p>
+<p>所有支持的配置加载来源：</p>
+<p><a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE/reference/htmlsingle/#boot-features-external-config" target="_blank" rel="noopener">https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE/reference/htmlsingle/#boot-features-external-config</a></p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年04月04日 22:45</p>
+        <p>原始链接： <a class="post-url" href="/2019/03/16/2019-03-16-SpringBoot学习02_配置/" title="Spring Boot学习02_配置(踩坑)">http://yoursite.com/2019/03/16/2019-03-16-SpringBoot学习02_配置/</a></p>
+        <footer>
+            <a href="http://yoursite.com">
+                <img src="/images/logo.png" alt="John Doe">
+                John Doe
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/03/16/2019-03-16-SpringBoot学习02_配置/&title=《Spring Boot学习02_配置(踩坑)》 — Hexo&pic=http://yoursite.comimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/03/16/2019-03-16-SpringBoot学习02_配置/&title=《Spring Boot学习02_配置(踩坑)》 — Hexo&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/03/16/2019-03-16-SpringBoot学习02_配置/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Spring Boot学习02_配置(踩坑)》 — Hexo&url=http://yoursite.com/2019/03/16/2019-03-16-SpringBoot学习02_配置/&via=http://yoursite.com" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/03/16/2019-03-16-SpringBoot学习02_配置/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/03/16/2019-03-16-SpringBoot学习02_配置/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/SpringBoot/" class="color1">SpringBoot</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1、配置文件"><span class="post-toc-text">1、配置文件</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2、YAML语法"><span class="post-toc-text">2、YAML语法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1、YAML基本语法"><span class="post-toc-text">1、YAML基本语法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2、YAML支持的三种数据结构"><span class="post-toc-text">2、YAML支持的三种数据结构</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3、配置文件值注入"><span class="post-toc-text">3、配置文件值注入</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-1、-ConfigurationProperties与-Value-Demo"><span class="post-toc-text">3.1、@ConfigurationProperties与@Value  Demo</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-2-ConfigurationProperties与-Value的区别"><span class="post-toc-text">3.2@ConfigurationProperties与@Value的区别</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-3、-PropertySource、-ImportResource与-Bean-Demo"><span class="post-toc-text">3.3、@PropertySource、@ImportResource与@Bean  Demo</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4、配置文件占位符"><span class="post-toc-text">4、配置文件占位符</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5、profile"><span class="post-toc-text">5、profile</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1、多profile文件"><span class="post-toc-text">1、多profile文件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2、yml支持多文档块：一个yml文件中可以使用多个文档块来当作多个不同的配置"><span class="post-toc-text">2、yml支持多文档块：一个yml文件中可以使用多个文档块来当作多个不同的配置</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3、激活profile"><span class="post-toc-text">3、激活profile</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6、配置文件加载位置"><span class="post-toc-text">6、配置文件加载位置</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7、外部加载顺序"><span class="post-toc-text">7、外部加载顺序</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2019/03/19/2019-03-19-SpringBoot学习02_自动配置原理/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Spring Boot学习02_自动配置原理（精髓）
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2019/03/15/2019-03-15-SpringBoot学习01_HelloWorld/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">SpringBoot学习01_HelloWorld</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2019 John Doe<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://yoursite.com",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

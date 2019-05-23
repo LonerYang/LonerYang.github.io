@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>Linux用户管理 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Yang,Yang's Blog">
+  
+  <meta name="description" content="一、Linux用户配置文件Linux配置文件是非常多的，这里只说四个重要的  /etc/passwd用户信息文件  /etc/shadow 影子文件  /etc/group组信息文件  /etc/gshadow组密码文件   1、用户信息文件​    /etc/passwd  用户管理简介: 越是对服务器安全性要求高的服务器，越需要建立合理的用户权限等级制度和服务器操作规范，在linux中主要是通">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux用户管理">
+<meta property="og:url" content="http://yoursite.com/2019/04/09/2019-04-09-Linux用户管理/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="一、Linux用户配置文件Linux配置文件是非常多的，这里只说四个重要的  /etc/passwd用户信息文件  /etc/shadow 影子文件  /etc/group组信息文件  /etc/gshadow组密码文件   1、用户信息文件​    /etc/passwd  用户管理简介: 越是对服务器安全性要求高的服务器，越需要建立合理的用户权限等级制度和服务器操作规范，在linux中主要是通">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-04-12T11:35:06.290Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux用户管理">
+<meta name="twitter:description" content="一、Linux用户配置文件Linux配置文件是非常多的，这里只说四个重要的  /etc/passwd用户信息文件  /etc/shadow 影子文件  /etc/group组信息文件  /etc/gshadow组密码文件   1、用户信息文件​    /etc/passwd  用户管理简介: 越是对服务器安全性要求高的服务器，越需要建立合理的用户权限等级制度和服务器操作规范，在linux中主要是通">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Yang&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Yang&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        一个专注 Java 开发的技术博客
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Yang" target="_blank" href="//yangrijian.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/loneryang">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/printf杨氏子">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-2019-04-09-Linux用户管理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Linux用户管理
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-04-09
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="一、Linux用户配置文件"><a href="#一、Linux用户配置文件" class="headerlink" title="一、Linux用户配置文件"></a>一、Linux用户配置文件</h2><p>Linux配置文件是非常多的，这里只说四个重要的</p>
+<ul>
+<li><p>/etc/passwd用户信息文件</p>
+</li>
+<li><p>/etc/shadow 影子文件</p>
+</li>
+<li><p>/etc/group组信息文件</p>
+</li>
+<li><p>/etc/gshadow组密码文件</p>
+</li>
+</ul>
+<h3 id="1、用户信息文件"><a href="#1、用户信息文件" class="headerlink" title="1、用户信息文件"></a>1、用户信息文件</h3><p>​    /etc/passwd</p>
+<ul>
+<li><p>用户管理简介:</p>
+<p>越是对服务器安全性要求高的服务器，越需要建立合理的用户权限等级制度和服务器操作规范，在linux中主要是通过用户配置文件来查看和修改用户信息。</p>
+</li>
+<li><p>初始组和附加组说明：</p>
+<p><strong>初始组：</strong>用户已登录就拥有这个用户组的相关权限，每个用户的初始组只能有一个，一般就是和这个用户的用        户名相同的组名作为这个用户的初始组</p>
+<p><strong>附加组：</strong>之后用户可以加入多个其他的用户组，并拥有这些组的权限，附加组可以有多个。</p>
+</li>
+<li><p>/etc/passwd设置</p>
+<p>以第一行的root用户来举例说明</p>
+<p> <code>root:x:0:0:root:/root:/bin/bash</code></p>
+<p>第一字段：用户名称</p>
+<p>第二字段：密码标志（centos6和centos7无意义了）</p>
+<p>第三字段：UID（用户ID）</p>
+<p>​           0：超级用户</p>
+<p>​           1-499： 系统用户(伪用户;Linux系统自带的很多软件都需要系统用户来支持启动，但是这些系统</p>
+<p>​                  户是不能用来登陆的)</p>
+<p>​           500-65535：普通用户</p>
+<p>第四字段：GID（用户初始组ID）</p>
+<p>第五字段：用户说明（默认就是用户名，也可以自己修改）</p>
+<p>第六字段：家目录</p>
+<p>​           普通用户：/home/用户名/</p>
+<p>​           超级用户：/root/</p>
+<p>第七字段：登录之后的shell</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"> 1 root:x:0:0:root:/root:/bin/bash</span><br><span class="line"> 2 bin:x:1:1:bin:/bin:/sbin/nologin</span><br><span class="line"> 3 daemon:x:2:2:daemon:/sbin:/sbin/nologin</span><br><span class="line"> 4 adm:x:3:4:adm:/var/adm:/sbin/nologin</span><br><span class="line"> 5 lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin</span><br><span class="line"> 6 sync:x:5:0:sync:/sbin:/bin/sync</span><br><span class="line"> 7 shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown</span><br><span class="line"> 8 halt:x:7:0:halt:/sbin:/sbin/halt</span><br><span class="line"> 9 mail:x:8:12:mail:/var/spool/mail:/sbin/nologin</span><br><span class="line">10 operator:x:11:0:operator:/root:/sbin/nologin</span><br><span class="line">11 games:x:12:100:games:/usr/games:/sbin/nologin</span><br><span class="line">12 ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin</span><br><span class="line">13 nobody:x:99:99:Nobody:/:/sbin/nologin</span><br><span class="line">14 avahi-autoipd:x:170:170:Avahi IPv4LL Stack:/var/lib/avahi-autoipd:/sbin/nologin</span><br><span class="line">15 systemd-bus-proxy:x:999:997:systemd Bus Proxy:/:/sbin/nologin</span><br><span class="line">16 systemd-network:x:998:996:systemd Network Management:/:/sbin/nologin</span><br><span class="line">17 dbus:x:81:81:System message bus:/:/sbin/nologin</span><br><span class="line">18 polkitd:x:997:995:User for polkitd:/:/sbin/nologin</span><br><span class="line">19 tss:x:59:59:Account used by the trousers package to sandbox the tcsd </span><br><span class="line">	daemon:/dev/null:/sbin/nologin</span><br><span class="line">20 postfix:x:89:89::/var/spool/postfix:/sbin/nologin</span><br><span class="line">21 sshd:x:74:74:Privilege-separated SSH:/var/empty/sshd:/sbin/nologin</span><br><span class="line">22 dockerroot:x:996:993:Docker User:/var/lib/docker:/sbin/nologin</span><br><span class="line"><span class="meta">	#</span><span class="bash">下面是自己添加的用户</span></span><br><span class="line">23 zhangsan:x:1000:1000::/home/zhangsan:/bin/bash</span><br><span class="line">24 lisi:x:1001:1001::/home/lisi:/bin/bash</span><br><span class="line">25 testuser:x:1002:1002:test user:/home/testuser:/bin/bash</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="2、影子文件"><a href="#2、影子文件" class="headerlink" title="2、影子文件"></a>2、影子文件</h3><p>​    /etc/shadow </p>
+<p>​    第一字段：用户名</p>
+<p>​    第二字段：加密密码</p>
+<p>​               加密算法为SHA512散列加密算法</p>
+<p>​               如果密码位是”!!”（代表锁定了）或者”*”（代表没有密码），不能登录</p>
+<p>​    第三字段：密码最后一次修改日期</p>
+<p>​               使用1970年1月1日作为标准时间，每过一天时间戳+1</p>
+<p>​    第四字段：两次密码的修改最小间隔时间（和第三个字段相比）</p>
+<p>​    第五字段：密码有效期限（和第三个字段相比）</p>
+<p>​    第六字段：密码修改到期前的警告天数（和第五个字段相比）</p>
+<p>​    第七字段：密码过期后的宽限天数(和第五个字段相比)</p>
+<p>​               0：代表密码过期后立即失效</p>
+<p>​               -1：代表密码永远不失效</p>
+<p>​    第八字段：账号失效时间</p>
+<p>​               要用时间戳表示</p>
+<p>​    第九字段：保留</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"> 1 root:$6$VsE.SDFhC2LG1zie$H60peSW6Oz1gwsw3pXpGnRvKjrmEvEHKhdQky8tkBNGcY6AKY6A2H2Sffj</span><br><span class="line"> 		 RItQKSL/8f1gNwATEC/HIDxX9H01::0:99999:7:::</span><br><span class="line"> 2 bin:*:16659:0:99999:7:::</span><br><span class="line"> 3 daemon:*:16659:0:99999:7:::</span><br><span class="line"> 4 adm:*:16659:0:99999:7:::</span><br><span class="line"> 5 lp:*:16659:0:99999:7:::</span><br><span class="line"> 6 sync:*:16659:0:99999:7:::</span><br><span class="line"> 7 shutdown:*:16659:0:99999:7:::</span><br><span class="line"> 8 halt:*:16659:0:99999:7:::</span><br><span class="line"> 9 mail:*:16659:0:99999:7:::</span><br><span class="line">10 operator:*:16659:0:99999:7:::</span><br><span class="line">11 games:*:16659:0:99999:7:::</span><br><span class="line">12 ftp:*:16659:0:99999:7:::</span><br><span class="line">13 nobody:*:16659:0:99999:7:::</span><br><span class="line">14 avahi-autoipd:!!:17941::::::</span><br><span class="line">15 systemd-bus-proxy:!!:17941::::::</span><br><span class="line">16 systemd-network:!!:17941::::::</span><br><span class="line">17 dbus:!!:17941::::::</span><br><span class="line">18 polkitd:!!:17941::::::</span><br><span class="line">19 tss:!!:17941::::::</span><br><span class="line">20 postfix:!!:17941::::::</span><br><span class="line">21 sshd:!!:17941::::::</span><br><span class="line">22 dockerroot:!!:17941::::::</span><br><span class="line">23 zhangsan:$6$pijbttcg$pQY0lCT61hJh9FrwlBdZIhP1KxJk21keQ/ER0DsIlsg8oF015pvlddzMNHAnJB.C</span><br><span class="line">	         KiziCIdmH3TqFRzaHWrd60:17995:0:99999:7:::</span><br><span class="line">24 lisi:$6$LgAqOmYD$38l9NI1L6BWYjETiu0Z9Sia8fh5qDwJ0M8sG39gNXlvSVq3wQkjWkpeLZBsU.QHbkOV7</span><br><span class="line">		 1FiqDQPzZxhDxsPlB/:17995:0:99999:7:::</span><br><span class="line">25 testuser:$6$wkev.JGc$12ipqH//xtXVZWEezuuPH8wPYisoaRLHSDxrSiyzP.2VUQ9I5DzR0DGy9Zr0yfjC</span><br><span class="line">	     FCOw9T.eoKHlc.DhL1LEw.:17995:0:99999:7:::</span><br></pre></td></tr></table></figure>
+<p>​    时间戳换算方式</p>
+<p>​        把时间戳换算成日期[17991]</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">date -d "1970-01-01 [时间戳] days"</span><br></pre></td></tr></table></figure>
+<p>​        把日期换算成时间戳</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo $(($(date --date="2016/01/06" +%s)/86400+1))</span><br></pre></td></tr></table></figure>
+<h3 id="3、组信息文件"><a href="#3、组信息文件" class="headerlink" title="3、组信息文件"></a>3、组信息文件</h3><p>​    /etc/group</p>
+<p>​    第一字段：组名</p>
+<p>​    第二字段：组密码标志(拥有组密码的用户，可以往组里添加或者删除用户)</p>
+<p>​    第三字段：GID（组id）</p>
+<p>​    第四字段：组中附加用户(例如 root组中的有testuser用户)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"> 1 root:x:0:testuser</span><br><span class="line"> 2 bin:x:1:testuser</span><br><span class="line"> 3 daemon:x:2:</span><br><span class="line"> 4 sys:x:3:</span><br><span class="line"> 5 adm:x:4:</span><br><span class="line"> 6 tty:x:5:</span><br><span class="line"> 7 disk:x:6:</span><br><span class="line"> 8 lp:x:7:</span><br><span class="line"> 9 mem:x:8:</span><br><span class="line">10 kmem:x:9:</span><br><span class="line">11 wheel:x:10:</span><br><span class="line">12 cdrom:x:11:</span><br><span class="line">13 mail:x:12:postfix</span><br><span class="line">14 man:x:15:</span><br><span class="line">15 dialout:x:18:</span><br><span class="line">16 floppy:x:19:</span><br><span class="line">17 games:x:20:</span><br><span class="line">18 tape:x:30:</span><br><span class="line">19 video:x:39:</span><br><span class="line">20 ftp:x:50:</span><br><span class="line">21 lock:x:54:</span><br><span class="line">22 audio:x:63:</span><br><span class="line">23 nobody:x:99:</span><br><span class="line">24 users:x:100:</span><br><span class="line">25 avahi-autoipd:x:170:</span><br><span class="line">26 utmp:x:22:</span><br><span class="line">27 utempter:x:35:</span><br><span class="line">28 ssh_keys:x:999:</span><br><span class="line">29 input:x:998:</span><br><span class="line">30 systemd-journal:x:190:</span><br><span class="line">31 systemd-bus-proxy:x:997:</span><br><span class="line">32 systemd-network:x:996:</span><br><span class="line">33 dbus:x:81:</span><br><span class="line">34 polkitd:x:995:</span><br><span class="line">35 dip:x:40:</span><br><span class="line">36 tss:x:59:</span><br><span class="line">37 postdrop:x:90:</span><br><span class="line">38 postfix:x:89:</span><br><span class="line">39 sshd:x:74:</span><br><span class="line">40 cgred:x:994:</span><br><span class="line">41 dockerroot:x:993:</span><br><span class="line">42 docker:x:992:</span><br><span class="line">43 zhangsan:x:1000:</span><br><span class="line">44 lisi:x:1001:</span><br><span class="line">45 testuser:x:1002:</span><br></pre></td></tr></table></figure>
+<h3 id="4、组密码文件"><a href="#4、组密码文件" class="headerlink" title="4、组密码文件"></a>4、组密码文件</h3><p>​    /etc/gshadow</p>
+<p>​    第一字段：组名</p>
+<p>​    第二字段：组密码</p>
+<p>​    第三字段：组管理员用户名</p>
+<p>​    第四字段：组中附加用户</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"> 1 root:::testuser</span><br><span class="line"> 2 bin:::testuser</span><br><span class="line"> 3 daemon:::</span><br><span class="line"> 4 sys:::</span><br><span class="line"> 5 adm:::</span><br><span class="line"> 6 tty:::</span><br><span class="line"> 7 disk:::</span><br><span class="line"> 8 lp:::</span><br><span class="line"> 9 mem:::</span><br><span class="line">10 kmem:::</span><br><span class="line">11 wheel:::</span><br><span class="line">12 cdrom:::</span><br><span class="line">13 mail:::postfix</span><br><span class="line">14 man:::</span><br><span class="line">15 dialout:::</span><br><span class="line">16 floppy:::</span><br><span class="line">17 games:::</span><br><span class="line">18 tape:::</span><br><span class="line">19 video:::</span><br><span class="line">20 ftp:::</span><br><span class="line">21 lock:::</span><br><span class="line">22 audio:::</span><br><span class="line">23 nobody:::</span><br><span class="line">24 users:::</span><br><span class="line">25 avahi-autoipd:!::</span><br><span class="line">26 utmp:!::</span><br><span class="line">27 utempter:!::</span><br><span class="line">28 ssh_keys:!::</span><br><span class="line">29 input:!::</span><br><span class="line">30 systemd-journal:!::</span><br><span class="line">31 systemd-bus-proxy:!::</span><br><span class="line">32 systemd-network:!::</span><br><span class="line">33 dbus:!::</span><br><span class="line">34 polkitd:!::</span><br><span class="line">35 dip:!::</span><br><span class="line">36 tss:!::</span><br><span class="line">37 postdrop:!::</span><br><span class="line">38 postfix:!::</span><br><span class="line">39 sshd:!::</span><br><span class="line">40 cgred:!::</span><br><span class="line">41 dockerroot:!::</span><br><span class="line">42 docker:!::</span><br><span class="line">43 zhangsan:!::</span><br><span class="line">44 lisi:!::</span><br><span class="line">45 testuser:!::</span><br></pre></td></tr></table></figure>
+<h2 id="二、LINUX用户相关命令"><a href="#二、LINUX用户相关命令" class="headerlink" title="二、LINUX用户相关命令"></a>二、LINUX用户相关命令</h2><ul>
+<li><p>查看当前登录用户</p>
+<p><code>whoami</code></p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost network-scripts]# whoami</span><br><span class="line">root</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>查看用户ID，组ID，所在的组</p>
+<p><code>id</code> [用户名]</p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost network-scripts]# id root</span><br><span class="line">uid=0(root) gid=0(root) groups=0(root)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>用户添加命令</p>
+<p><code>useradd</code> [选项] 用户名</p>
+<p><code>-u</code> ：手工指定用户的UID号</p>
+<p><code>-d</code> ：手工指定用户的家目录</p>
+<p><code>-c</code> ：手工指定用户的说明</p>
+<p><code>-g</code> ：手工指定用户的初始组</p>
+<p><code>-G</code> ：手工指定用户的附加组</p>
+<p><code>-s</code> ：手工指定用户的登录shell。默认是/bin/bash</p>
+<p>eg：（一般不会使用这些选项，Linux中默认设置的就是最好的）</p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd -G root,bin -d /home/testuser -c "test user" -s /bin/bash testuser</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>查看组信息</p>
+<p><code>groups</code> ：查看当前登录用户所在的组（<strong>很多博客都是说查看当前登录用户的组内成员，测试并不是，man查看了下才知道自己测试的是对的</strong>）</p>
+<p><code>groups test</code> ：查看test用户所在的组以及还存在于哪些组中</p>
+</li>
+<li><p>用户添加命令默认设置</p>
+<p>​    /etc/default/useradd</p>
+<p>​    GROUP=100 #用户默认组</p>
+<p>​    HOME=/home #用户家目录</p>
+<p>​    INACTIVE=-1 #密码过期宽限时间（shadow文件7字段）</p>
+<p>​    EXPIRE= #密码失效时间(8)</p>
+<p>​    SHELL=/bin/bash #默认shell</p>
+<p>​    SKEL=/etc/skel #默认模板</p>
+<p>​    CREATE_MAIL_SPPPL=yes #是否建立邮箱</p>
+</li>
+<li><p>修改用户密码</p>
+<p>​    <code>passwd</code> [选项] 用户名</p>
+<p>​    <code>-S</code> 查询用户密码的状态（仅root用户可以）</p>
+<p>​    <code>-l</code> 暂时锁定用户（仅root用户可以）</p>
+<p>​    <code>-u</code> 解锁用户（仅root用户可以）</p>
+<p>​    eg：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# passwd -S testuser</span><br><span class="line">testuser PS 2019-04-09 0 99999 7 -1 (Password set, SHA512 crypt.)</span><br></pre></td></tr></table></figure>
+<p>​    密码修改间隔时间(0)</p>
+<p>​    密码有效期(99999)</p>
+<p>​    警告时间(7)</p>
+<p>​    密码不失效(-1)</p>
+<p>​    eg：<code>passwd -l</code> 用户</p>
+<p>​    <strong>锁定原理为在shadow文件中，用户第二个字段前加上”!!”号</strong></p>
+</li>
+<li><p>删除用户</p>
+<p><code>userdel</code> [选项] [用户名] </p>
+<p><code>-r</code> 删除用户的同时删除用户家目录</p>
+</li>
+</ul>
+<p>​    <strong>删除原理是：</strong>删除了以下文件中的用户信息</p>
+<p>​                /etc/passwd</p>
+<p>​                /etc/shadow</p>
+<p>​                /etc/group</p>
+<p>​                /etc/gshadow</p>
+<p>​                /home/sc</p>
+<p>​                /var/spool/mail/sc</p>
+<ul>
+<li><p>切换用户</p>
+<p><code>su</code> [用户名]</p>
+<p>eg:    </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# su testuser</span><br><span class="line">[testuser@localhost root]$ whoami</span><br><span class="line">testuser</span><br></pre></td></tr></table></figure>
+<p>切换时连用户的环境变量一同切换</p>
+<p>直接使用su 用户 切换模式只切换了用户，但是没有切换用户变量，所以要想把用户和环境变量一起改变的话，需要使用<code>su - root</code> 命令形式。可以使用<code>echo $PATH</code>查看两者的区别</p>
+</li>
+<li><p>添加组</p>
+<p><code>groupadd</code> [选项] [组名]</p>
+<p><code>-g GID</code>：指定组ID（最好不要指定，这样可能导致Linux处理组的时候发生异常）</p>
+</li>
+<li><p>删除组</p>
+<p><code>groupdel</code> [组名]</p>
+<p><strong>删除组的时候需要注意，如果组中有初始用户则不能删除这个组，可以通过删除这个用户，再删除组。</strong></p>
+</li>
+<li><p>把用户添加入组或从组中删除(操作对象是附加用户)</p>
+<p><code>gpasswd</code> [选项] [用户] [组名]</p>
+<p><code>-a</code> ：把用户加入组</p>
+<p><code>-d</code> ：把用户从组中删除</p>
+<p>eg：把testuser用户添加进root组</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# gpasswd -a testuser root</span><br><span class="line">Adding user testuser to group root</span><br></pre></td></tr></table></figure>
+<p>eg：把testuser用户从root组中删除</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# gpasswd -d testuser root</span><br><span class="line">Removing user testuser from group root</span><br></pre></td></tr></table></figure>
+<p>可以进入<code>/etc/group</code>验证</p>
+<p>或者通过<code>grep testuser /etc/group</code>命令查看变化</p>
+<p><strong>注：其实Linux中很多指令原理都是帮我们操作文件</strong></p>
+</li>
+</ul>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年04月12日 19:35</p>
+        <p>原始链接： <a class="post-url" href="/2019/04/09/2019-04-09-Linux用户管理/" title="Linux用户管理">http://yoursite.com/2019/04/09/2019-04-09-Linux用户管理/</a></p>
+        <footer>
+            <a href="http://yoursite.com">
+                <img src="/images/logo.png" alt="John Doe">
+                John Doe
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/04/09/2019-04-09-Linux用户管理/&title=《Linux用户管理》 — Hexo&pic=http://yoursite.comimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/04/09/2019-04-09-Linux用户管理/&title=《Linux用户管理》 — Hexo&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/04/09/2019-04-09-Linux用户管理/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Linux用户管理》 — Hexo&url=http://yoursite.com/2019/04/09/2019-04-09-Linux用户管理/&via=http://yoursite.com" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/04/09/2019-04-09-Linux用户管理/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/04/09/2019-04-09-Linux用户管理/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Linux/" class="color1">Linux</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、Linux用户配置文件"><span class="post-toc-text">一、Linux用户配置文件</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1、用户信息文件"><span class="post-toc-text">1、用户信息文件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2、影子文件"><span class="post-toc-text">2、影子文件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3、组信息文件"><span class="post-toc-text">3、组信息文件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4、组密码文件"><span class="post-toc-text">4、组密码文件</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二、LINUX用户相关命令"><span class="post-toc-text">二、LINUX用户相关命令</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2019/04/12/2019-04-12-SpringBoot学习11_任务与邮件/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Spring Boot学习11_任务&amp;邮件
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2019/04/08/2019-04-08-SpringBoot学习10_整合Elasticsearch/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Spring Boot学习10_整合Elasticsearch</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2019 John Doe<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://yoursite.com",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>Linux文本编辑器vi/vim | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Yang,Yang's Blog">
+  
+  <meta name="description" content="只会总结常用命令，不常用的文档就行 一、介绍1、Vim是从 vi 发展出来的一个文本编辑器。代码补完、编译及错误跳转等方便编程的功能特别丰富，在程序员中被广泛使用。 2、二者的区别 vi：相当于普通文本打开，默认Linux系统自带 vim：相当于一个IDE，如果有特殊的代码或者关键字会有不同颜色的显示（没有自带，使用 yum -y install vim 安装） 3、vim 键盘图：  二、vi/">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux文本编辑器vi&#x2F;vim">
+<meta property="og:url" content="http://yoursite.com/2019/04/02/2019-04-02-Linux文本编辑器vim/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="只会总结常用命令，不常用的文档就行 一、介绍1、Vim是从 vi 发展出来的一个文本编辑器。代码补完、编译及错误跳转等方便编程的功能特别丰富，在程序员中被广泛使用。 2、二者的区别 vi：相当于普通文本打开，默认Linux系统自带 vim：相当于一个IDE，如果有特殊的代码或者关键字会有不同颜色的显示（没有自带，使用 yum -y install vim 安装） 3、vim 键盘图：  二、vi/">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/02/A6OwKH.md.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/02/A6XiRO.png">
+<meta property="og:updated_time" content="2019-04-02T12:57:17.618Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux文本编辑器vi&#x2F;vim">
+<meta name="twitter:description" content="只会总结常用命令，不常用的文档就行 一、介绍1、Vim是从 vi 发展出来的一个文本编辑器。代码补完、编译及错误跳转等方便编程的功能特别丰富，在程序员中被广泛使用。 2、二者的区别 vi：相当于普通文本打开，默认Linux系统自带 vim：相当于一个IDE，如果有特殊的代码或者关键字会有不同颜色的显示（没有自带，使用 yum -y install vim 安装） 3、vim 键盘图：  二、vi/">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/04/02/A6OwKH.md.png">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Yang&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Yang&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        一个专注 Java 开发的技术博客
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Yang" target="_blank" href="//yangrijian.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/loneryang">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/printf杨氏子">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-2019-04-02-Linux文本编辑器vim" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Linux文本编辑器vi/vim
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-04-02
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <p><strong>只会总结常用命令，不常用的文档就行</strong></p>
+<h2 id="一、介绍"><a href="#一、介绍" class="headerlink" title="一、介绍"></a>一、介绍</h2><p>1、Vim是从 vi 发展出来的一个文本编辑器。代码补完、编译及错误跳转等方便编程的功能特别丰富，在程序员中被广泛使用。</p>
+<p>2、二者的区别</p>
+<p>vi：相当于普通文本打开，默认Linux系统自带</p>
+<p>vim：相当于一个IDE，如果有特殊的代码或者关键字会有不同颜色的显示（没有自带，使用 <code>yum -y install vim</code> 安装）</p>
+<p>3、vim 键盘图：</p>
+<p><img src="https://s2.ax1x.com/2019/04/02/A6OwKH.md.png" alt="A6OwKH.md.png"></p>
+<h2 id="二、vi-vim工作模式"><a href="#二、vi-vim工作模式" class="headerlink" title="二、vi/vim工作模式"></a>二、vi/vim工作模式</h2><p>vi/vim工作分为三种模式：命令模式、输入模式、底线命令模式</p>
+<p><img src="https://s2.ax1x.com/2019/04/02/A6XiRO.png" alt="A6XiRO.png"></p>
+<h3 id="1、命令模式："><a href="#1、命令模式：" class="headerlink" title="1、命令模式："></a>1、命令模式：</h3><p>用户刚刚启动 vi/vim，便进入了命令模式。该模式下等待用户做出进一步的指令，进入输入模式或底线模式。</p>
+<p><strong>输入模式快捷键</strong></p>
+<p><code>i</code> 切换到插入模式，并在当前光标位置之前开始插入</p>
+<p><code>I</code> 将光标移至当前行的开头位置，并切换到插入模式</p>
+<p><code>a</code> 切换到插入模式，并在当前光标位置之后开始插入</p>
+<p><code>A</code> 将光标移至当前行的结尾位置，并切换到插入模式</p>
+<p><code>o</code> 在当前行的下方新打开一个行，并切换至插入模式</p>
+<p><code>O</code> 在当前行的上方新打开一个行，并切换至插入模式</p>
+<p><code>r</code> 替换当前光标所在位置的字符</p>
+<p><code>R</code> 从当前光标所在位置开始替换输出后面的内容，按ESC结束</p>
+<p><strong><code>D</code> 删除光标所在处到行尾的内容</strong></p>
+<p><strong><code>gg</code></strong> <strong>跳转到文档第一行</strong></p>
+<p><strong><code>G</code></strong> <strong>跳转到文档到最后一行</strong></p>
+<p><strong><code>x</code></strong> <strong>删除光标所在位置的字符</strong></p>
+<p><strong><code>yy</code></strong> <strong>复制当前行</strong></p>
+<p><strong><code>P</code> 粘贴到当前行的上面（大写）</strong></p>
+<p><strong><code>p</code></strong> <strong>粘贴到当前行的下面（小写）</strong></p>
+<p><strong><code>u</code></strong> <strong>取消上一步操作</strong></p>
+<h3 id="2、输入模式"><a href="#2、输入模式" class="headerlink" title="2、输入模式"></a>2、输入模式</h3><p>编辑模式，即进入文本编辑模式。</p>
+<h3 id="3、底线命令模式"><a href="#3、底线命令模式" class="headerlink" title="3、底线命令模式"></a>3、底线命令模式</h3><p>底线命令模式可以输入单个或多个字符的命令，调用不同的VI编辑功能，可用的命令多样。</p>
+<p><strong>底线命令模式功能</strong></p>
+<p><code>:set nu</code> 设置行号**</p>
+<p><code>:set nonu</code> 设置取消行号</p>
+<p><code>:n</code> 前往某一行</p>
+<p><strong><code>:wq</code> 保存修改并且退出</strong></p>
+<p><strong><code>:q!</code> 不保存修改退出</strong></p>
+<p><code>/string</code> 在文件中所搜制定字符串string</p>
+<p><code>n</code> 查看字符串上一个出现的位置</p>
+<p> <code>N</code>查看字符串上一个出现的位置</p>
+<h3 id="4、vim默认的初始化设置"><a href="#4、vim默认的初始化设置" class="headerlink" title="4、vim默认的初始化设置"></a>4、vim默认的初始化设置</h3><p>通过编辑”/root/.vimrc”文件可以设置vim编辑器初始化的一些设置</p>
+<p>例如在改文件中输入该命令保存退出：<code>:set nu</code></p>
+<p>默认使用vim进入文件编辑就会显示行号了</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年04月02日 20:57</p>
+        <p>原始链接： <a class="post-url" href="/2019/04/02/2019-04-02-Linux文本编辑器vim/" title="Linux文本编辑器vi/vim">http://yoursite.com/2019/04/02/2019-04-02-Linux文本编辑器vim/</a></p>
+        <footer>
+            <a href="http://yoursite.com">
+                <img src="/images/logo.png" alt="John Doe">
+                John Doe
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/04/02/2019-04-02-Linux文本编辑器vim/&title=《Linux文本编辑器vi/vim》 — Hexo&pic=http://yoursite.comimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/04/02/2019-04-02-Linux文本编辑器vim/&title=《Linux文本编辑器vi/vim》 — Hexo&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/04/02/2019-04-02-Linux文本编辑器vim/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Linux文本编辑器vi/vim》 — Hexo&url=http://yoursite.com/2019/04/02/2019-04-02-Linux文本编辑器vim/&via=http://yoursite.com" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/04/02/2019-04-02-Linux文本编辑器vim/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/04/02/2019-04-02-Linux文本编辑器vim/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Linux/" class="color1">Linux</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、介绍"><span class="post-toc-text">一、介绍</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二、vi-vim工作模式"><span class="post-toc-text">二、vi/vim工作模式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1、命令模式："><span class="post-toc-text">1、命令模式：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2、输入模式"><span class="post-toc-text">2、输入模式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3、底线命令模式"><span class="post-toc-text">3、底线命令模式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4、vim默认的初始化设置"><span class="post-toc-text">4、vim默认的初始化设置</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2019/04/04/2019-04-04-SpringBoot学习04_嵌入式Servlet容器启动原理/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Spring Boot学习04_嵌入式Servlet容器启动原理
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2019/03/29/2019-03-29-Linux课堂之网络命令详解/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Linux课堂之网络命令详解</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2019 John Doe<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://yoursite.com",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

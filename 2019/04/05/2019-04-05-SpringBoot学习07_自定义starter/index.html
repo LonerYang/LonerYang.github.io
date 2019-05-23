@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>Spring Boot学习07_自定义starter | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Yang,Yang's Blog">
+  
+  <meta name="description" content="​       查看Spring Boot的源码，starter包并没有真正的代码，代码都在autoconfigurer包中，所以我也可以照葫芦画瓢，创建一个starter项目和一个autoconfigurer项目，在autoconfigurer项目中写自动配置类，在starter项目中依赖autoconfigurer项目，到时候别人用就直接引入starter的坐标就能使用我自定义的starter">
+<meta name="keywords" content="SpringBoot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Boot学习07_自定义starter">
+<meta property="og:url" content="http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习07_自定义starter/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="​       查看Spring Boot的源码，starter包并没有真正的代码，代码都在autoconfigurer包中，所以我也可以照葫芦画瓢，创建一个starter项目和一个autoconfigurer项目，在autoconfigurer项目中写自动配置类，在starter项目中依赖autoconfigurer项目，到时候别人用就直接引入starter的坐标就能使用我自定义的starter">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/05/ARQDVe.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/05/ARQUv6.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/05/ARQNgx.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/05/ARQt81.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/05/ARQdKK.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/05/ARQ0bD.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/05/ARQwDO.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/05/ARQrUH.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/05/ARQ6PA.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/05/ARQs5d.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/05/ARQfr8.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/05/ARQc8I.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/05/ARQg2t.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/05/ARQ2xP.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/05/ARQWKf.jpg">
+<meta property="og:updated_time" content="2019-04-04T16:28:35.649Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring Boot学习07_自定义starter">
+<meta name="twitter:description" content="​       查看Spring Boot的源码，starter包并没有真正的代码，代码都在autoconfigurer包中，所以我也可以照葫芦画瓢，创建一个starter项目和一个autoconfigurer项目，在autoconfigurer项目中写自动配置类，在starter项目中依赖autoconfigurer项目，到时候别人用就直接引入starter的坐标就能使用我自定义的starter">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/04/05/ARQDVe.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Yang&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Yang&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        一个专注 Java 开发的技术博客
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Yang" target="_blank" href="//yangrijian.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/loneryang">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/printf杨氏子">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-2019-04-05-SpringBoot学习07_自定义starter" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Spring Boot学习07_自定义starter
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-04-05
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <p>​       查看Spring Boot的源码，starter包并没有真正的代码，代码都在autoconfigurer包中，所以我也可以照葫芦画瓢，创建一个starter项目和一个autoconfigurer项目，在autoconfigurer项目中写自动配置类，在starter项目中依赖autoconfigurer项目，到时候别人用就直接引入starter的坐标就能使用我自定义的starter了</p>
+<p><img src="https://s2.ax1x.com/2019/04/05/ARQDVe.jpg" alt="ARQDVe.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/04/05/ARQUv6.jpg" alt="ARQUv6.jpg"></p>
+<hr>
+<p>Mybatis的starter与autoconfigurer也是自己写的，所以我们的命名方式可以根据它这样来定义为<strong>ahead-spring-boot-starter，ahead-spring-boot-starter-autoconfigurer</strong></p>
+<p><img src="https://s2.ax1x.com/2019/04/05/ARQNgx.jpg" alt="ARQNgx.jpg"></p>
+<p>1、创建一个普通的maven工程，打包方式为jar，名称为<strong>ahead-spring-boot-starter</strong></p>
+<p><img src="https://s2.ax1x.com/2019/04/05/ARQt81.jpg" alt="ARQt81.jpg"></p>
+<p>2、创建一个Spring boot应用，命名为<strong>ahead-spring-boot-starter-autoconfigurer</strong>，不需要添加任何组件，只保留默认的spring-boot-starter依赖就行，删除自带的maven插件，最终的pom文件如下</p>
+<p><img src="https://s2.ax1x.com/2019/04/05/ARQdKK.jpg" alt="ARQdKK.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/04/05/ARQ0bD.jpg" alt="ARQ0bD.jpg"></p>
+<p>3、编写自定义的starter</p>
+<p>我在前面就写过SpringBoot的配置原理，通过全局配置文件中的值与xxxProperties属性映射并添加到组件中去，在配置类中就能获取到xxxProperties对象并获取其中的属性值设置给某些组件的属性，最后在classpath路径下的META-INF文件夹下的spring.factories文件中指定需要自动配置的类，就会被SpringBoot读取到，达到了自动配置的效果</p>
+<p>3.1、创建HelloProperties类并指定与全局配置文件中的那个下面的属性进行映射</p>
+<p><img src="https://s2.ax1x.com/2019/04/05/ARQwDO.jpg" alt="ARQwDO.jpg"></p>
+<p>3.2、编写HelloService组件</p>
+<p><img src="https://s2.ax1x.com/2019/04/05/ARQrUH.jpg" alt="ARQrUH.jpg"></p>
+<p>3.3、编写HelloAutoConfiguration自动配置类，并注册HelloService组件</p>
+<p><img src="https://s2.ax1x.com/2019/04/05/ARQ6PA.jpg" alt="ARQ6PA.jpg"></p>
+<p>3.4、在classpath下的META-INF文件夹下的spring.factories文件指定要自动配置的类<strong>（之前用@Configuration注解标注的配置类因为在Spring Boot主配置类的扫描范围内，而这里的扫描不到，就需要在文件中指定自动配置类的位置，这样Spring Boot就能获取到）</strong></p>
+<p><img src="https://s2.ax1x.com/2019/04/05/ARQs5d.jpg" alt="ARQs5d.jpg"></p>
+<p>3.5、在starter项目中引入autoconfigurer项目的坐标，并通过maven命令先打包</p>
+<p><strong>ahead-spring-boot-starter-autoconfigurer</strong>项目在打包<strong>ahead-spring-boot-starter</strong>项目</p>
+<p><img src="https://s2.ax1x.com/2019/04/05/ARQfr8.jpg" alt="ARQfr8.jpg"></p>
+<p>4、编写一个Spring Boot应用进行测试</p>
+<p>4.1、引入自定义的starter</p>
+<p><img src="https://s2.ax1x.com/2019/04/05/ARQc8I.jpg" alt="ARQc8I.jpg"></p>
+<p>4.2、在全局配置文件中指定HelloProperties中的name属性值</p>
+<p><img src="https://s2.ax1x.com/2019/04/05/ARQg2t.png" alt="ARQg2t.png"></p>
+<p>4.3、编写HelloController并启动应用通过浏览器访问测试。</p>
+<p><img src="https://s2.ax1x.com/2019/04/05/ARQ2xP.jpg" alt="ARQ2xP.jpg"></p>
+<p>4.4、自动配置成功</p>
+<p><img src="https://s2.ax1x.com/2019/04/05/ARQWKf.jpg" alt="ARQWKf.jpg"></p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年04月05日 00:28</p>
+        <p>原始链接： <a class="post-url" href="/2019/04/05/2019-04-05-SpringBoot学习07_自定义starter/" title="Spring Boot学习07_自定义starter">http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习07_自定义starter/</a></p>
+        <footer>
+            <a href="http://yoursite.com">
+                <img src="/images/logo.png" alt="John Doe">
+                John Doe
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习07_自定义starter/&title=《Spring Boot学习07_自定义starter》 — Hexo&pic=http://yoursite.comimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习07_自定义starter/&title=《Spring Boot学习07_自定义starter》 — Hexo&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习07_自定义starter/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Spring Boot学习07_自定义starter》 — Hexo&url=http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习07_自定义starter/&via=http://yoursite.com" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习07_自定义starter/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习07_自定义starter/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/SpringBoot/" class="color1">SpringBoot</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2019/04/05/2019-04-05-SpringBoot学习08_常用缓存注解使用/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Spring Boot学习08_常用缓存注解使用
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2019/04/05/2019-04-05-SpringBoot学习06_整合JPA/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Spring Boot学习06_整合JPA</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2019 John Doe<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://yoursite.com",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

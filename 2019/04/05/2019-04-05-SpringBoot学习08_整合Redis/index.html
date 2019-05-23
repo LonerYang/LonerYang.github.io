@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>Spring Boot学习08_整合Redis | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Yang,Yang's Blog">
+  
+  <meta name="description" content="一、环境搭建1、在前面的Demo的基础上在pom文件上添加上redis的starter 1234&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt;    &amp;lt;artifactId&amp;gt;spring-boot-starter-data-redis&amp;lt;/artifactId&amp;gt;&amp;lt;">
+<meta name="keywords" content="SpringBoot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Boot学习08_整合Redis">
+<meta property="og:url" content="http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习08_整合Redis/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="一、环境搭建1、在前面的Demo的基础上在pom文件上添加上redis的starter 1234&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt;    &amp;lt;artifactId&amp;gt;spring-boot-starter-data-redis&amp;lt;/artifactId&amp;gt;&amp;lt;">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2vPmD.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2vm1P.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2vSl6.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2vp6K.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2v9OO.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2vFTH.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2vi0e.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2vAkd.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2vEtA.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2vVfI.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/A2vVfI.png">
+<meta property="og:updated_time" content="2019-04-05T03:00:46.432Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring Boot学习08_整合Redis">
+<meta name="twitter:description" content="一、环境搭建1、在前面的Demo的基础上在pom文件上添加上redis的starter 1234&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt;    &amp;lt;artifactId&amp;gt;spring-boot-starter-data-redis&amp;lt;/artifactId&amp;gt;&amp;lt;">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/04/04/A2vPmD.png">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Yang&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Yang&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        一个专注 Java 开发的技术博客
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Yang" target="_blank" href="//yangrijian.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/loneryang">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/printf杨氏子">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-2019-04-05-SpringBoot学习08_整合Redis" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Spring Boot学习08_整合Redis
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-04-05
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="一、环境搭建"><a href="#一、环境搭建" class="headerlink" title="一、环境搭建"></a>一、环境搭建</h2><p>1、在前面的Demo的基础上在pom文件上添加上redis的starter</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>2、在全局配置文件中指定配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">spring.redis.host=ip</span><br><span class="line">spring.redis.port=6379</span><br><span class="line">#如果有密码</span><br><span class="line">spring.redis.password=</span><br><span class="line">#连接超时时间（毫秒）</span><br><span class="line">spring.redis.timeout=10000</span><br><span class="line"></span><br><span class="line">#连接池最大连接数（使用负值表示没有限制）</span><br><span class="line">spring.redis.jedis.pool.max-active=8</span><br><span class="line">#连接池最大阻塞等待时间（使用负值表示没有限制）</span><br><span class="line">spring.redis.jedis.pool.max-wait=-1</span><br><span class="line">#连接池中最大空闲数</span><br><span class="line">spring.redis.jedis.pool.max-idle=8</span><br><span class="line">#连接池中最小空闲连接</span><br><span class="line">spring.redis.jedis.pool.min-idle=3</span><br></pre></td></tr></table></figure>
+<p>3、启动项目RedisCacheConfiguration也是匹配的，说明这次使用的缓存配置会使用Redis缓存的配置</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2vPmD.png" alt="A2vPmD.png"></p>
+<h2 id="二、RedisTemplate-amp-序列化机制"><a href="#二、RedisTemplate-amp-序列化机制" class="headerlink" title="二、RedisTemplate&amp;序列化机制"></a>二、RedisTemplate&amp;序列化机制</h2><p>1、在RedisAutoConfiguraion自动配置类中会自动注册RedisTemplate组件和StringRedisTemplate组件</p>
+<p>二者区别：</p>
+<p>​    RedisTemplate：k-v都是Object类型</p>
+<p>​    StringRedisTemplate：k-v都是String类型</p>
+<p>Spring给用户提供了两个可用的模板，就像使用Hibernate会有HibernateTemplate，使用jdbc会有JdbcTemplate</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2vm1P.png" alt="A2vm1P.png"></p>
+<p>2、所以我们使用的话就直接注入两个模板（<strong>注：使用RedisTemplate存储对象到缓存中，该对象所属的类一定要实现Serializable接口</strong>）</p>
+<p>Redis五大数据类型：String(字符串)、Hash(哈希表)、Set(集合)、List(链表)、Zset(有序集合)对应操作的方法如下</p>
+<ul>
+<li>opsForValue[String]</li>
+<li>opsForHash[Hash]</li>
+<li>opsForSet[Set]</li>
+<li>opsForList[List]</li>
+<li>opsForZset[Zset]</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith</span>(SpringRunner.class)</span><br><span class="line"><span class="meta">@SpringBootTest</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Springboot09CacheApplicationTests</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> EmployeeMapper employeeMapper;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RedisTemplate&lt;Object, Object&gt; redisTemplate;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> StringRedisTemplate stringRedisTemplate;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test01</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        ValueOperations&lt;String, String&gt; string = stringRedisTemplate.opsForValue();</span><br><span class="line">        string.set(<span class="string">"k1"</span>, <span class="string">"Hello"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test02</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//源码可以找到默认使用JdkSerializationRedisSerializer</span></span><br><span class="line">        ValueOperations&lt;Object, Object&gt; string = redisTemplate.opsForValue();</span><br><span class="line">        Employee employee = employeeMapper.selectEmployeeById(<span class="number">1</span>);</span><br><span class="line">        string.set(<span class="string">"emp01"</span>, employee);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>3、执行上述方法测试，查看redis缓存中的数据对象是被序列化成了二进制</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2vSl6.png" alt="A2vSl6.png"></p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2vp6K.png" alt="A2vp6K.png"></p>
+<p>​    3.1、进入到RedisTemplate类查看afterPropertiesSet方法，只要defaultSerializer为null（默认成员变量就</p>
+<p>​        是为null），就初始化一个JdkSerializationRedisSerializer序列化器。</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2v9OO.png" alt="A2v9OO.png"></p>
+<h2 id="三、自定义RedisTemplate"><a href="#三、自定义RedisTemplate" class="headerlink" title="三、自定义RedisTemplate"></a>三、自定义RedisTemplate</h2><p>1、一般都是使用json格式的字符串存储在缓存中，通过前面的RedisAutoConfiguration类可以知道如果容器中有RedisTemplate组件就不会注册，所以我可以自定义RedisTemplate使用Json的序列化器</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2vFTH.png" alt="A2vFTH.png"></p>
+<p>2、自定义RedisTemplate</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyRedisConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedisTemplate&lt;Object, Object&gt; <span class="title">redisTemplate</span><span class="params">(RedisConnectionFactory 			            redisConnectionFactory)</span> <span class="keyword">throws</span> UnknownHostException </span>&#123;</span><br><span class="line">        RedisTemplate&lt;Object, Object&gt; template = <span class="keyword">new</span> RedisTemplate();</span><br><span class="line">        template.setConnectionFactory(redisConnectionFactory);</span><br><span class="line">        Jackson2JsonRedisSerializer&lt;Employee&gt; jackson2JsonRedisSerializer = <span class="keyword">new</span>           </span><br><span class="line">        		Jackson2JsonRedisSerializer&lt;&gt;(Employee.class);</span><br><span class="line">        template.setDefaultSerializer(jackson2JsonRedisSerializer);</span><br><span class="line">        <span class="keyword">return</span> template;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>3、删除掉刚刚在Redis中缓存的数据，重新测试RedisTemplate</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test02</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="comment">//源码可以找到默认使用JdkSerializationRedisSerializer，</span></span><br><span class="line">      <span class="comment">//可以自定义Serializer；eg：这里自定义一个Json序列化器</span></span><br><span class="line">      ValueOperations&lt;Object, Object&gt; string = redisTemplate.opsForValue();</span><br><span class="line">      Employee employee = employeeMapper.selectEmployeeById(<span class="number">1</span>);</span><br><span class="line">      string.set(<span class="string">"emp01"</span>, employee);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>测试成功</p>
+<p> <img src="https://s2.ax1x.com/2019/04/04/A2vi0e.png" alt="A2vi0e.png"></p>
+<h2 id="四、自定义CacheManager"><a href="#四、自定义CacheManager" class="headerlink" title="四、自定义CacheManager"></a>四、自定义CacheManager</h2><p>前面是Unit Test，真正用到工程上使用缓存注解还是默认会使用JdkSerializationRedisSerializer序列化器</p>
+<h3 id="1、Redis默认的CacheManager"><a href="#1、Redis默认的CacheManager" class="headerlink" title="1、Redis默认的CacheManager"></a>1、Redis默认的CacheManager</h3><p>1）、启动项目RedisCacheConfiguration也是匹配的，只要导入Redis的starter就会使用RedisCacheConfiguration的配置，进入该类，会向容器中注册RedisCacheManager缓存管理器并且使用JdkSerializationRedisSerializer序列化器</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2vAkd.png" alt="A2vAkd.png"></p>
+<p>2）、搭建缓存测试（用了前面的常用缓存注解的Demo环境）</p>
+<p>EmployeeService.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Cacheable</span>(cacheNames = &#123;<span class="string">"emp"</span>&#125;)</span><br><span class="line">  <span class="function"><span class="keyword">public</span> Employee <span class="title">getEmployeeById</span><span class="params">(Integer id)</span> </span>&#123;</span><br><span class="line">      System.out.println(id + <span class="string">"号员工被查询"</span>);</span><br><span class="line">      Employee employee = employeeMapper.selectEmployeeById(id);</span><br><span class="line">      <span class="keyword">return</span> employee;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>EmployeeController.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line">   <span class="keyword">private</span> EmployeeService employeeService;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@GetMapping</span>(<span class="string">"/emp/&#123;id&#125;"</span>)</span><br><span class="line">   <span class="function"><span class="keyword">public</span> Employee <span class="title">getEmployeeById</span><span class="params">(@PathVariable Integer id)</span> </span>&#123;</span><br><span class="line">       Employee employee = employeeService.getEmployeeById(id);</span><br><span class="line">       <span class="keyword">return</span> employee;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>3）、启动项目访问<strong>localhost:8080/emp/1</strong>测试</p>
+<p>key：emp::1    value：序列化对象二进制码</p>
+<p>key的生成规则：指定的cacheNames+”::”+指定的key</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2vEtA.png" alt="A2vEtA.png"></p>
+<h3 id="2、自定义CacheManager"><a href="#2、自定义CacheManager" class="headerlink" title="2、自定义CacheManager"></a>2、自定义CacheManager</h3><p>这里增加一个DepartmentService&amp;一个DepartmentController，这样的话就要自定义两个CacheManager。且在缓存注解中的cacheManager属性指定用哪个CacheManager。</p>
+<ul>
+<li>MyRedisConfig.java</li>
+</ul>
+<p>​    <strong>注：这里自定义了三个CacheManager，因为自定义了多个CacheManager的话，必须要通过 </strong></p>
+<pre><code>**@Primary注解指定一个默认CacheManager，用作缓存注解没有指定cacheManager属性，默认使用的** 
+</code></pre><p>​           <strong>CacheManager</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyRedisConfig</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="meta">@Primary</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedisCacheManager <span class="title">cacheManager</span><span class="params">(RedisConnectionFactory factory)</span> </span>&#123;</span><br><span class="line">        RedisSerializer&lt;String&gt; redisSerializer = <span class="keyword">new</span> StringRedisSerializer();</span><br><span class="line">        JdkSerializationRedisSerializer jdkSerializationRedisSerializer = <span class="keyword">new</span>                         JdkSerializationRedisSerializer();</span><br><span class="line">        <span class="comment">// 配置序列化（解决乱码的问题）  不写默认不过期</span></span><br><span class="line">        RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig() </span><br><span class="line">            .serializeKeysWith(RedisSerializationContext.SerializationPair</span><br><span class="line">                               .fromSerializer(redisSerializer))</span><br><span class="line">            .serializeValuesWith(RedisSerializationContext.SerializationPair</span><br><span class="line">                				.fromSerializer(jdkSerializationRedisSerializer))</span><br><span class="line">                				.disableCachingNullValues();</span><br><span class="line">        RedisCacheManager cacheManager = RedisCacheManager.builder(factory)</span><br><span class="line">                .cacheDefaults(config)</span><br><span class="line">                .build();</span><br><span class="line">        <span class="keyword">return</span> cacheManager;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">     <span class="function"><span class="keyword">public</span> RedisCacheManager <span class="title">empCacheManager</span><span class="params">(RedisConnectionFactory factory)</span> </span>&#123;</span><br><span class="line">        RedisSerializer&lt;String&gt; redisSerializer = <span class="keyword">new</span> StringRedisSerializer();</span><br><span class="line">        Jackson2JsonRedisSerializer&lt;Employee&gt; jackson2JsonRedisSerializer = <span class="keyword">new</span> 	                   Jackson2JsonRedisSerializer&lt;&gt;(Employee.class);</span><br><span class="line">        <span class="comment">// 配置序列化（解决乱码的问题）  不写默认不过期</span></span><br><span class="line">        RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig() </span><br><span class="line">            .serializeKeysWith(RedisSerializationContext.SerializationPair</span><br><span class="line">                               .fromSerializer(redisSerializer))</span><br><span class="line">            .serializeValuesWith(RedisSerializationContext.SerializationPair</span><br><span class="line">                				.fromSerializer(jdkSerializationRedisSerializer))</span><br><span class="line">                				.disableCachingNullValues();</span><br><span class="line">        RedisCacheManager cacheManager = RedisCacheManager.builder(factory)</span><br><span class="line">                .cacheDefaults(config)</span><br><span class="line">                .build();</span><br><span class="line">        <span class="keyword">return</span> cacheManager;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedisCacheManager <span class="title">empCacheManager</span><span class="params">(RedisConnectionFactory factory)</span> </span>&#123;</span><br><span class="line">        RedisSerializer&lt;String&gt; redisSerializer = <span class="keyword">new</span> StringRedisSerializer();</span><br><span class="line">        Jackson2JsonRedisSerializer&lt;Department&gt; jackson2JsonRedisSerializer = <span class="keyword">new</span> 	                   Jackson2JsonRedisSerializer&lt;&gt;(Department.class);</span><br><span class="line">        <span class="comment">// 配置序列化（解决乱码的问题）  不写默认不过期</span></span><br><span class="line">        RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig() </span><br><span class="line">            .serializeKeysWith(RedisSerializationContext.SerializationPair</span><br><span class="line">                               .fromSerializer(redisSerializer))</span><br><span class="line">            .serializeValuesWith(RedisSerializationContext.SerializationPair</span><br><span class="line">                				.fromSerializer(jdkSerializationRedisSerializer))</span><br><span class="line">                				.disableCachingNullValues();</span><br><span class="line">        RedisCacheManager cacheManager = RedisCacheManager.builder(factory)</span><br><span class="line">                .cacheDefaults(config)</span><br><span class="line">                .build();</span><br><span class="line">        <span class="keyword">return</span> cacheManager;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>EmployeeService.java</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line">   <span class="keyword">private</span> EmployeeMapper employeeMapper</span><br><span class="line">   </span><br><span class="line"><span class="meta">@Cacheable</span>(cacheNames = &#123;<span class="string">"emp"</span>&#125;, cacheManager = <span class="string">"empCacheManager"</span>)</span><br><span class="line">   <span class="function"><span class="keyword">public</span> Employee <span class="title">getEmployeeById</span><span class="params">(Integer id)</span> </span>&#123;</span><br><span class="line">       System.out.println(id + <span class="string">"号员工被查询"</span>);</span><br><span class="line">       Employee employee = employeeMapper.selectEmployeeById(id);</span><br><span class="line">       <span class="keyword">return</span> employee;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>DepartmentService.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line">   <span class="keyword">private</span> DepartmentMapper departmentMapper;</span><br><span class="line">   </span><br><span class="line">   <span class="meta">@Cacheable</span>(cacheNames = &#123;<span class="string">"dept"</span>&#125;, cacheManager = <span class="string">"deptCacheManager"</span>)</span><br><span class="line">   <span class="function"><span class="keyword">public</span> Department <span class="title">getDepartmentById</span><span class="params">(Integer id)</span> </span>&#123;</span><br><span class="line">       System.out.println(id + <span class="string">"号部门被查询"</span>);</span><br><span class="line">       Department department = departmentMapper.selectDepartmentById(id);</span><br><span class="line">       <span class="keyword">return</span> department;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>EmployeeController.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line">  <span class="keyword">private</span> EmployeeService employeeService;</span><br><span class="line">  </span><br><span class="line">  <span class="meta">@GetMapping</span>(<span class="string">"/emp/&#123;id&#125;"</span>)</span><br><span class="line">  <span class="function"><span class="keyword">public</span> Employee <span class="title">getEmployeeById</span><span class="params">(@PathVariable Integer id)</span> </span>&#123;</span><br><span class="line">      Employee employee = employeeService.getEmployeeById(id);</span><br><span class="line">      <span class="keyword">return</span> employee;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>DepartmentController.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> DepartmentService departmentService;</span><br><span class="line">  </span><br><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/dept/&#123;id&#125;"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> Department <span class="title">getDepartmentById</span><span class="params">(@PathVariable Integer id)</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">    Department department = departmentService.getDepartmentById(id);</span><br><span class="line">    <span class="keyword">return</span> department;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：访问测试</p>
+<p>​    访问EmployeeController：localhost:8080/emp/1成功显示结果</p>
+<p>​    访问DepartmentController：localhost:8080/dept/1成功显示结果</p>
+<p>查看Redis：以json格式正确存储到Redis缓存中</p>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2vVfI.png" alt="A2vVfI.png"></p>
+</li>
+</ul>
+<p><img src="https://s2.ax1x.com/2019/04/04/A2vVfI.png" alt="A2vVfI.png"></p>
+<p>​        1）、在开发中如果每个需要缓存的对象都要自定义一个对应的CacheManager那太麻烦了，之前的做法            都是在初始化Jackson2JsonRedisSerializer时通过构造方法指定类型，这时候我们可以将其的类型            指定 为Object，只不过要加几行代码</p>
+<p>​            MyRedisConfig.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> CacheManager <span class="title">cacheManager</span><span class="params">(RedisConnectionFactory factory)</span> </span>&#123;</span><br><span class="line">       RedisSerializer&lt;String&gt; redisSerializer = <span class="keyword">new</span> StringRedisSerializer();</span><br><span class="line">       Jackson2JsonRedisSerializer&lt;Object&gt; jackson2JsonRedisSerializer = <span class="keyword">new</span> </span><br><span class="line">       			Jackson2JsonRedisSerializer&lt;&gt;(Object.class);</span><br><span class="line"></span><br><span class="line">       <span class="comment">//解决查询缓存转换异常的问题</span></span><br><span class="line">       ObjectMapper om = <span class="keyword">new</span> ObjectMapper();</span><br><span class="line">       om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);</span><br><span class="line">       om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);</span><br><span class="line">       jackson2JsonRedisSerializer.setObjectMapper(om);</span><br><span class="line"></span><br><span class="line">       <span class="comment">// 配置序列化（解决乱码的问题）</span></span><br><span class="line">        RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig() </span><br><span class="line">           .serializeKeysWith(RedisSerializationContext.SerializationPair</span><br><span class="line">                              .fromSerializer(redisSerializer))</span><br><span class="line">           .serializeValuesWith(RedisSerializationContext.SerializationPair</span><br><span class="line">               				.fromSerializer(jackson2JsonRedisSerializer))</span><br><span class="line">               				.disableCachingNullValues();</span><br><span class="line">       RedisCacheManager cacheManager = RedisCacheManager.builder(factory)</span><br><span class="line">               .cacheDefaults(config)</span><br><span class="line">               .build();</span><br><span class="line">       <span class="keyword">return</span> cacheManager;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>​        2）、使用缓存注解只有返回值会被存储缓存中，这时候可以通过自动注入缓存管理器来灵活的使用缓存</p>
+<p>​         以DepartmentService为例（不需要使用缓存注解）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DepartmentService</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> CacheManager cacheManager;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> DepartmentMapper departmentMapper;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Department <span class="title">getDepartmentById</span><span class="params">(Integer id)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//业务中灵活的使用缓存；自动注入自定义好的deptCacheManager</span></span><br><span class="line">        <span class="comment">//获取名称为dept的缓存组件，没有默认会创建一个名称为dept的缓存组件</span></span><br><span class="line">        Cache cache = cacheManager.getCache(<span class="string">"dept"</span>);</span><br><span class="line">        <span class="comment">//先在缓存中查，没有查到再去数据库中查询然后再添加到缓存中去</span></span><br><span class="line">        <span class="comment">//在Redis中使用的key：cacheName::这里指定的key</span></span><br><span class="line">        SimpleValueWrapper valueWrapper = (SimpleValueWrapper) cache.get(id);</span><br><span class="line">        Department department = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (valueWrapper == <span class="keyword">null</span>) &#123;</span><br><span class="line">            department = departmentMapper.selectDepartmentById(id);</span><br><span class="line">            cache.put(id,department);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            department = (Department)valueWrapper.get();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> department;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年04月05日 11:00</p>
+        <p>原始链接： <a class="post-url" href="/2019/04/05/2019-04-05-SpringBoot学习08_整合Redis/" title="Spring Boot学习08_整合Redis">http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习08_整合Redis/</a></p>
+        <footer>
+            <a href="http://yoursite.com">
+                <img src="/images/logo.png" alt="John Doe">
+                John Doe
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习08_整合Redis/&title=《Spring Boot学习08_整合Redis》 — Hexo&pic=http://yoursite.comimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习08_整合Redis/&title=《Spring Boot学习08_整合Redis》 — Hexo&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习08_整合Redis/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Spring Boot学习08_整合Redis》 — Hexo&url=http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习08_整合Redis/&via=http://yoursite.com" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习08_整合Redis/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习08_整合Redis/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/SpringBoot/" class="color1">SpringBoot</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、环境搭建"><span class="post-toc-text">一、环境搭建</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二、RedisTemplate-amp-序列化机制"><span class="post-toc-text">二、RedisTemplate&amp;序列化机制</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#三、自定义RedisTemplate"><span class="post-toc-text">三、自定义RedisTemplate</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#四、自定义CacheManager"><span class="post-toc-text">四、自定义CacheManager</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1、Redis默认的CacheManager"><span class="post-toc-text">1、Redis默认的CacheManager</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2、自定义CacheManager"><span class="post-toc-text">2、自定义CacheManager</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2019/04/05/2019-04-05-SpringBoot学习09_整合RabbitMQ/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Spring Boot学习09_整合RabbitMQ
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2019/04/05/2019-04-05-SpringBoot学习08_缓存运行流程/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Spring Boot学习08_缓存工作原理</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2019 John Doe<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://yoursite.com",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

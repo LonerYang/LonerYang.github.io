@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>Linux压缩解压文件 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Yang,Yang's Blog">
+  
+  <meta name="description" content="一、LINUX中的常见的压缩格式zip、gz、bz2 二、gz压缩文件的压缩与解压1、压缩：gzip [文件路径]gz文件压缩文件特点: 1）、不保留源文件，压缩完成后删除源文件 2）、不能压缩文件夹 eg：压缩文件 a.txt 压缩完成后删除源文件 12345678[root@instance-y2jixxt2 study-linux]# touch a.txt[root@instance-y2">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux压缩解压文件">
+<meta property="og:url" content="http://yoursite.com/2019/03/27/2019-03-27-Linux压缩解压文件/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="一、LINUX中的常见的压缩格式zip、gz、bz2 二、gz压缩文件的压缩与解压1、压缩：gzip [文件路径]gz文件压缩文件特点: 1）、不保留源文件，压缩完成后删除源文件 2）、不能压缩文件夹 eg：压缩文件 a.txt 压缩完成后删除源文件 12345678[root@instance-y2jixxt2 study-linux]# touch a.txt[root@instance-y2">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-03-27T13:37:31.559Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux压缩解压文件">
+<meta name="twitter:description" content="一、LINUX中的常见的压缩格式zip、gz、bz2 二、gz压缩文件的压缩与解压1、压缩：gzip [文件路径]gz文件压缩文件特点: 1）、不保留源文件，压缩完成后删除源文件 2）、不能压缩文件夹 eg：压缩文件 a.txt 压缩完成后删除源文件 12345678[root@instance-y2jixxt2 study-linux]# touch a.txt[root@instance-y2">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Yang&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Yang&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        一个专注 Java 开发的技术博客
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Yang" target="_blank" href="//yangrijian.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/loneryang">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/printf杨氏子">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-2019-03-27-Linux压缩解压文件" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Linux压缩解压文件
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-03-27
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="一、LINUX中的常见的压缩格式"><a href="#一、LINUX中的常见的压缩格式" class="headerlink" title="一、LINUX中的常见的压缩格式"></a>一、LINUX中的常见的压缩格式</h2><p><strong>zip、gz、bz2</strong></p>
+<h2 id="二、gz压缩文件的压缩与解压"><a href="#二、gz压缩文件的压缩与解压" class="headerlink" title="二、gz压缩文件的压缩与解压"></a>二、gz压缩文件的压缩与解压</h2><h3 id="1、压缩：gzip-文件路径"><a href="#1、压缩：gzip-文件路径" class="headerlink" title="1、压缩：gzip [文件路径]"></a>1、压缩：gzip [文件路径]</h3><p>gz文件压缩文件特点:</p>
+<p><strong>1）、不保留源文件，压缩完成后删除源文件</strong></p>
+<p><strong>2）、不能压缩文件夹</strong></p>
+<p>eg：压缩文件 a.txt <strong>压缩完成后删除源文件</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@instance-y2jixxt2 study-linux]# touch a.txt</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# ll</span><br><span class="line">total 0</span><br><span class="line">-rw-r--r-- 1 root root 0 Mar 27 19:43 a.txt</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# gzip a.txt</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# ll</span><br><span class="line">total 4</span><br><span class="line">-rw-r--r-- 1 root root 26 Mar 27 19:43 a.txt.gz</span><br></pre></td></tr></table></figure>
+<p>eg：<strong>不能压缩文件夹</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@instance-y2jixxt2 study-linux]# mkdir aa</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# ll</span><br><span class="line">total 8</span><br><span class="line">drwxr-xr-x 2 root root 4096 Mar 27 19:45 aa</span><br><span class="line">-rw-r--r-- 1 root root   26 Mar 27 19:43 a.txt.gz</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# gzip aa</span><br><span class="line">gzip: aa is a directory -- ignored</span><br></pre></td></tr></table></figure>
+<h3 id="2、解压：gunzip-文件路径"><a href="#2、解压：gunzip-文件路径" class="headerlink" title="2、解压：gunzip  [文件路径]"></a>2、解压：gunzip  [文件路径]</h3><p>eg：解压压缩包 a.txt.gz</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@instance-y2jixxt2 study-linux]# ll</span><br><span class="line">total 4</span><br><span class="line">-rw-r--r-- 1 root root 26 Mar 27 19:40 a.txt.gz</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# gunzip a.txt.gz</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# ll</span><br><span class="line">total 0</span><br><span class="line">-rw-r--r-- 1 root root 0 Mar 27 19:40 a.txt</span><br></pre></td></tr></table></figure>
+<h2 id="三、zip压缩文件的压缩与解压"><a href="#三、zip压缩文件的压缩与解压" class="headerlink" title="三、zip压缩文件的压缩与解压"></a>三、zip压缩文件的压缩与解压</h2><h3 id="1、压缩：zip-选项-压缩后文件名-文件或目录"><a href="#1、压缩：zip-选项-压缩后文件名-文件或目录" class="headerlink" title="1、压缩：zip [选项] [压缩后文件名] [文件或目录]"></a>1、压缩：zip [选项] [压缩后文件名] [文件或目录]</h3><h3 id="2、解压：unzip-文件路径"><a href="#2、解压：unzip-文件路径" class="headerlink" title="2、解压：unzip [文件路径]"></a>2、解压：unzip [文件路径]</h3><p><strong>-r:压缩文件夹，把所有子目录以及文件一起处理</strong></p>
+<p>eg：压缩 a.txt文件 （<strong>默认后缀名为zip</strong>）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@instance-y2jixxt2 study-linux]# touch a.txt</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# zip a a.txt</span><br><span class="line">  adding: a.txt (stored 0%)</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# ll</span><br><span class="line">total 4</span><br><span class="line">-rw-r--r-- 1 root root   0 Mar 27 19:50 a.txt</span><br><span class="line">-rw-r--r-- 1 root root 160 Mar 27 19:50 a.zip</span><br></pre></td></tr></table></figure>
+<p>eg：压缩 a 文件夹</p>
+<p>如果不使用 <code>-r</code>文件夹中的文件是不会被压缩的</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">[root@instance-y2jixxt2 study-linux]# ll</span><br><span class="line">total 4</span><br><span class="line">drwxr-xr-x 2 root root 4096 Mar 27 19:54 aa</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# cd aa</span><br><span class="line">[root@instance-y2jixxt2 aa]# touch aa.txt</span><br><span class="line">[root@instance-y2jixxt2 aa]# ll</span><br><span class="line">total 0</span><br><span class="line">-rw-r--r-- 1 root root 0 Mar 27 20:00 aa.txt</span><br><span class="line">[root@instance-y2jixxt2 aa]# cd ..</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# ll</span><br><span class="line">total 4</span><br><span class="line">drwxr-xr-x 2 root root 4096 Mar 27 20:00 aa</span><br><span class="line"><span class="meta">#</span>压缩文件夹aa</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# zip aa aa</span><br><span class="line">  adding: aa/ (stored 0%)</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# ll</span><br><span class="line">total 8</span><br><span class="line">drwxr-xr-x 2 root root 4096 Mar 27 20:00 aa</span><br><span class="line">-rw-r--r-- 1 root root  156 Mar 27 20:03 aa.zip</span><br><span class="line"><span class="meta">#</span>删除原来的aa文件夹</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# rm -rf aa</span><br><span class="line"><span class="meta">#</span>解压刚刚压缩好的aa.zip</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# unzip aa.zip</span><br><span class="line">Archive:  aa.zip</span><br><span class="line">   creating: aa/</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# cd aa</span><br><span class="line"><span class="meta">#</span>进入解压后的文件夹发现并没有aa.txt</span><br><span class="line">[root@instance-y2jixxt2 aa]# ll</span><br><span class="line">total 0</span><br></pre></td></tr></table></figure>
+<p> 使用 <code>-r</code> 压缩文件夹，文件夹所有子目录以及文件也会一起处理</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">[root@instance-y2jixxt2 study-linux]# cd aa</span><br><span class="line">[root@instance-y2jixxt2 aa]# ll</span><br><span class="line">total 0</span><br><span class="line">-rw-r--r-- 1 root root 0 Mar 27 20:09 aa.txt</span><br><span class="line">[root@instance-y2jixxt2 aa]# cd ..</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# ll</span><br><span class="line">total 4</span><br><span class="line">drwxr-xr-x 2 root root 4096 Mar 27 20:09 aa</span><br><span class="line"><span class="meta">#</span>加上选项 -r 压缩</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# zip -r aa aa</span><br><span class="line">  adding: aa/ (stored 0%)</span><br><span class="line">  adding: aa/aa.txt (stored 0%)</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# ll</span><br><span class="line">total 8</span><br><span class="line">drwxr-xr-x 2 root root 4096 Mar 27 20:09 aa</span><br><span class="line">-rw-r--r-- 1 root root  302 Mar 27 20:11 aa.zip</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# rm -rf aa</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# unzip aa.zip</span><br><span class="line">Archive:  aa.zip</span><br><span class="line">   creating: aa/</span><br><span class="line"> extracting: aa/aa.txt               </span><br><span class="line">[root@instance-y2jixxt2 study-linux]# cd aa</span><br><span class="line"><span class="meta">#</span>解压后文件夹所有子目录以及文件也会解压出来</span><br><span class="line">[root@instance-y2jixxt2 aa]# ll</span><br><span class="line">total 0</span><br><span class="line">-rw-r--r-- 1 root root 0 Mar 27 20:09 aa.txt</span><br></pre></td></tr></table></figure>
+<h2 id="四、bzip2压缩文件的压缩与解压"><a href="#四、bzip2压缩文件的压缩与解压" class="headerlink" title="四、bzip2压缩文件的压缩与解压"></a>四、bzip2压缩文件的压缩与解压</h2><h3 id="1、压缩：bzip2-选项-文件"><a href="#1、压缩：bzip2-选项-文件" class="headerlink" title="1、压缩：bzip2 [选项] [文件]"></a>1、压缩：bzip2 [选项] [文件]</h3><p><strong>特点：不能压缩文件夹</strong></p>
+<p><strong>-k 压缩后不删除源文件</strong></p>
+<p>eg：压缩 aa.txt 默认删除源文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[root@instance-y2jixxt2 study-linux]# ll</span><br><span class="line">total 4</span><br><span class="line">drwxr-xr-x 2 root root 4096 Mar 27 20:18 aa</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# bzip2 aa</span><br><span class="line">bzip2: Input file aa is a directory.</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# touch aa.txt</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# ll</span><br><span class="line">total 4</span><br><span class="line">drwxr-xr-x 2 root root 4096 Mar 27 20:18 aa</span><br><span class="line">-rw-r--r-- 1 root root    0 Mar 27 20:23 aa.txt</span><br><span class="line"><span class="meta">#</span>压缩aa.txt文件</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# bzip2 aa.txt</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# ll</span><br><span class="line">total 8</span><br><span class="line">drwxr-xr-x 2 root root 4096 Mar 27 20:18 aa</span><br><span class="line">-rw-r--r-- 1 root root   14 Mar 27 20:23 aa.txt.bz2</span><br></pre></td></tr></table></figure>
+<p>eg：使用选项 <code>-k</code> 不删除源文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@instance-y2jixxt2 study-linux]# touch bb.txt</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# bzip2 -k bb.txt</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# ll</span><br><span class="line">total 12</span><br><span class="line">drwxr-xr-x 2 root root 4096 Mar 27 20:18 aa</span><br><span class="line">-rw-r--r-- 1 root root   14 Mar 27 20:23 aa.txt.bz2</span><br><span class="line">-rw-r--r-- 1 root root    0 Mar 27 20:26 bb.txt</span><br><span class="line">-rw-r--r-- 1 root root   14 Mar 27 20:26 bb.txt.bz2</span><br></pre></td></tr></table></figure>
+<h3 id="2、解压：bunzip2-文件路径"><a href="#2、解压：bunzip2-文件路径" class="headerlink" title="2、解压：bunzip2 [文件路径]"></a>2、解压：bunzip2 [文件路径]</h3><p>eg：解压 aa.txt.bz2</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@instance-y2jixxt2 study-linux]# ll</span><br><span class="line">total 4</span><br><span class="line">-rw-r--r-- 1 root root 14 Mar 27 20:29 aa.txt.bz2</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# bunzip2 aa.txt.bz2</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# ll</span><br><span class="line">total 0</span><br><span class="line">-rw-r--r-- 1 root root 0 Mar 27 20:29 aa.txt</span><br></pre></td></tr></table></figure>
+<p>eg：使用选项 <code>-k</code> 不删除源文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@instance-y2jixxt2 study-linux]# ll</span><br><span class="line">total 4</span><br><span class="line">-rw-r--r-- 1 root root 14 Mar 27 20:29 aa.txt.bz2</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# bunzip2 -k aa.txt.bz2</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# ll</span><br><span class="line">total 4</span><br><span class="line">-rw-r--r-- 1 root root  0 Mar 27 20:29 aa.txt</span><br><span class="line">-rw-r--r-- 1 root root 14 Mar 27 20:29 aa.txt.bz2</span><br></pre></td></tr></table></figure>
+<h2 id="五、tar打包并且压缩文件（常用）"><a href="#五、tar打包并且压缩文件（常用）" class="headerlink" title="五、tar打包并且压缩文件（常用）"></a>五、tar打包并且压缩文件（常用）</h2><h3 id="1、压缩文件："><a href="#1、压缩文件：" class="headerlink" title="1、压缩文件："></a>1、压缩文件：</h3><p>tar [选项] [压缩后文件名] [需要压缩的目录或文件路径]</p>
+<p>-c 打包</p>
+<p>-v 显示详细信息</p>
+<p>-f 制定文件名</p>
+<p>-z 打包使用gzip压缩（.gz）</p>
+<p>-j 打包使用bzip2压缩（.bz2）</p>
+<p>-P 来源文件绝对路径</p>
+<p>eg：以绝对路径压缩 aa 文件夹为 aa.gz  <code>tar -zcvf aa.gz -P /home/work/study-linux/aa</code> （bzip2压缩换成</p>
+<p><code>-j</code> 选项）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@instance-y2jixxt2 study-linux]# ll</span><br><span class="line">total 4</span><br><span class="line">drwxr-xr-x 2 root root 4096 Mar 27 20:47 aa</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# tar -zcvf aa.gz -P /home/work/study-linux/aa</span><br><span class="line">/home/work/study-linux/aa/</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# ll</span><br><span class="line">total 8</span><br><span class="line">drwxr-xr-x 2 root root 4096 Mar 27 20:47 aa</span><br><span class="line">-rw-r--r-- 1 root root  132 Mar 27 20:49 aa.gz</span><br></pre></td></tr></table></figure>
+<h3 id="2、解压文件："><a href="#2、解压文件：" class="headerlink" title="2、解压文件："></a>2、解压文件：</h3><p>tar [选项] [解压文件] -C [解压到的目录]</p>
+<p>-x 解包</p>
+<p>-v 显示详细信息</p>
+<p>-f 制定文件名</p>
+<p>-z 使用gzip解压缩（.gz）</p>
+<p>-j 使用bzip2解压缩（.bz2）</p>
+<p>eg：解压 aa.gz 压缩包到 target 文件夹  <code>tar -zxvf aa.gz -C target</code> （bzip2解压换成 <code>-j</code> 选项）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[root@instance-y2jixxt2 study-linux]# ll</span><br><span class="line">total 12</span><br><span class="line">drwxr-xr-x 2 root root 4096 Mar 27 20:47 aa</span><br><span class="line">-rw-r--r-- 1 root root  105 Mar 27 21:26 aa.gz</span><br><span class="line">drwxr-xr-x 2 root root 4096 Mar 27 21:25 target</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# tar -zxvf aa.gz -C target</span><br><span class="line">aa/</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# ll</span><br><span class="line">total 12</span><br><span class="line">drwxr-xr-x 2 root root 4096 Mar 27 20:47 aa</span><br><span class="line">-rw-r--r-- 1 root root  105 Mar 27 21:26 aa.gz</span><br><span class="line">drwxr-xr-x 3 root root 4096 Mar 27 21:27 target</span><br><span class="line">[root@instance-y2jixxt2 study-linux]# cd target</span><br><span class="line">[root@instance-y2jixxt2 target]# ll</span><br><span class="line">total 4</span><br><span class="line">drwxr-xr-x 2 root root 4096 Mar 27 20:47 aa</span><br></pre></td></tr></table></figure>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年03月27日 21:37</p>
+        <p>原始链接： <a class="post-url" href="/2019/03/27/2019-03-27-Linux压缩解压文件/" title="Linux压缩解压文件">http://yoursite.com/2019/03/27/2019-03-27-Linux压缩解压文件/</a></p>
+        <footer>
+            <a href="http://yoursite.com">
+                <img src="/images/logo.png" alt="John Doe">
+                John Doe
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/03/27/2019-03-27-Linux压缩解压文件/&title=《Linux压缩解压文件》 — Hexo&pic=http://yoursite.comimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/03/27/2019-03-27-Linux压缩解压文件/&title=《Linux压缩解压文件》 — Hexo&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/03/27/2019-03-27-Linux压缩解压文件/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Linux压缩解压文件》 — Hexo&url=http://yoursite.com/2019/03/27/2019-03-27-Linux压缩解压文件/&via=http://yoursite.com" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/03/27/2019-03-27-Linux压缩解压文件/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/03/27/2019-03-27-Linux压缩解压文件/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Linux/" class="color1">Linux</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、LINUX中的常见的压缩格式"><span class="post-toc-text">一、LINUX中的常见的压缩格式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二、gz压缩文件的压缩与解压"><span class="post-toc-text">二、gz压缩文件的压缩与解压</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1、压缩：gzip-文件路径"><span class="post-toc-text">1、压缩：gzip [文件路径]</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2、解压：gunzip-文件路径"><span class="post-toc-text">2、解压：gunzip  [文件路径]</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#三、zip压缩文件的压缩与解压"><span class="post-toc-text">三、zip压缩文件的压缩与解压</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1、压缩：zip-选项-压缩后文件名-文件或目录"><span class="post-toc-text">1、压缩：zip [选项] [压缩后文件名] [文件或目录]</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2、解压：unzip-文件路径"><span class="post-toc-text">2、解压：unzip [文件路径]</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#四、bzip2压缩文件的压缩与解压"><span class="post-toc-text">四、bzip2压缩文件的压缩与解压</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1、压缩：bzip2-选项-文件"><span class="post-toc-text">1、压缩：bzip2 [选项] [文件]</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2、解压：bunzip2-文件路径"><span class="post-toc-text">2、解压：bunzip2 [文件路径]</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#五、tar打包并且压缩文件（常用）"><span class="post-toc-text">五、tar打包并且压缩文件（常用）</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1、压缩文件："><span class="post-toc-text">1、压缩文件：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2、解压文件："><span class="post-toc-text">2、解压文件：</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2019/03/27/2019-03-27-Linux进程管理方法/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Linux进程管理
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2019/03/26/2019-03-26-Linux权限管理/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Linux权限管理</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2019 John Doe<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://yoursite.com",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
