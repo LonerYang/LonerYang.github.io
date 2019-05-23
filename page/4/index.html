@@ -3,18 +3,18 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
-  <title>Hexo</title>
+  <title>Yang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Yang,Yang's Blog">
   
   <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
+<meta property="og:title" content="Yang">
 <meta property="og:url" content="http://yoursite.com/page/4/index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:site_name" content="Yang">
 <meta property="og:locale" content="default">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="Yang">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -104,14 +104,14 @@
       <div class="outer">
         <section id="main" class="body-wrap">
   
-    <article id="post-2019-04-02-Linux文本编辑器vim" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-2019-04-05-SpringBoot学习08_缓存运行流程" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/02/2019-04-02-Linux文本编辑器vim/">Linux文本编辑器vi/vim</a>
+      <a class="article-title" href="/2019/04/05/2019-04-05-SpringBoot学习08_缓存运行流程/">Spring Boot学习08_缓存工作原理</a>
     </h1>
   
 
@@ -121,20 +121,17 @@
     <div class="article-entry " itemprop="articleBody">
       
         <div class="article-img">
-            <a href="/2019/04/02/2019-04-02-Linux文本编辑器vim/">
+            <a href="/2019/04/05/2019-04-05-SpringBoot学习08_缓存运行流程/">
                 
-                <img src="http://yoursite.com/images/banner.jpg" alt="Linux文本编辑器vi/vim" title="Linux文本编辑器vi/vim">
+                <img src="http://yoursite.com/images/banner.jpg" alt="Spring Boot学习08_缓存工作原理" title="Spring Boot学习08_缓存工作原理">
                 
             </a>
         </div>
         <div class="article-feed">
             <p>
-                只会总结常用命令，不常用的文档就行
-一、介绍1、Vim是从 vi 发展出来的一个文本编辑器。代码补完、编译及错误跳转等方便编程的功能特别丰富，在程序员中被广泛使用。
-2、二者的区别
-vi：相当于普通文本打开，默认Linux系统自带
-vim：相当于一个IDE，如果有特殊的代码或者关键字会有不同颜色的显示（没有自带，使用 yum -y install vim 安装）
-3、vi...
+                一、原理分析原理性的东西每次都是XXXAutoConfiguration配置类，缓存应该就是CacheAutoConfiguration类
+1、进入CacheAutoConfiguration类上面有个@Import({CacheAutoConfiguration.CacheConfigurationImportSelector.class})
+会导入一个CacheCon...
             </p>
         </div>
       
@@ -144,122 +141,7 @@ vim：相当于一个IDE，如果有特殊的代码或者关键字会有不同�
         
         <ul class="article-footer-menu">
             
-                <li><i class="fa fa-calendar"></i>2019-04-02</li>
-            
-            
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/tags/Linux/" class="color1">Linux</a>
-      
-  </li>
-
-        </ul>
-        
-            <a href="/2019/04/02/2019-04-02-Linux文本编辑器vim/#more" class="article-more-link">more&gt;&gt;</a>
-        
-    </footer>
-  </div>
-</article>
-
-
-  
-    <article id="post-2019-03-29-Linux课堂之网络命令详解" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/29/2019-03-29-Linux课堂之网络命令详解/">Linux课堂之网络命令详解</a>
-    </h1>
-  
-
-          
-      </header>
-    
-    <div class="article-entry " itemprop="articleBody">
-      
-        <div class="article-img">
-            <a href="/2019/03/29/2019-03-29-Linux课堂之网络命令详解/">
-                
-                <img src="http://yoursite.com/images/banner.jpg" alt="Linux课堂之网络命令详解" title="Linux课堂之网络命令详解">
-                
-            </a>
-        </div>
-        <div class="article-feed">
-            <p>
-                一、网络相关命令1、用ping命令测试Linux是否联网ping[选项] [网址/ip] ping 网址还是会被解析成 ip 地址
-选项：-c n  Linux中 ping 默认是无限 ping ，可以使用 -c选择设置 ping 的次数，如果不使用 -c选项，无限 ping 可以使用 Ctrl + c 退出
-eg：使用 ping -c 3 www.baidu.com 命...
-            </p>
-        </div>
-      
-        
-    </div>
-    <footer class="article-footer">
-        
-        <ul class="article-footer-menu">
-            
-                <li><i class="fa fa-calendar"></i>2019-03-29</li>
-            
-            
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/tags/Linux/" class="color1">Linux</a>
-      
-  </li>
-
-        </ul>
-        
-            <a href="/2019/03/29/2019-03-29-Linux课堂之网络命令详解/#more" class="article-more-link">more&gt;&gt;</a>
-        
-    </footer>
-  </div>
-</article>
-
-
-  
-    <article id="post-2019-03-28-SpringBoot学习04_嵌入式Servlet容器自动配置原理" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/28/2019-03-28-SpringBoot学习04_嵌入式Servlet容器自动配置原理/">Spring Boot学习04_嵌入式Servlet容器自动配置原理</a>
-    </h1>
-  
-
-          
-      </header>
-    
-    <div class="article-entry " itemprop="articleBody">
-      
-        <div class="article-img">
-            <a href="/2019/03/28/2019-03-28-SpringBoot学习04_嵌入式Servlet容器自动配置原理/">
-                
-                <img src="http://yoursite.com/images/banner.jpg" alt="Spring Boot学习04_嵌入式Servlet容器自动配置原理" title="Spring Boot学习04_嵌入式Servlet容器自动配置原理">
-                
-            </a>
-        </div>
-        <div class="article-feed">
-            <p>
-                在Spring Boot的自动配置包下，找到web模块中的servlet文件夹下的ServletWebServerFactoryConfiguration类
-一、嵌入式Servlet容器默认的配置原理1、该类中有三个静态内部类（都是配置类）：
-EmbeddedUndertow、EmbeddedJetty、EmbeddedTomcat
-这里拿EmbeddedTomcat来举...
-            </p>
-        </div>
-      
-        
-    </div>
-    <footer class="article-footer">
-        
-        <ul class="article-footer-menu">
-            
-                <li><i class="fa fa-calendar"></i>2019-03-28</li>
+                <li><i class="fa fa-calendar"></i>2019-04-05</li>
             
             
   <li class="article-footer-tags">
@@ -271,7 +153,7 @@ EmbeddedUndertow、EmbeddedJetty、EmbeddedTomcat
 
         </ul>
         
-            <a href="/2019/03/28/2019-03-28-SpringBoot学习04_嵌入式Servlet容器自动配置原理/#more" class="article-more-link">more&gt;&gt;</a>
+            <a href="/2019/04/05/2019-04-05-SpringBoot学习08_缓存运行流程/#more" class="article-more-link">more&gt;&gt;</a>
         
     </footer>
   </div>
@@ -279,14 +161,14 @@ EmbeddedUndertow、EmbeddedJetty、EmbeddedTomcat
 
 
   
-    <article id="post-2019-03-28-SpringBoot学习04_嵌入式Servlet容器基本API" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-2019-04-05-SpringBoot学习08_常用缓存注解使用" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/28/2019-03-28-SpringBoot学习04_嵌入式Servlet容器基本API/">Spring Boot学习04_嵌入式Servlet容器基本API</a>
+      <a class="article-title" href="/2019/04/05/2019-04-05-SpringBoot学习08_常用缓存注解使用/">Spring Boot学习08_常用缓存注解使用</a>
     </h1>
   
 
@@ -296,16 +178,17 @@ EmbeddedUndertow、EmbeddedJetty、EmbeddedTomcat
     <div class="article-entry " itemprop="articleBody">
       
         <div class="article-img">
-            <a href="/2019/03/28/2019-03-28-SpringBoot学习04_嵌入式Servlet容器基本API/">
+            <a href="/2019/04/05/2019-04-05-SpringBoot学习08_常用缓存注解使用/">
                 
-                <img src="http://yoursite.com/images/banner.jpg" alt="Spring Boot学习04_嵌入式Servlet容器基本API" title="Spring Boot学习04_嵌入式Servlet容器基本API">
+                <img src="http://yoursite.com/images/banner.jpg" alt="Spring Boot学习08_常用缓存注解使用" title="Spring Boot学习08_常用缓存注解使用">
                 
             </a>
         </div>
         <div class="article-feed">
             <p>
-                一、嵌入式Servlet容器配置修改1、通过全局配置文件修改(application.properties/yml)
-之前的文章说过自动配置原理(文章地址)，只要涉及到自动配置的一定是在xxxAutoConfiguration类中，而xxxAutoConfiguration类中自动配置的组件会在xxxProperties类中获取值，而xxxProperties类与全局配置...
+                一、JSR107Java Caching定义了5个核心接口，分别是CachingProvider, CacheManager, Cache, Entry 和 Expiry。
+•CachingProvider定义了创建、配置、获取、管理和控制多个CacheManager。一个应用可以在运行期访问多个CachingProvider。
+•CacheManager定义了创建、配置...
             </p>
         </div>
       
@@ -315,7 +198,7 @@ EmbeddedUndertow、EmbeddedJetty、EmbeddedTomcat
         
         <ul class="article-footer-menu">
             
-                <li><i class="fa fa-calendar"></i>2019-03-28</li>
+                <li><i class="fa fa-calendar"></i>2019-04-05</li>
             
             
   <li class="article-footer-tags">
@@ -327,7 +210,7 @@ EmbeddedUndertow、EmbeddedJetty、EmbeddedTomcat
 
         </ul>
         
-            <a href="/2019/03/28/2019-03-28-SpringBoot学习04_嵌入式Servlet容器基本API/#more" class="article-more-link">more&gt;&gt;</a>
+            <a href="/2019/04/05/2019-04-05-SpringBoot学习08_常用缓存注解使用/#more" class="article-more-link">more&gt;&gt;</a>
         
     </footer>
   </div>
@@ -335,14 +218,14 @@ EmbeddedUndertow、EmbeddedJetty、EmbeddedTomcat
 
 
   
-    <article id="post-2019-03-28-SpringBoot学习04_自适应定制错误数据原理" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-2019-04-05-SpringBoot学习07_自定义starter" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/28/2019-03-28-SpringBoot学习04_自适应定制错误数据原理/">Spring Boot学习04_自适应定制错误数据原理</a>
+      <a class="article-title" href="/2019/04/05/2019-04-05-SpringBoot学习07_自定义starter/">Spring Boot学习07_自定义starter</a>
     </h1>
   
 
@@ -352,19 +235,15 @@ EmbeddedUndertow、EmbeddedJetty、EmbeddedTomcat
     <div class="article-entry " itemprop="articleBody">
       
         <div class="article-img">
-            <a href="/2019/03/28/2019-03-28-SpringBoot学习04_自适应定制错误数据原理/">
+            <a href="/2019/04/05/2019-04-05-SpringBoot学习07_自定义starter/">
                 
-                <img src="http://yoursite.com/images/banner.jpg" alt="Spring Boot学习04_自适应定制错误数据原理" title="Spring Boot学习04_自适应定制错误数据原理">
+                <img src="http://yoursite.com/images/banner.jpg" alt="Spring Boot学习07_自定义starter" title="Spring Boot学习07_自定义starter">
                 
             </a>
         </div>
         <div class="article-feed">
             <p>
-                在我们访问Spring Boot应用的时候，出现譬如404，500的错误，默认会跳到如下页面
-
-而做服务端的，浏览器并非为唯一客户端，还有安卓客户端app显示错误数据的方式，如下：（使用postman工具模拟安卓客户端app接受请求），Spring Boot会响应给安卓客户端json数据
-
-这样的页面终归是不友好的，一般会自己定制页面或定制json数据（符合项目风格的错误...
+                ​       查看Spring Boot的源码，starter包并没有真正的代码，代码都在autoconfigurer包中，所以我也可以照葫芦画瓢，创建一个starter项目和一个autoconfigurer项目，在autoconfigurer项目中写自动配置类，在starter项目中依赖autoconfigurer项目，到时候别人用就直接引入starter的坐标就能使...
             </p>
         </div>
       
@@ -374,7 +253,7 @@ EmbeddedUndertow、EmbeddedJetty、EmbeddedTomcat
         
         <ul class="article-footer-menu">
             
-                <li><i class="fa fa-calendar"></i>2019-03-28</li>
+                <li><i class="fa fa-calendar"></i>2019-04-05</li>
             
             
   <li class="article-footer-tags">
@@ -386,7 +265,7 @@ EmbeddedUndertow、EmbeddedJetty、EmbeddedTomcat
 
         </ul>
         
-            <a href="/2019/03/28/2019-03-28-SpringBoot学习04_自适应定制错误数据原理/#more" class="article-more-link">more&gt;&gt;</a>
+            <a href="/2019/04/05/2019-04-05-SpringBoot学习07_自定义starter/#more" class="article-more-link">more&gt;&gt;</a>
         
     </footer>
   </div>
@@ -394,14 +273,14 @@ EmbeddedUndertow、EmbeddedJetty、EmbeddedTomcat
 
 
   
-    <article id="post-2019-03-28-SpringBoot学习04_例子总结" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-2019-04-05-SpringBoot学习06_整合JPA" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/28/2019-03-28-SpringBoot学习04_例子总结/">Spring Boot学习04_CRUD总结</a>
+      <a class="article-title" href="/2019/04/05/2019-04-05-SpringBoot学习06_整合JPA/">Spring Boot学习06_整合JPA</a>
     </h1>
   
 
@@ -411,21 +290,16 @@ EmbeddedUndertow、EmbeddedJetty、EmbeddedTomcat
     <div class="article-entry " itemprop="articleBody">
       
         <div class="article-img">
-            <a href="/2019/03/28/2019-03-28-SpringBoot学习04_例子总结/">
+            <a href="/2019/04/05/2019-04-05-SpringBoot学习06_整合JPA/">
                 
-                <img src="http://yoursite.com/images/banner.jpg" alt="Spring Boot学习04_CRUD总结" title="Spring Boot学习04_CRUD总结">
+                <img src="http://yoursite.com/images/banner.jpg" alt="Spring Boot学习06_整合JPA" title="Spring Boot学习06_整合JPA">
                 
             </a>
         </div>
         <div class="article-feed">
             <p>
-                本文仅仅是本人做了一个CRUD的demo用来总结知识点的。
-一、Spring Boot的国际化比如下面这个页面需要进行中英文的切换，而且根据浏览器的语言进行不同的显示，这时候就要用到国际化技术。
-
-
-1、在SpringMVC中做国际化1）、编写国际化配置文件
-2）、使用ResourceBundleMessageSource管理国际化资源文件
-（Spring Boot已经自...
+                一、SpringData与JPA简介Spring下的子项目SpringData在数据访问这块提供了一套接口来简化数据访问，提供了很多接口，只需要实现其接口不需要写任何代码就能使用了，底层已经实现了基本的CRUD方法与分页方法，其中包含关系型数据库(mysql等等)与NoSQL(redis,hbase等等)。
+JPA（Java Persistence API)是SUN官方推...
             </p>
         </div>
       
@@ -435,7 +309,7 @@ EmbeddedUndertow、EmbeddedJetty、EmbeddedTomcat
         
         <ul class="article-footer-menu">
             
-                <li><i class="fa fa-calendar"></i>2019-03-28</li>
+                <li><i class="fa fa-calendar"></i>2019-04-05</li>
             
             
   <li class="article-footer-tags">
@@ -447,7 +321,7 @@ EmbeddedUndertow、EmbeddedJetty、EmbeddedTomcat
 
         </ul>
         
-            <a href="/2019/03/28/2019-03-28-SpringBoot学习04_例子总结/#more" class="article-more-link">more&gt;&gt;</a>
+            <a href="/2019/04/05/2019-04-05-SpringBoot学习06_整合JPA/#more" class="article-more-link">more&gt;&gt;</a>
         
     </footer>
   </div>
@@ -455,14 +329,14 @@ EmbeddedUndertow、EmbeddedJetty、EmbeddedTomcat
 
 
   
-    <article id="post-2019-03-28-SpringBoot学习04_SpringMVC自动配置原理" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-2019-04-05-SpringBoot学习06_整合Mybatis" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/28/2019-03-28-SpringBoot学习04_SpringMVC自动配置原理/">Spring Boot学习04_Spring MVC自动配置原理</a>
+      <a class="article-title" href="/2019/04/05/2019-04-05-SpringBoot学习06_整合Mybatis/">Spring Boot学习06_整合Mybatis</a>
     </h1>
   
 
@@ -472,22 +346,21 @@ EmbeddedUndertow、EmbeddedJetty、EmbeddedTomcat
     <div class="article-entry " itemprop="articleBody">
       
         <div class="article-img">
-            <a href="/2019/03/28/2019-03-28-SpringBoot学习04_SpringMVC自动配置原理/">
+            <a href="/2019/04/05/2019-04-05-SpringBoot学习06_整合Mybatis/">
                 
-                <img src="http://yoursite.com/images/banner.jpg" alt="Spring Boot学习04_Spring MVC自动配置原理" title="Spring Boot学习04_Spring MVC自动配置原理">
+                <img src="http://yoursite.com/images/banner.jpg" alt="Spring Boot学习06_整合Mybatis" title="Spring Boot学习06_整合Mybatis">
                 
             </a>
         </div>
         <div class="article-feed">
             <p>
-                这里复制官网的一段话—&gt;原地址
+                一、环境搭建1、创建项目时添加WEB、JDBC、MySQL、MyBatis启动器
+2、创建mybatis数据库，并创建employee表与department表，还有对应的pojo（使用了lombok的@Data注解在编译时自动生成getter，setter，toString方法）
 
 
-Spring Boot provides auto-configuration for Spring MVC that works well with most applications.
+3、全局配置文件
 
-Spring Boot为SpringMVC提供了自动配置，使用于大多数程序
-
-The auto-configuration adds the...
+二、整合注解版的Mybatis1、DeparmentMapper，...
             </p>
         </div>
       
@@ -497,7 +370,7 @@ The auto-configuration adds the...
         
         <ul class="article-footer-menu">
             
-                <li><i class="fa fa-calendar"></i>2019-03-28</li>
+                <li><i class="fa fa-calendar"></i>2019-04-05</li>
             
             
   <li class="article-footer-tags">
@@ -509,7 +382,7 @@ The auto-configuration adds the...
 
         </ul>
         
-            <a href="/2019/03/28/2019-03-28-SpringBoot学习04_SpringMVC自动配置原理/#more" class="article-more-link">more&gt;&gt;</a>
+            <a href="/2019/04/05/2019-04-05-SpringBoot学习06_整合Mybatis/#more" class="article-more-link">more&gt;&gt;</a>
         
     </footer>
   </div>
@@ -517,14 +390,14 @@ The auto-configuration adds the...
 
 
   
-    <article id="post-2019-03-28-SpringBoot学习04_web静态资源映射规则" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-2019-04-05-SpringBoot学习06_整合Druid与配置监控数据源" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/28/2019-03-28-SpringBoot学习04_web静态资源映射规则/">Spring Boot学习04_web静态资源映射规则(源码)</a>
+      <a class="article-title" href="/2019/04/05/2019-04-05-SpringBoot学习06_整合Druid与配置监控数据源/">Spring Boot学习06_整合Druid与配置监控数据源</a>
     </h1>
   
 
@@ -534,16 +407,18 @@ The auto-configuration adds the...
     <div class="article-entry " itemprop="articleBody">
       
         <div class="article-img">
-            <a href="/2019/03/28/2019-03-28-SpringBoot学习04_web静态资源映射规则/">
+            <a href="/2019/04/05/2019-04-05-SpringBoot学习06_整合Druid与配置监控数据源/">
                 
-                <img src="http://yoursite.com/images/banner.jpg" alt="Spring Boot学习04_web静态资源映射规则(源码)" title="Spring Boot学习04_web静态资源映射规则(源码)">
+                <img src="http://yoursite.com/images/banner.jpg" alt="Spring Boot学习06_整合Druid与配置监控数据源" title="Spring Boot学习06_整合Druid与配置监控数据源">
                 
             </a>
         </div>
         <div class="article-feed">
             <p>
-                在前面讲了Spring Boot的自动配置原理，所以静态资源映射的规则自然也能在自动配置类源码中找到，所有的跟web mvc有关的配置都可以在WebMvcAutoConfiguration类中找到
-一、Spring Boot提供了一种webjar的方式引入前端的一些资源（如jquery，bootstrap等）WebMvcAutoConfiguration类中有个内部类We...
+                该文章写的demo用的是上一篇的环境
+使用Druid的好处就是能够监控到应用中的一些信息，比如操作了多少次，执行了什么SQL语句等等。
+1、引入druid的依赖
+12345&lt;dependency&gt;    &lt;groupId&gt;com.alibaba&lt;/groupId&gt;    &lt;artifactId&gt;druid&lt;/artif...
             </p>
         </div>
       
@@ -553,7 +428,7 @@ The auto-configuration adds the...
         
         <ul class="article-footer-menu">
             
-                <li><i class="fa fa-calendar"></i>2019-03-28</li>
+                <li><i class="fa fa-calendar"></i>2019-04-05</li>
             
             
   <li class="article-footer-tags">
@@ -565,129 +440,7 @@ The auto-configuration adds the...
 
         </ul>
         
-            <a href="/2019/03/28/2019-03-28-SpringBoot学习04_web静态资源映射规则/#more" class="article-more-link">more&gt;&gt;</a>
-        
-    </footer>
-  </div>
-</article>
-
-
-  
-    <article id="post-2019-03-27-Linux进程管理方法" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/27/2019-03-27-Linux进程管理方法/">Linux进程管理</a>
-    </h1>
-  
-
-          
-      </header>
-    
-    <div class="article-entry " itemprop="articleBody">
-      
-        <div class="article-img">
-            <a href="/2019/03/27/2019-03-27-Linux进程管理方法/">
-                
-                <img src="http://yoursite.com/images/banner.jpg" alt="Linux进程管理" title="Linux进程管理">
-                
-            </a>
-        </div>
-        <div class="article-feed">
-            <p>
-                进程是正在执行的一个程序或命令，每一个进程都是一个运行的实体，都有自己的地址空间，并占用一定的系统资源。
-#类似LS之类的命令都会产生进程。
-1、查看系统运行了哪些进程ps aux #查看系统中所有的进程，使用BSD操作系统格式
-ps -le #查看系统中所有的进程，使用LINUX标准格式
-
-
-2、动态查看电脑负载状态 top [选项]
--d 秒数：指定top命令每隔几秒...
-            </p>
-        </div>
-      
-        
-    </div>
-    <footer class="article-footer">
-        
-        <ul class="article-footer-menu">
-            
-                <li><i class="fa fa-calendar"></i>2019-03-27</li>
-            
-            
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/tags/Linux/" class="color1">Linux</a>
-      
-  </li>
-
-        </ul>
-        
-            <a href="/2019/03/27/2019-03-27-Linux进程管理方法/#more" class="article-more-link">more&gt;&gt;</a>
-        
-    </footer>
-  </div>
-</article>
-
-
-  
-    <article id="post-2019-03-27-Linux压缩解压文件" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/27/2019-03-27-Linux压缩解压文件/">Linux压缩解压文件</a>
-    </h1>
-  
-
-          
-      </header>
-    
-    <div class="article-entry " itemprop="articleBody">
-      
-        <div class="article-img">
-            <a href="/2019/03/27/2019-03-27-Linux压缩解压文件/">
-                
-                <img src="http://yoursite.com/images/banner.jpg" alt="Linux压缩解压文件" title="Linux压缩解压文件">
-                
-            </a>
-        </div>
-        <div class="article-feed">
-            <p>
-                一、LINUX中的常见的压缩格式zip、gz、bz2
-二、gz压缩文件的压缩与解压1、压缩：gzip [文件路径]gz文件压缩文件特点:
-1）、不保留源文件，压缩完成后删除源文件
-2）、不能压缩文件夹
-eg：压缩文件 a.txt 压缩完成后删除源文件
-12345678[root@instance-y2jixxt2 study-linux]# touch a.txt[roo...
-            </p>
-        </div>
-      
-        
-    </div>
-    <footer class="article-footer">
-        
-        <ul class="article-footer-menu">
-            
-                <li><i class="fa fa-calendar"></i>2019-03-27</li>
-            
-            
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/tags/Linux/" class="color1">Linux</a>
-      
-  </li>
-
-        </ul>
-        
-            <a href="/2019/03/27/2019-03-27-Linux压缩解压文件/#more" class="article-more-link">more&gt;&gt;</a>
+            <a href="/2019/04/05/2019-04-05-SpringBoot学习06_整合Druid与配置监控数据源/#more" class="article-more-link">more&gt;&gt;</a>
         
     </footer>
   </div>
@@ -698,7 +451,7 @@ eg：压缩文件 a.txt 压缩完成后删除源文件
 
 
   <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/page/3/"><< Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/">Next >></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><< Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/5/">Next >></a>
   </nav>
 </section>
         
@@ -720,7 +473,7 @@ eg：压缩文件 a.txt 压缩完成后删除源文件
       <p>
         Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
         Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
-      &copy; 2019 John Doe<br>
+      &copy; 2019 Yang<br>
       </p>
     </div>
   </div>
