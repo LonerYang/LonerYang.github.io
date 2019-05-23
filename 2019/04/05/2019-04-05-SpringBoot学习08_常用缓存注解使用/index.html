@@ -9,17 +9,17 @@
     <meta name="keywords" content="Yang,Yang's Blog">
   
   <meta name="description" content="一、JSR107Java Caching定义了5个核心接口，分别是CachingProvider, CacheManager, Cache, Entry 和 Expiry。 •CachingProvider定义了创建、配置、获取、管理和控制多个CacheManager。一个应用可以在运行期访问多个CachingProvider。 •CacheManager定义了创建、配置、获取、管理和控制多个唯一">
-<meta name="keywords" content="SpringBoot">
+<meta name="keywords" content="SpringBoot,缓存">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring Boot学习08_常用缓存注解使用">
-<meta property="og:url" content="http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习08_常用缓存注解使用/index.html">
+<meta property="og:url" content="yangrijian.top/2019/04/05/2019-04-05-SpringBoot学习08_常用缓存注解使用/index.html">
 <meta property="og:site_name" content="Yang">
 <meta property="og:description" content="一、JSR107Java Caching定义了5个核心接口，分别是CachingProvider, CacheManager, Cache, Entry 和 Expiry。 •CachingProvider定义了创建、配置、获取、管理和控制多个CacheManager。一个应用可以在运行期访问多个CachingProvider。 •CacheManager定义了创建、配置、获取、管理和控制多个唯一">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://s2.ax1x.com/2019/04/03/AgMQTs.md.png">
 <meta property="og:image" content="https://s2.ax1x.com/2019/04/03/AgMRne.md.png">
 <meta property="og:image" content="https://s2.ax1x.com/2019/04/03/Ag1d0g.md.png">
-<meta property="og:updated_time" content="2019-04-04T16:32:12.252Z">
+<meta property="og:updated_time" content="2019-05-23T04:57:10.996Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring Boot学习08_常用缓存注解使用">
 <meta name="twitter:description" content="一、JSR107Java Caching定义了5个核心接口，分别是CachingProvider, CacheManager, Cache, Entry 和 Expiry。 •CachingProvider定义了创建、配置、获取、管理和控制多个CacheManager。一个应用可以在运行期访问多个CachingProvider。 •CacheManager定义了创建、配置、获取、管理和控制多个唯一">
@@ -122,6 +122,13 @@
     </h1>
     <div class="post-title-bar">
       <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/SpringBoot/">SpringBoot</a>
+                  
+              </li>
           
         <li>
           <i class="fa fa-calendar"></i>  2019-04-05
@@ -296,10 +303,10 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@CacheConfig</span>(cacheNames = <span class="string">"emp"</span>)</span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EmployeeService</span> </span>&#123;</span><br></pre></td></tr></table></figure>
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2019年04月05日 00:32</p>
-        <p>原始链接： <a class="post-url" href="/2019/04/05/2019-04-05-SpringBoot学习08_常用缓存注解使用/" title="Spring Boot学习08_常用缓存注解使用">http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习08_常用缓存注解使用/</a></p>
+        <p>最后更新： 2019年05月23日 12:57</p>
+        <p>原始链接： <a class="post-url" href="/2019/04/05/2019-04-05-SpringBoot学习08_常用缓存注解使用/" title="Spring Boot学习08_常用缓存注解使用">yangrijian.top/2019/04/05/2019-04-05-SpringBoot学习08_常用缓存注解使用/</a></p>
         <footer>
-            <a href="http://yoursite.com">
+            <a href="yangrijian.top">
                 <img src="/images/logo.png" alt="Yang">
                 Yang
             </a>
@@ -354,7 +361,7 @@
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习08_常用缓存注解使用/&title=《Spring Boot学习08_常用缓存注解使用》 — Yang&pic=http://yoursite.comimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=yangrijian.top/2019/04/05/2019-04-05-SpringBoot学习08_常用缓存注解使用/&title=《Spring Boot学习08_常用缓存注解使用》 — Yang&pic=yangrijian.topimages/logo.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -364,22 +371,22 @@
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习08_常用缓存注解使用/&title=《Spring Boot学习08_常用缓存注解使用》 — Yang&source=" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=yangrijian.top/2019/04/05/2019-04-05-SpringBoot学习08_常用缓存注解使用/&title=《Spring Boot学习08_常用缓存注解使用》 — Yang&source=" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
           <li>
-            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习08_常用缓存注解使用/" data-title="Facebook">
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=yangrijian.top/2019/04/05/2019-04-05-SpringBoot学习08_常用缓存注解使用/" data-title="Facebook">
               <i class="fa fa-facebook"></i>
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Spring Boot学习08_常用缓存注解使用》 — Yang&url=http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习08_常用缓存注解使用/&via=http://yoursite.com" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Spring Boot学习08_常用缓存注解使用》 — Yang&url=yangrijian.top/2019/04/05/2019-04-05-SpringBoot学习08_常用缓存注解使用/&via=yangrijian.top" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
           <li>
-            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习08_常用缓存注解使用/" data-title="Google+">
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=yangrijian.top/2019/04/05/2019-04-05-SpringBoot学习08_常用缓存注解使用/" data-title="Google+">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -389,7 +396,7 @@
 <div class="post-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;" id="wxShare-close">×</a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习08_常用缓存注解使用/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=yangrijian.top/2019/04/05/2019-04-05-SpringBoot学习08_常用缓存注解使用/" alt="微信分享二维码">
 </div>
 
 <div class="mask"></div>
@@ -402,6 +409,8 @@
     <i class="fa fa-tags"></i>
       
     <a href="/tags/SpringBoot/" class="color1">SpringBoot</a>
+      
+    <a href="/tags/缓存/" class="color3">缓存</a>
       
   </li>
 
@@ -471,7 +480,7 @@
 <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script>
   var mihoConfig = {
-      root: "http://yoursite.com",
+      root: "yangrijian.top",
       animate: true,
       isHome: false,
       share: true,
@@ -495,10 +504,10 @@
 <div class="sidebar-menu-box" id="sidebar-menu-box">
     <div class="sidebar-menu-box-container">
         <div id="sidebar-menu-box-categories">
-            <a class="category-link" href="/categories/SpringBoot/">SpringBoot</a>
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Linux/">Linux</a><a class="category-link" href="/categories/SpringBoot/">SpringBoot</a><a class="category-link" href="/categories/代码的艺术/">代码的艺术</a><a class="category-link" href="/categories/并发/">并发</a><a class="category-link" href="/categories/随笔/">随笔</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+            <a href="/tags/Docker/" style="font-size: 12px;">Docker</a> <a href="/tags/Dubbo/" style="font-size: 10px;">Dubbo</a> <a href="/tags/Elasticsearch/" style="font-size: 10px;">Elasticsearch</a> <a href="/tags/JDBC/" style="font-size: 12px;">JDBC</a> <a href="/tags/JPA/" style="font-size: 10px;">JPA</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/Log/" style="font-size: 10px;">Log</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Security/" style="font-size: 10px;">Security</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/Task/" style="font-size: 10px;">Task</a> <a href="/tags/Thymeleaf/" style="font-size: 10px;">Thymeleaf</a> <a href="/tags/WebSocket/" style="font-size: 10px;">WebSocket</a> <a href="/tags/YAML/" style="font-size: 10px;">YAML</a> <a href="/tags/Zookeeper/" style="font-size: 10px;">Zookeeper</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/缓存/" style="font-size: 12px;">缓存</a> <a href="/tags/邮件/" style="font-size: 10px;">邮件</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -531,7 +540,7 @@
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+            <a href="/tags/Docker/" style="font-size: 12px;">Docker</a> <a href="/tags/Dubbo/" style="font-size: 10px;">Dubbo</a> <a href="/tags/Elasticsearch/" style="font-size: 10px;">Elasticsearch</a> <a href="/tags/JDBC/" style="font-size: 12px;">JDBC</a> <a href="/tags/JPA/" style="font-size: 10px;">JPA</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/Log/" style="font-size: 10px;">Log</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Security/" style="font-size: 10px;">Security</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/Task/" style="font-size: 10px;">Task</a> <a href="/tags/Thymeleaf/" style="font-size: 10px;">Thymeleaf</a> <a href="/tags/WebSocket/" style="font-size: 10px;">WebSocket</a> <a href="/tags/YAML/" style="font-size: 10px;">YAML</a> <a href="/tags/Zookeeper/" style="font-size: 10px;">Zookeeper</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/缓存/" style="font-size: 12px;">缓存</a> <a href="/tags/邮件/" style="font-size: 10px;">邮件</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
         </div>
     </div>
 </div>

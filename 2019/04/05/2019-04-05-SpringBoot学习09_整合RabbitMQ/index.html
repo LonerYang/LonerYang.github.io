@@ -9,10 +9,10 @@
     <meta name="keywords" content="Yang,Yang's Blog">
   
   <meta name="description" content="一、RabbitMQ基本概念简介1、RabbitMQ简介：RabbitMQ是一个由erlang开发的AMQP(Advanved Message Queue Protocol)的开源实现。 2、核心概念：  Message 消息，消息是不具名的，它由消息头和消息体组成。消息体是不透明的，而消息头则由一系列的可选属性组成，这些属性包括routing-key（路由键）、priority（相对于其他消息的">
-<meta name="keywords" content="SpringBoot">
+<meta name="keywords" content="SpringBoot,RabbitMQ">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring Boot学习09_整合RabbitMQ">
-<meta property="og:url" content="http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习09_整合RabbitMQ/index.html">
+<meta property="og:url" content="yangrijian.top/2019/04/05/2019-04-05-SpringBoot学习09_整合RabbitMQ/index.html">
 <meta property="og:site_name" content="Yang">
 <meta property="og:description" content="一、RabbitMQ基本概念简介1、RabbitMQ简介：RabbitMQ是一个由erlang开发的AMQP(Advanved Message Queue Protocol)的开源实现。 2、核心概念：  Message 消息，消息是不具名的，它由消息头和消息体组成。消息体是不透明的，而消息头则由一系列的可选属性组成，这些属性包括routing-key（路由键）、priority（相对于其他消息的">
 <meta property="og:locale" content="default">
@@ -46,7 +46,7 @@
 <meta property="og:image" content="https://s2.ax1x.com/2019/04/05/AWA5RS.png">
 <meta property="og:image" content="https://s2.ax1x.com/2019/04/05/AWA7rj.png">
 <meta property="og:image" content="https://s2.ax1x.com/2019/04/05/AWAqZn.png">
-<meta property="og:updated_time" content="2019-04-06T01:32:14.239Z">
+<meta property="og:updated_time" content="2019-05-23T04:57:30.068Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring Boot学习09_整合RabbitMQ">
 <meta name="twitter:description" content="一、RabbitMQ基本概念简介1、RabbitMQ简介：RabbitMQ是一个由erlang开发的AMQP(Advanved Message Queue Protocol)的开源实现。 2、核心概念：  Message 消息，消息是不具名的，它由消息头和消息体组成。消息体是不透明的，而消息头则由一系列的可选属性组成，这些属性包括routing-key（路由键）、priority（相对于其他消息的">
@@ -149,6 +149,13 @@
     </h1>
     <div class="post-title-bar">
       <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/SpringBoot/">SpringBoot</a>
+                  
+              </li>
           
         <li>
           <i class="fa fa-calendar"></i>  2019-04-05
@@ -328,10 +335,10 @@
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2019年04月06日 09:32</p>
-        <p>原始链接： <a class="post-url" href="/2019/04/05/2019-04-05-SpringBoot学习09_整合RabbitMQ/" title="Spring Boot学习09_整合RabbitMQ">http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习09_整合RabbitMQ/</a></p>
+        <p>最后更新： 2019年05月23日 12:57</p>
+        <p>原始链接： <a class="post-url" href="/2019/04/05/2019-04-05-SpringBoot学习09_整合RabbitMQ/" title="Spring Boot学习09_整合RabbitMQ">yangrijian.top/2019/04/05/2019-04-05-SpringBoot学习09_整合RabbitMQ/</a></p>
         <footer>
-            <a href="http://yoursite.com">
+            <a href="yangrijian.top">
                 <img src="/images/logo.png" alt="Yang">
                 Yang
             </a>
@@ -386,7 +393,7 @@
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习09_整合RabbitMQ/&title=《Spring Boot学习09_整合RabbitMQ》 — Yang&pic=http://yoursite.comimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=yangrijian.top/2019/04/05/2019-04-05-SpringBoot学习09_整合RabbitMQ/&title=《Spring Boot学习09_整合RabbitMQ》 — Yang&pic=yangrijian.topimages/logo.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -396,22 +403,22 @@
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习09_整合RabbitMQ/&title=《Spring Boot学习09_整合RabbitMQ》 — Yang&source=" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=yangrijian.top/2019/04/05/2019-04-05-SpringBoot学习09_整合RabbitMQ/&title=《Spring Boot学习09_整合RabbitMQ》 — Yang&source=" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
           <li>
-            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习09_整合RabbitMQ/" data-title="Facebook">
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=yangrijian.top/2019/04/05/2019-04-05-SpringBoot学习09_整合RabbitMQ/" data-title="Facebook">
               <i class="fa fa-facebook"></i>
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Spring Boot学习09_整合RabbitMQ》 — Yang&url=http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习09_整合RabbitMQ/&via=http://yoursite.com" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Spring Boot学习09_整合RabbitMQ》 — Yang&url=yangrijian.top/2019/04/05/2019-04-05-SpringBoot学习09_整合RabbitMQ/&via=yangrijian.top" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
           <li>
-            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习09_整合RabbitMQ/" data-title="Google+">
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=yangrijian.top/2019/04/05/2019-04-05-SpringBoot学习09_整合RabbitMQ/" data-title="Google+">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -421,7 +428,7 @@
 <div class="post-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;" id="wxShare-close">×</a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/04/05/2019-04-05-SpringBoot学习09_整合RabbitMQ/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=yangrijian.top/2019/04/05/2019-04-05-SpringBoot学习09_整合RabbitMQ/" alt="微信分享二维码">
 </div>
 
 <div class="mask"></div>
@@ -434,6 +441,8 @@
     <i class="fa fa-tags"></i>
       
     <a href="/tags/SpringBoot/" class="color1">SpringBoot</a>
+      
+    <a href="/tags/RabbitMQ/" class="color4">RabbitMQ</a>
       
   </li>
 
@@ -503,7 +512,7 @@
 <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script>
   var mihoConfig = {
-      root: "http://yoursite.com",
+      root: "yangrijian.top",
       animate: true,
       isHome: false,
       share: true,
@@ -527,10 +536,10 @@
 <div class="sidebar-menu-box" id="sidebar-menu-box">
     <div class="sidebar-menu-box-container">
         <div id="sidebar-menu-box-categories">
-            <a class="category-link" href="/categories/SpringBoot/">SpringBoot</a>
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Linux/">Linux</a><a class="category-link" href="/categories/SpringBoot/">SpringBoot</a><a class="category-link" href="/categories/代码的艺术/">代码的艺术</a><a class="category-link" href="/categories/并发/">并发</a><a class="category-link" href="/categories/随笔/">随笔</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+            <a href="/tags/Docker/" style="font-size: 12px;">Docker</a> <a href="/tags/Dubbo/" style="font-size: 10px;">Dubbo</a> <a href="/tags/Elasticsearch/" style="font-size: 10px;">Elasticsearch</a> <a href="/tags/JDBC/" style="font-size: 12px;">JDBC</a> <a href="/tags/JPA/" style="font-size: 10px;">JPA</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/Log/" style="font-size: 10px;">Log</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Security/" style="font-size: 10px;">Security</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/Task/" style="font-size: 10px;">Task</a> <a href="/tags/Thymeleaf/" style="font-size: 10px;">Thymeleaf</a> <a href="/tags/WebSocket/" style="font-size: 10px;">WebSocket</a> <a href="/tags/YAML/" style="font-size: 10px;">YAML</a> <a href="/tags/Zookeeper/" style="font-size: 10px;">Zookeeper</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/缓存/" style="font-size: 12px;">缓存</a> <a href="/tags/邮件/" style="font-size: 10px;">邮件</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -563,7 +572,7 @@
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+            <a href="/tags/Docker/" style="font-size: 12px;">Docker</a> <a href="/tags/Dubbo/" style="font-size: 10px;">Dubbo</a> <a href="/tags/Elasticsearch/" style="font-size: 10px;">Elasticsearch</a> <a href="/tags/JDBC/" style="font-size: 12px;">JDBC</a> <a href="/tags/JPA/" style="font-size: 10px;">JPA</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/Log/" style="font-size: 10px;">Log</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Security/" style="font-size: 10px;">Security</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/Task/" style="font-size: 10px;">Task</a> <a href="/tags/Thymeleaf/" style="font-size: 10px;">Thymeleaf</a> <a href="/tags/WebSocket/" style="font-size: 10px;">WebSocket</a> <a href="/tags/YAML/" style="font-size: 10px;">YAML</a> <a href="/tags/Zookeeper/" style="font-size: 10px;">Zookeeper</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/缓存/" style="font-size: 12px;">缓存</a> <a href="/tags/邮件/" style="font-size: 10px;">邮件</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
         </div>
     </div>
 </div>
