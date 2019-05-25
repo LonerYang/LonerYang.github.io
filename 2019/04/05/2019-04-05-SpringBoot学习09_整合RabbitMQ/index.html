@@ -46,7 +46,7 @@
 <meta property="og:image" content="https://s2.ax1x.com/2019/04/05/AWA5RS.png">
 <meta property="og:image" content="https://s2.ax1x.com/2019/04/05/AWA7rj.png">
 <meta property="og:image" content="https://s2.ax1x.com/2019/04/05/AWAqZn.png">
-<meta property="og:updated_time" content="2019-05-25T07:38:17.565Z">
+<meta property="og:updated_time" content="2019-05-25T12:47:19.007Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring Boot学习09_整合RabbitMQ">
 <meta name="twitter:description" content="一、RabbitMQ基本概念简介1、RabbitMQ简介：RabbitMQ是一个由erlang开发的AMQP(Advanved Message Queue Protocol)的开源实现。 2、核心概念：  Message 消息，消息是不具名的，它由消息头和消息体组成。消息体是不透明的，而消息头则由一系列的可选属性组成，这些属性包括routing-key（路由键）、priority（相对于其他消息的">
@@ -271,7 +271,7 @@
 <pre><code>#匹配0个或多个单词，*匹配一个单词。消息会发送给匹配的队列
 </code></pre></li>
 </ul>
-<h2 id="四、Spring-Boot整合Redis"><a href="#四、Spring-Boot整合Redis" class="headerlink" title="四、Spring Boot整合Redis"></a>四、Spring Boot整合Redis</h2><h3 id="1-RabbitTemplate"><a href="#1-RabbitTemplate" class="headerlink" title="1.RabbitTemplate"></a>1.RabbitTemplate</h3><p>创建SpringBoot项目，向导选择RabbitMQ模块。</p>
+<h2 id="四、Spring-Boot整合RabbitMQ"><a href="#四、Spring-Boot整合RabbitMQ" class="headerlink" title="四、Spring Boot整合RabbitMQ"></a>四、Spring Boot整合RabbitMQ</h2><h3 id="1-RabbitTemplate"><a href="#1-RabbitTemplate" class="headerlink" title="1.RabbitTemplate"></a>1.RabbitTemplate</h3><p>创建SpringBoot项目，向导选择RabbitMQ模块。</p>
 <ul>
 <li>在RabbitAutoConfiguration自动配置类中向Spring容器中注册了RabbitTemplate组件（通过他可以操作RabbitMQ）</li>
 </ul>
@@ -335,7 +335,7 @@
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2019年05月25日 15:38</p>
+        <p>最后更新： 2019年05月25日 20:47</p>
         <p>原始链接： <a class="post-url" href="/2019/04/05/2019-04-05-SpringBoot学习09_整合RabbitMQ/" title="Spring Boot学习09_整合RabbitMQ">https://yangrijian.top/2019/04/05/2019-04-05-SpringBoot学习09_整合RabbitMQ/</a></p>
         <footer>
             <a href="https://yangrijian.top">
@@ -455,7 +455,7 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、RabbitMQ基本概念简介"><span class="post-toc-text">一、RabbitMQ基本概念简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二、RabbitMQ运行机制"><span class="post-toc-text">二、RabbitMQ运行机制</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#三、安装RabbitMQ测试"><span class="post-toc-text">三、安装RabbitMQ测试</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#四、Spring-Boot整合Redis"><span class="post-toc-text">四、Spring Boot整合Redis</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-RabbitTemplate"><span class="post-toc-text">1.RabbitTemplate</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-自定义序列化机制"><span class="post-toc-text">2.自定义序列化机制</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-AmqpAdmin"><span class="post-toc-text">3.AmqpAdmin</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-RabbitListener-amp-EnableRabbit"><span class="post-toc-text">4.@RabbitListener&amp;@EnableRabbit</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、RabbitMQ基本概念简介"><span class="post-toc-text">一、RabbitMQ基本概念简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二、RabbitMQ运行机制"><span class="post-toc-text">二、RabbitMQ运行机制</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#三、安装RabbitMQ测试"><span class="post-toc-text">三、安装RabbitMQ测试</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#四、Spring-Boot整合RabbitMQ"><span class="post-toc-text">四、Spring Boot整合RabbitMQ</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-RabbitTemplate"><span class="post-toc-text">1.RabbitTemplate</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-自定义序列化机制"><span class="post-toc-text">2.自定义序列化机制</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-AmqpAdmin"><span class="post-toc-text">3.AmqpAdmin</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-RabbitListener-amp-EnableRabbit"><span class="post-toc-text">4.@RabbitListener&amp;@EnableRabbit</span></a></li></ol></li></ol>
         </nav>
     </aside>
     
