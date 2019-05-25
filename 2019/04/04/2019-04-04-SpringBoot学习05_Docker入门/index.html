@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="Yang">
 <meta property="og:description" content="Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的Linux机器上，也可以实现虚拟化。容器是完全使用沙箱机制，相互之间不会有任何接口。（来自百度百科）  一、核心概念docker镜像：镜像就是一个只读的模板，用于创建Docker容器的模板 docker容器：容器是独立运行的一个或一组应用 docker客户端：客户端通过命令行或者">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-05-23T04:55:26.657Z">
+<meta property="og:updated_time" content="2019-05-25T07:37:40.422Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring Boot学习05_Docker入门">
 <meta name="twitter:description" content="Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的Linux机器上，也可以实现虚拟化。容器是完全使用沙箱机制，相互之间不会有任何接口。（来自百度百科）  一、核心概念docker镜像：镜像就是一个只读的模板，用于创建Docker容器的模板 docker容器：容器是独立运行的一个或一组应用 docker客户端：客户端通过命令行或者">
@@ -191,7 +191,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker run --name mysql03 -v /conf/mysql:/etc/mysql/conf.d -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:tag</span><br><span class="line">把主机的/conf/mysql文件夹挂载到 mysqldocker容器的/etc/mysql/conf.d文件夹里面</span><br><span class="line"><span class="meta">#</span>改mysql的配置文件就只需要把mysql配置文件放在自定义的文件夹下（/conf/mysql）</span><br><span class="line"></span><br><span class="line">docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:tag --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci</span><br><span class="line"><span class="meta">#</span>指定mysql的一些配置参数</span><br></pre></td></tr></table></figure>
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2019年05月23日 12:55</p>
+        <p>最后更新： 2019年05月25日 15:37</p>
         <p>原始链接： <a class="post-url" href="/2019/04/04/2019-04-04-SpringBoot学习05_Docker入门/" title="Spring Boot学习05_Docker入门">http://yangrijian.top/2019/04/04/2019-04-04-SpringBoot学习05_Docker入门/</a></p>
         <footer>
             <a href="http://yangrijian.top">
@@ -249,7 +249,7 @@
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yangrijian.top/2019/04/04/2019-04-04-SpringBoot学习05_Docker入门/&title=《Spring Boot学习05_Docker入门》 — Yang&pic=http://yangrijian.topimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yangrijian.top/2019/04/04/2019-04-04-SpringBoot学习05_Docker入门/&title=《Spring Boot学习05_Docker入门》 — Yang&pic=images/cate/springboot.jpg" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
