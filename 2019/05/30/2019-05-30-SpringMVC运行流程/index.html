@@ -3,45 +3,36 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
-  <title>Spring Boot学习06_整合JDBC | Yang</title>
+  <title>SpringMVC运行流程 | Yang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Yang,Yang's Blog">
   
-  <meta name="description" content="一、Spring Boot整合JDBC1、创建Spring Boot应用时，除了要添加的WEB模块还需要额外添加JDBC启动器和MySQL启动器  2、创建数据库jdbc并创建一张Employee表，添加一条数据  123456spring:  datasource:    url: jdbc:mysql://localhost/jdbc?serverTimezone=UTC    driver-">
-<meta name="keywords" content="SpringBoot,JDBC">
+  <meta name="description" content="一、运行流程先来一张架构图  1、前端控制器（DispatcherServlet）接收到请求(request) 2、通过请求过来的url调用处理器映射器（HandlerMapping）中获得handler 3、找到后返回一个执行链对象（HandlerExecutionChain）   4、调用适配器（HandlerAdapter ）执行handler  5、适配器执行handler 6、handl">
+<meta name="keywords" content="SpringMVC">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spring Boot学习06_整合JDBC">
-<meta property="og:url" content="https://yangrijian.top/2019/04/04/2019-04-04-SpringBoot学习06_整合JDBC/index.html">
+<meta property="og:title" content="SpringMVC运行流程">
+<meta property="og:url" content="https://yangrijian.top/2019/05/30/2019-05-30-SpringMVC运行流程/index.html">
 <meta property="og:site_name" content="Yang">
-<meta property="og:description" content="一、Spring Boot整合JDBC1、创建Spring Boot应用时，除了要添加的WEB模块还需要额外添加JDBC启动器和MySQL启动器  2、创建数据库jdbc并创建一张Employee表，添加一条数据  123456spring:  datasource:    url: jdbc:mysql://localhost/jdbc?serverTimezone=UTC    driver-">
+<meta property="og:description" content="一、运行流程先来一张架构图  1、前端控制器（DispatcherServlet）接收到请求(request) 2、通过请求过来的url调用处理器映射器（HandlerMapping）中获得handler 3、找到后返回一个执行链对象（HandlerExecutionChain）   4、调用适配器（HandlerAdapter ）执行handler  5、适配器执行handler 6、handl">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARujqe.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARug2V.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARuc80.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARu2vT.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARu6Cq.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARuWKU.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARufrF.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARuhb4.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARuo5R.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARu5VJ.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARuIa9.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARu7P1.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARub26.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARuH8x.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARuOKO.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARuqxK.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARuXrD.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARuzad.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARuxVH.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARKSIA.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARK9PI.jpg">
-<meta property="og:updated_time" content="2019-05-25T07:37:46.972Z">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/30/VQk3jK.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/30/VQkZBF.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/30/VQkAXT.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/30/VQkVnU.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/30/VQkkcV.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/30/VQke74.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/30/VQknAJ.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/30/VQkuN9.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/30/VQkKhR.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/30/VQkl1x.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/30/VQkQ91.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/30/VQk1c6.jpg">
+<meta property="og:updated_time" content="2019-05-30T14:57:50.518Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spring Boot学习06_整合JDBC">
-<meta name="twitter:description" content="一、Spring Boot整合JDBC1、创建Spring Boot应用时，除了要添加的WEB模块还需要额外添加JDBC启动器和MySQL启动器  2、创建数据库jdbc并创建一张Employee表，添加一条数据  123456spring:  datasource:    url: jdbc:mysql://localhost/jdbc?serverTimezone=UTC    driver-">
-<meta name="twitter:image" content="https://s2.ax1x.com/2019/04/04/ARujqe.jpg">
+<meta name="twitter:title" content="SpringMVC运行流程">
+<meta name="twitter:description" content="一、运行流程先来一张架构图  1、前端控制器（DispatcherServlet）接收到请求(request) 2、通过请求过来的url调用处理器映射器（HandlerMapping）中获得handler 3、找到后返回一个执行链对象（HandlerExecutionChain）   4、调用适配器（HandlerAdapter ）执行handler  5、适配器执行handler 6、handl">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/05/30/VQk3jK.jpg">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -129,14 +120,14 @@
     </div>
 </header>
       <div class="outer">
-        <section id="main" class="body-wrap"><article id="post-2019-04-04-SpringBoot学习06_整合JDBC" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main" class="body-wrap"><article id="post-2019-05-30-SpringMVC运行流程" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="post-title" itemprop="name">
-      Spring Boot学习06_整合JDBC
+      SpringMVC运行流程
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -144,12 +135,12 @@
               <li>
                   <i class="fa fa-book"></i>
                   
-                      <a href="/categories/SpringBoot/">SpringBoot</a>
+                      <a href="/categories/SpringMVC/">SpringMVC</a>
                   
               </li>
           
         <li>
-          <i class="fa fa-calendar"></i>  2019-04-04
+          <i class="fa fa-calendar"></i>  2019-05-30
         </li>
         <li>
           <i class="fa fa-eye"></i>
@@ -165,53 +156,65 @@
     <div class="article-entry post-content" itemprop="articleBody">
       
             
-            <h2 id="一、Spring-Boot整合JDBC"><a href="#一、Spring-Boot整合JDBC" class="headerlink" title="一、Spring Boot整合JDBC"></a>一、Spring Boot整合JDBC</h2><p>1、创建Spring Boot应用时，除了要添加的WEB模块还需要额外添加JDBC启动器和MySQL启动器</p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARujqe.jpg" alt="ARujqe.jpg"></p>
-<p>2、创建数据库jdbc并创建一张Employee表，添加一条数据</p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARug2V.jpg" alt="ARug2V.jpg"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  datasource:</span><br><span class="line">    url: jdbc:mysql://localhost/jdbc?serverTimezone=UTC</span><br><span class="line">    driver-class-name: com.mysql.jdbc.Driver</span><br><span class="line">    username: 用户名</span><br><span class="line">    password: 密码</span><br></pre></td></tr></table></figure>
-<p>4、编写Controller测试，自动注入JdbcTemplate(<strong>Spring Boot自动配置好了</strong>)</p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARuc80.jpg" alt="ARuc80.jpg"></p>
-<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>1、在DataSourceConfiguration类中有自动配置的组件，Spring Boot支持<strong>org.apache.tomcat.jdbc.pool.DataSource</strong></p>
-<p><strong>com.zaxxer.hikari.HikariDataSource</strong></p>
-<p><strong>org.apache.commons.dbcp2.BasicDataSource</strong></p>
-<p>Spring Boot默认使用的HikariDataSource这个连接池，在源码中发现Spring Boot也支持通过全局配置文件使用<strong>spring.datasource.type</strong>指定额外的连接池<strong>（通过build方法）</strong></p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARu2vT.jpg" alt="ARu2vT.jpg"></p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARu6Cq.jpg" alt="ARu6Cq.jpg"></p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARuWKU.jpg" alt="ARuWKU.jpg"></p>
-<p>2、在JdbcTemplateAutoConfiguration类中会把JdbcTemplate配置到容器中，这也是为什么我们在上面的demo中能直接从容器中自动注入该组件的实例</p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARufrF.jpg" alt="ARufrF.jpg"></p>
-<h2 id="二、Spring-Boot还支持启动时能自动创建表和插入数据"><a href="#二、Spring-Boot还支持启动时能自动创建表和插入数据" class="headerlink" title="二、Spring Boot还支持启动时能自动创建表和插入数据"></a>二、Spring Boot还支持启动时能自动创建表和插入数据</h2><p>1、在全局配置进行配置：spring.datasource.schema指定的是启动应用时在数据库执行的sql文件<strong>（建表语句）</strong>，spring.datasource.data指定的也是sql文件<strong>（增删改语句）</strong></p>
-<p><strong>当然也可以不设置这两个属性，默认建表的sql文件名是schema.sql/schema-all.sql，增删改的sql文件名是data.sql/data-all.sql</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  datasource:</span><br><span class="line">  url: jdbc:mysql://localhost/jdbc?serverTimezone=UTC</span><br><span class="line">  driver-class-name: com.mysql.jdbc.Driver</span><br><span class="line">  username: 用户名</span><br><span class="line">  password: 密码</span><br><span class="line">  initialization-mode: always</span><br><span class="line">  schema:</span><br><span class="line">     - classpath:auto_create.sql</span><br><span class="line">  data:</span><br><span class="line">     - classpath:insert.sql</span><br></pre></td></tr></table></figure>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARuhb4.jpg" alt="ARuhb4.jpg"></p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARuo5R.jpg" alt="ARuo5R.jpg"></p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARu5VJ.jpg" alt="ARu5VJ.jpg"></p>
-<p>2、启动应用测试</p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARuIa9.jpg" alt="ARuIa9.jpg"></p>
-<h3 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h3><p>1、在DataSourceInitializationConfiguration配置类中会导入一个DataSourceInitializerInvoker组件</p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARu7P1.jpg" alt="ARu7P1.jpg"></p>
-<p>2、点到DataSourceInitializerInvoker类中，官方注释说该bean初始化时会运行<em>schema-<strong>.</strong>schema-\</em>.sql<strong>-*</strong>.sql*</p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARub26.jpg" alt="ARub26.jpg"></p>
-<p>3、在DataSourceInitializerInvoker类中有个设置完属性之后会调用的afterPropertiesSet方法，该方法中调用了createSchema方法</p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARuH8x.jpg" alt="ARuH8x.jpg"></p>
-<p>4、点进createSchema方法会调用getScripts方法（传入spring.datasource.schema和schema进去）</p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARuOKO.jpg" alt="ARuOKO.jpg"></p>
-<p>5、进入getScripts方法，这里面会从classpath路径下获取sql文件，而拼装起来的文件名就是根据传过来的参数所决定的。（platform=”all”）,所以这里的文件名为schema.sql和schema-all.sql</p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARuqxK.jpg" alt="ARuqxK.jpg"></p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARuXrD.jpg" alt="ARuXrD.jpg"></p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARuzad.jpg" alt="ARuzad.jpg"></p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARuxVH.jpg" alt="ARuxVH.jpg"></p>
-<p>6、在DataSourceInitializerInvoker类中还有个监听方法，该方法会调用initSchema方法</p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARKSIA.jpg" alt="ARKSIA.jpg"></p>
-<p>7、进入initSchema方法又是调用getScripts方法而传入的参数就是spring.datasource.data和data，所以这个一定是获得类路径下的data.sql和data-all.sql文件</p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARK9PI.jpg" alt="ARK9PI.jpg"></p>
-<p><strong>所以默认使用的文件名就是schema.sql/schema-all.sql，data.sql/data-all.sql，也可以通过spring.datasource.data/spring.datasource.schema指定自定义文件名的sql文件</strong></p>
+            <h1 id="一、运行流程"><a href="#一、运行流程" class="headerlink" title="一、运行流程"></a>一、运行流程</h1><p>先来一张架构图</p>
+<p><img src="https://s2.ax1x.com/2019/05/30/VQk3jK.jpg" alt="VQk3jK.jpg"></p>
+<p>1、前端控制器（DispatcherServlet）接收到请求(request)</p>
+<p>2、通过请求过来的url调用处理器映射器（HandlerMapping）中获得handler</p>
+<p>3、找到后返回一个执行链对象（HandlerExecutionChain）</p>
+<p><img src="https://s2.ax1x.com/2019/05/30/VQkZBF.jpg" alt="VQkZBF.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/05/30/VQkAXT.jpg" alt="VQkAXT.jpg"></p>
+<p>4、调用适配器（HandlerAdapter ）执行handler</p>
+<p><img src="https://s2.ax1x.com/2019/05/30/VQkVnU.jpg" alt="VQkVnU.jpg"></p>
+<p>5、适配器执行handler</p>
+<p>6、handler返回ModerAndView对象给适配器</p>
+<p>7、处理器适配器返回ModerAndView对象给DispatcherServlet</p>
+<p><img src="https://s2.ax1x.com/2019/05/30/VQkkcV.jpg" alt="VQkkcV.jpg">mv对象就是ModerAndView类型的</p>
+<p>8-9、调用视图解析器（ViewResolver ）根据逻辑视图（View）返回物理视图（View）</p>
+<p>物理视图：项目根路径+前缀+逻辑视图+后缀</p>
+<p><img src="https://s2.ax1x.com/2019/05/30/VQke74.jpg" alt="VQke74.jpg"></p>
+<p>10、视图渲染将Model存入request域中</p>
+<p>|–视图渲染就是在jsp中把数据取出来最终形成html代码</p>
+<p><img src="https://s2.ax1x.com/2019/05/30/VQknAJ.jpg" alt="VQknAJ.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/05/30/VQkuN9.jpg" alt="VQkuN9.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/05/30/VQkKhR.jpg" alt="VQkKhR.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/05/30/VQkl1x.jpg" alt="VQkl1x.jpg">找到</p>
+<p>找到视图解析器这个类</p>
+<p><img src="https://s2.ax1x.com/2019/05/30/VQkQ91.jpg" alt="VQkQ91.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/05/30/VQk1c6.jpg" alt="VQk1c6.jpg"></p>
+<h1 id="二、SpringMVC-重要组件说明"><a href="#二、SpringMVC-重要组件说明" class="headerlink" title="二、SpringMVC 重要组件说明"></a>二、SpringMVC 重要组件说明</h1><p><strong>1、前端控制器DispatcherServlet（不需要工程师开发）,由框架提供（重要）</strong></p>
+<p>作用：<strong>Spring MVC 的入口函数。接收请求，响应结果，相当于转发器，中央处理器。有了 DispatcherServlet 减少了其它组件之间的耦合度。用户请求到达前端控制器，它就相当于mvc模式中的c，DispatcherServlet是整个流程控制的中心，由它调用其它组件处理用户的请求，DispatcherServlet的存在降低了组件之间的耦合性。</strong></p>
+<p><strong>2、处理器映射器HandlerMapping(不需要工程师开发),由框架提供</strong></p>
+<p>作用：根据请求的url查找Handler。HandlerMapping负责根据用户请求找到Handler即处理器（Controller），SpringMVC提供了不同的映射器实现不同的映射方式，例如：配置文件方式，实现接口方式，注解方式等。</p>
+<ul>
+<li><p>BeanNameUrlHandlerMapping非注解(配置handler的时候,beanName就是url)</p>
+</li>
+<li><p>SimpleUrlHandlerMapping非注解(需要在该bean下面配置handler映射,key为url,value为 handler的id)</p>
+</li>
+<li><p>RequestMappingHandlerMapping(注解映射器,在Handler方法上配置@RequestMapping(“url”))</p>
+</li>
+</ul>
+<p><strong>3、处理器适配器HandlerAdapter</strong></p>
+<p>作用：按照特定规则（HandlerAdapter要求的规则）去执行Handler<br>通过HandlerAdapter对处理器进行执行，这是适配器模式的应用，通过扩展适配器可以对更多类型的处理器进行执行。</p>
+<ul>
+<li><p>SimpleControllerHandlerAdapter非注解（要求Handler实现Controller接口）</p>
+</li>
+<li><p>HttpRequestHandlerAdapter非注解(要求Handler实现HttpRequestHandler接口)</p>
+</li>
+<li><p>RequestMappingHandlerAdapter(在Handler类上写上@Controller注解)</p>
+</li>
+</ul>
+<p><strong>4、处理器Handler(需要工程师开发)</strong></p>
+<p>注意：编写Handler时按照HandlerAdapter的要求去做，这样适配器才可以去正确执行Handler<br>Handler 是继DispatcherServlet前端控制器的后端控制器，在DispatcherServlet的控制下Handler对具体的用户请求进行处理。<br>由于Handler涉及到具体的用户业务请求，所以一般情况需要工程师根据业务需求开发Handler。</p>
+<p><strong>5、视图解析器View resolver(不需要工程师开发),由框架提供</strong></p>
+<p>作用：进行视图解析，根据逻辑视图名解析成真正的视图（view）<br>View Resolver负责将处理结果生成View视图，View Resolver首先根据逻辑视图名解析成物理视图名即具体的页面地址，再生成View视图对象，最后对View进行渲染将处理结果通过页面展示给用户。 springmvc框架提供了很多的View视图类型，包括：jstlView、freemarkerView、pdfView等。<br>一般情况下需要通过页面标签或页面模版技术将模型数据通过页面展示给用户，需要由工程师根据业务需求开发具体的页面。</p>
+<p><strong>6、视图View(需要工程师开发)</strong></p>
+<p>View是一个接口，实现类支持不同的View类型（jsp、freemarker、pdf…）</p>
+<p><strong>注意：处理器Handler（也就是我们平常说的Controller控制器）以及视图层view都是需要我们自己手动开发的。其他的一些组件比如：前端控制器DispatcherServlet、处理器映射器HandlerMapping、处理器适配器HandlerAdapter等等都是框架提供给我们的，不需要自己手动开发。</strong></p>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2019年05月25日 15:37</p>
-        <p>原始链接： <a class="post-url" href="/2019/04/04/2019-04-04-SpringBoot学习06_整合JDBC/" title="Spring Boot学习06_整合JDBC">https://yangrijian.top/2019/04/04/2019-04-04-SpringBoot学习06_整合JDBC/</a></p>
+        <p>最后更新： 2019年05月30日 22:57</p>
+        <p>原始链接： <a class="post-url" href="/2019/05/30/2019-05-30-SpringMVC运行流程/" title="SpringMVC运行流程">https://yangrijian.top/2019/05/30/2019-05-30-SpringMVC运行流程/</a></p>
         <footer>
             <a href="https://yangrijian.top">
                 <img src="/images/logo.png" alt="Yang">
@@ -268,7 +271,7 @@
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yangrijian.top/2019/04/04/2019-04-04-SpringBoot学习06_整合JDBC/&title=《Spring Boot学习06_整合JDBC》 — Yang&pic=images/cate/springboot.jpg" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yangrijian.top/2019/05/30/2019-05-30-SpringMVC运行流程/&title=《SpringMVC运行流程》 — Yang&pic=images/cate/springmvc.jpg" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -278,22 +281,22 @@
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yangrijian.top/2019/04/04/2019-04-04-SpringBoot学习06_整合JDBC/&title=《Spring Boot学习06_整合JDBC》 — Yang&source=" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yangrijian.top/2019/05/30/2019-05-30-SpringMVC运行流程/&title=《SpringMVC运行流程》 — Yang&source=" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
           <li>
-            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yangrijian.top/2019/04/04/2019-04-04-SpringBoot学习06_整合JDBC/" data-title="Facebook">
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yangrijian.top/2019/05/30/2019-05-30-SpringMVC运行流程/" data-title="Facebook">
               <i class="fa fa-facebook"></i>
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Spring Boot学习06_整合JDBC》 — Yang&url=https://yangrijian.top/2019/04/04/2019-04-04-SpringBoot学习06_整合JDBC/&via=https://yangrijian.top" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《SpringMVC运行流程》 — Yang&url=https://yangrijian.top/2019/05/30/2019-05-30-SpringMVC运行流程/&via=https://yangrijian.top" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
           <li>
-            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yangrijian.top/2019/04/04/2019-04-04-SpringBoot学习06_整合JDBC/" data-title="Google+">
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yangrijian.top/2019/05/30/2019-05-30-SpringMVC运行流程/" data-title="Google+">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -303,7 +306,7 @@
 <div class="post-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;" id="wxShare-close">×</a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yangrijian.top/2019/04/04/2019-04-04-SpringBoot学习06_整合JDBC/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yangrijian.top/2019/05/30/2019-05-30-SpringMVC运行流程/" alt="微信分享二维码">
 </div>
 
 <div class="mask"></div>
@@ -315,9 +318,7 @@
   <li class="article-footer-tags">
     <i class="fa fa-tags"></i>
       
-    <a href="/tags/SpringBoot/" class="color1">SpringBoot</a>
-      
-    <a href="/tags/JDBC/" class="color5">JDBC</a>
+    <a href="/tags/SpringMVC/" class="color5">SpringMVC</a>
       
   </li>
 
@@ -330,26 +331,16 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、Spring-Boot整合JDBC"><span class="post-toc-text">一、Spring Boot整合JDBC</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#原理"><span class="post-toc-text">原理</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二、Spring-Boot还支持启动时能自动创建表和插入数据"><span class="post-toc-text">二、Spring Boot还支持启动时能自动创建表和插入数据</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#原理-1"><span class="post-toc-text">原理</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#一、运行流程"><span class="post-toc-text">一、运行流程</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#二、SpringMVC-重要组件说明"><span class="post-toc-text">二、SpringMVC 重要组件说明</span></a></li></ol>
         </nav>
     </aside>
     
 
 <nav id="article-nav">
   
-    <a href="/2019/04/05/2019-04-05-SpringBoot学习06_整合Druid与配置监控数据源/" id="article-nav-newer" class="article-nav-link-wrap">
-
-      <span class="article-nav-title">
-        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
-        
-          Spring Boot学习06_整合Druid与配置监控数据源
-        
-      </span>
-    </a>
   
-  
-    <a href="/2019/04/04/2019-04-04-SpringBoot学习05_Docker入门/" id="article-nav-older" class="article-nav-link-wrap">
-      <span class="article-nav-title">Spring Boot学习05_Docker入门</span>
+    <a href="/2019/05/22/2019-05-22-WebSocket/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">WebSocket</span>
       <i class="fa fa-hand-o-right" aria-hidden="true"></i>
     </a>
   
