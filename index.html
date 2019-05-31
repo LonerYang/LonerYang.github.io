@@ -104,6 +104,77 @@
       <div class="outer">
         <section id="main" class="body-wrap">
   
+    <article id="post-2019-05-31-Mybatis封装多参数的过程" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/31/2019-05-31-Mybatis封装多参数的过程/">Mybatis封装多参数的过程</a>
+    </h1>
+  
+
+          
+              <span class="header-cate">
+                <i class="fa fa-map-marker"></i>
+                  
+                  <a href="/categories/Mybatis/">Mybatis</a>
+                  
+              </span>
+          
+      </header>
+    
+    <div class="article-entry " itemprop="articleBody">
+      
+        <div class="article-img">
+            <a href="/2019/05/31/2019-05-31-Mybatis封装多参数的过程/">
+                
+                <img src="https://yangrijian.top/images/cate/mybatis.jpg" alt="Mybatis封装多参数的过程" title="Mybatis封装多参数的过程">
+                
+            </a>
+        </div>
+        <div class="article-feed">
+            <p>
+                源码分析基本的jar包配置就不说了直接上手分析
+1）、Mapper中的根据多参数获取对象的方法
+
+2）、在测试类中调用该方法
+
+1、设置断点并debug启动，进入该方法
+把参数传进来，然后判断该方法的定义类是不是Object中的方法(比如toString(),equals())
+如果是就直接返回方法的实现，显然我们这个并不是，在else代码块中设置断点
+
+2、进入mapp...
+            </p>
+        </div>
+      
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+                <li><i class="fa fa-calendar"></i>2019-05-31</li>
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Mybatis/" class="color3">Mybatis</a>
+      
+  </li>
+
+        </ul>
+        
+            <a href="/2019/05/31/2019-05-31-Mybatis封装多参数的过程/#more" class="article-more-link">more&gt;&gt;</a>
+        
+    </footer>
+  </div>
+</article>
+
+
+  
     <article id="post-2019-05-30-SpringMVC运行流程" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -691,69 +762,6 @@ next：下一个节点
 
 
   
-    <article id="post-2019-04-14-SpringBoot学习15_监控管理" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/14/2019-04-14-SpringBoot学习15_监控管理/">Spring Boot学习15_监控管理（完结）</a>
-    </h1>
-  
-
-          
-              <span class="header-cate">
-                <i class="fa fa-map-marker"></i>
-                  
-                  <a href="/categories/SpringBoot/">SpringBoot</a>
-                  
-              </span>
-          
-      </header>
-    
-    <div class="article-entry " itemprop="articleBody">
-      
-        <div class="article-img">
-            <a href="/2019/04/14/2019-04-14-SpringBoot学习15_监控管理/">
-                
-                <img src="https://yangrijian.top/images/cate/springboot.jpg" alt="Spring Boot学习15_监控管理（完结）" title="Spring Boot学习15_监控管理（完结）">
-                
-            </a>
-        </div>
-        <div class="article-feed">
-            <p>
-                通过引入spring-boot-starter-actuator，可以使用Spring Boot为我们提供的准生产环境下的应用监控和管理功能。我们可以通过HTTP，JMX，SSH协议来进行操作，自动得到审计、健康及指标信息等
-一、端点介绍通过执行器端点，您可以监控应用程序并与之交互。Spring Boot包含许多内置端点，允许您添加自己的端点。例如， health端点提供...
-            </p>
-        </div>
-      
-        
-    </div>
-    <footer class="article-footer">
-        
-        <ul class="article-footer-menu">
-            
-                <li><i class="fa fa-calendar"></i>2019-04-14</li>
-            
-            
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/tags/SpringBoot/" class="color1">SpringBoot</a>
-      
-  </li>
-
-        </ul>
-        
-            <a href="/2019/04/14/2019-04-14-SpringBoot学习15_监控管理/#more" class="article-more-link">more&gt;&gt;</a>
-        
-    </footer>
-  </div>
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -812,10 +820,10 @@ next：下一个节点
 <div class="sidebar-menu-box" id="sidebar-menu-box">
     <div class="sidebar-menu-box-container">
         <div id="sidebar-menu-box-categories">
-            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Linux/">Linux</a><a class="category-link" href="/categories/SpringBoot/">SpringBoot</a><a class="category-link" href="/categories/SpringMVC/">SpringMVC</a><a class="category-link" href="/categories/代码的艺术/">代码的艺术</a><a class="category-link" href="/categories/并发/">并发</a><a class="category-link" href="/categories/随笔/">随笔</a>
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Linux/">Linux</a><a class="category-link" href="/categories/Mybatis/">Mybatis</a><a class="category-link" href="/categories/SpringBoot/">SpringBoot</a><a class="category-link" href="/categories/SpringMVC/">SpringMVC</a><a class="category-link" href="/categories/代码的艺术/">代码的艺术</a><a class="category-link" href="/categories/并发/">并发</a><a class="category-link" href="/categories/随笔/">随笔</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Docker/" style="font-size: 12px;">Docker</a> <a href="/tags/Dubbo/" style="font-size: 10px;">Dubbo</a> <a href="/tags/Elasticsearch/" style="font-size: 10px;">Elasticsearch</a> <a href="/tags/JDBC/" style="font-size: 12px;">JDBC</a> <a href="/tags/JPA/" style="font-size: 10px;">JPA</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/Log/" style="font-size: 10px;">Log</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Security/" style="font-size: 10px;">Security</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/SpringMVC/" style="font-size: 10px;">SpringMVC</a> <a href="/tags/Task/" style="font-size: 10px;">Task</a> <a href="/tags/Thymeleaf/" style="font-size: 10px;">Thymeleaf</a> <a href="/tags/WebSocket/" style="font-size: 10px;">WebSocket</a> <a href="/tags/YAML/" style="font-size: 10px;">YAML</a> <a href="/tags/Zookeeper/" style="font-size: 10px;">Zookeeper</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/缓存/" style="font-size: 12px;">缓存</a> <a href="/tags/邮件/" style="font-size: 10px;">邮件</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+            <a href="/tags/Docker/" style="font-size: 12px;">Docker</a> <a href="/tags/Dubbo/" style="font-size: 10px;">Dubbo</a> <a href="/tags/Elasticsearch/" style="font-size: 10px;">Elasticsearch</a> <a href="/tags/JDBC/" style="font-size: 12px;">JDBC</a> <a href="/tags/JPA/" style="font-size: 10px;">JPA</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/Log/" style="font-size: 10px;">Log</a> <a href="/tags/Mybatis/" style="font-size: 12px;">Mybatis</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Security/" style="font-size: 10px;">Security</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/SpringMVC/" style="font-size: 10px;">SpringMVC</a> <a href="/tags/Task/" style="font-size: 10px;">Task</a> <a href="/tags/Thymeleaf/" style="font-size: 10px;">Thymeleaf</a> <a href="/tags/WebSocket/" style="font-size: 10px;">WebSocket</a> <a href="/tags/YAML/" style="font-size: 10px;">YAML</a> <a href="/tags/Zookeeper/" style="font-size: 10px;">Zookeeper</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/缓存/" style="font-size: 12px;">缓存</a> <a href="/tags/邮件/" style="font-size: 10px;">邮件</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -848,7 +856,7 @@ next：下一个节点
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Docker/" style="font-size: 12px;">Docker</a> <a href="/tags/Dubbo/" style="font-size: 10px;">Dubbo</a> <a href="/tags/Elasticsearch/" style="font-size: 10px;">Elasticsearch</a> <a href="/tags/JDBC/" style="font-size: 12px;">JDBC</a> <a href="/tags/JPA/" style="font-size: 10px;">JPA</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/Log/" style="font-size: 10px;">Log</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Security/" style="font-size: 10px;">Security</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/SpringMVC/" style="font-size: 10px;">SpringMVC</a> <a href="/tags/Task/" style="font-size: 10px;">Task</a> <a href="/tags/Thymeleaf/" style="font-size: 10px;">Thymeleaf</a> <a href="/tags/WebSocket/" style="font-size: 10px;">WebSocket</a> <a href="/tags/YAML/" style="font-size: 10px;">YAML</a> <a href="/tags/Zookeeper/" style="font-size: 10px;">Zookeeper</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/缓存/" style="font-size: 12px;">缓存</a> <a href="/tags/邮件/" style="font-size: 10px;">邮件</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+            <a href="/tags/Docker/" style="font-size: 12px;">Docker</a> <a href="/tags/Dubbo/" style="font-size: 10px;">Dubbo</a> <a href="/tags/Elasticsearch/" style="font-size: 10px;">Elasticsearch</a> <a href="/tags/JDBC/" style="font-size: 12px;">JDBC</a> <a href="/tags/JPA/" style="font-size: 10px;">JPA</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/Log/" style="font-size: 10px;">Log</a> <a href="/tags/Mybatis/" style="font-size: 12px;">Mybatis</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Security/" style="font-size: 10px;">Security</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/SpringMVC/" style="font-size: 10px;">SpringMVC</a> <a href="/tags/Task/" style="font-size: 10px;">Task</a> <a href="/tags/Thymeleaf/" style="font-size: 10px;">Thymeleaf</a> <a href="/tags/WebSocket/" style="font-size: 10px;">WebSocket</a> <a href="/tags/YAML/" style="font-size: 10px;">YAML</a> <a href="/tags/Zookeeper/" style="font-size: 10px;">Zookeeper</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/缓存/" style="font-size: 12px;">缓存</a> <a href="/tags/邮件/" style="font-size: 10px;">邮件</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
         </div>
     </div>
 </div>

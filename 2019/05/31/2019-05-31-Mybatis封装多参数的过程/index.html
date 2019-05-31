@@ -3,32 +3,35 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
-  <title>Linux进程管理 | Yang</title>
+  <title>Mybatis封装多参数的过程 | Yang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Yang,Yang's Blog">
   
-  <meta name="description" content="进程是正在执行的一个程序或命令，每一个进程都是一个运行的实体，都有自己的地址空间，并占用一定的系统资源。 #类似LS之类的命令都会产生进程。 1、查看系统运行了哪些进程ps aux #查看系统中所有的进程，使用BSD操作系统格式 ps -le #查看系统中所有的进程，使用LINUX标准格式   2、动态查看电脑负载状态 top [选项] -d 秒数：指定top命令每隔几秒更新，默认是3秒。 在to">
-<meta name="keywords" content="Linux">
+  <meta name="description" content="源码分析基本的jar包配置就不说了直接上手分析 1）、Mapper中的根据多参数获取对象的方法  2）、在测试类中调用该方法  1、设置断点并debug启动，进入该方法 把参数传进来，然后判断该方法的定义类是不是Object中的方法(比如toString(),equals()) 如果是就直接返回方法的实现，显然我们这个并不是，在else代码块中设置断点  2、进入mapperMethod.exec">
+<meta name="keywords" content="Mybatis">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Linux进程管理">
-<meta property="og:url" content="https://yangrijian.top/2019/03/27/2019-03-27-Linux进程管理方法/index.html">
+<meta property="og:title" content="Mybatis封装多参数的过程">
+<meta property="og:url" content="https://yangrijian.top/2019/05/31/2019-05-31-Mybatis封装多参数的过程/index.html">
 <meta property="og:site_name" content="Yang">
-<meta property="og:description" content="进程是正在执行的一个程序或命令，每一个进程都是一个运行的实体，都有自己的地址空间，并占用一定的系统资源。 #类似LS之类的命令都会产生进程。 1、查看系统运行了哪些进程ps aux #查看系统中所有的进程，使用BSD操作系统格式 ps -le #查看系统中所有的进程，使用LINUX标准格式   2、动态查看电脑负载状态 top [选项] -d 秒数：指定top命令每隔几秒更新，默认是3秒。 在to">
+<meta property="og:description" content="源码分析基本的jar包配置就不说了直接上手分析 1）、Mapper中的根据多参数获取对象的方法  2）、在测试类中调用该方法  1、设置断点并debug启动，进入该方法 把参数传进来，然后判断该方法的定义类是不是Object中的方法(比如toString(),equals()) 如果是就直接返回方法的实现，显然我们这个并不是，在else代码块中设置断点  2、进入mapperMethod.exec">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://s2.ax1x.com/2019/03/27/Ad0279.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/03/27/Ad0cm4.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/03/27/Ad0yXF.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/03/27/Ad0s6U.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/03/27/Ad0WkR.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/03/27/Ad0hfx.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/03/27/Ad0ft1.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/03/27/Ad05p6.png">
-<meta property="og:updated_time" content="2019-05-25T07:36:35.297Z">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/31/V1SHpV.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/31/V1S4Ts.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/31/V1p5uD.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/31/V1Sv79.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/31/V1p7Ed.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/31/V1pHUA.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/31/V1pb4I.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/31/V1pO8P.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/31/V1pLCt.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/31/V1pjv8.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/31/V1pXgf.jpg">
+<meta property="og:updated_time" content="2019-05-31T14:15:29.240Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Linux进程管理">
-<meta name="twitter:description" content="进程是正在执行的一个程序或命令，每一个进程都是一个运行的实体，都有自己的地址空间，并占用一定的系统资源。 #类似LS之类的命令都会产生进程。 1、查看系统运行了哪些进程ps aux #查看系统中所有的进程，使用BSD操作系统格式 ps -le #查看系统中所有的进程，使用LINUX标准格式   2、动态查看电脑负载状态 top [选项] -d 秒数：指定top命令每隔几秒更新，默认是3秒。 在to">
-<meta name="twitter:image" content="https://s2.ax1x.com/2019/03/27/Ad0279.png">
+<meta name="twitter:title" content="Mybatis封装多参数的过程">
+<meta name="twitter:description" content="源码分析基本的jar包配置就不说了直接上手分析 1）、Mapper中的根据多参数获取对象的方法  2）、在测试类中调用该方法  1、设置断点并debug启动，进入该方法 把参数传进来，然后判断该方法的定义类是不是Object中的方法(比如toString(),equals()) 如果是就直接返回方法的实现，显然我们这个并不是，在else代码块中设置断点  2、进入mapperMethod.exec">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/05/31/V1SHpV.jpg">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -116,14 +119,14 @@
     </div>
 </header>
       <div class="outer">
-        <section id="main" class="body-wrap"><article id="post-2019-03-27-Linux进程管理方法" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main" class="body-wrap"><article id="post-2019-05-31-Mybatis封装多参数的过程" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="post-title" itemprop="name">
-      Linux进程管理
+      Mybatis封装多参数的过程
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -131,12 +134,12 @@
               <li>
                   <i class="fa fa-book"></i>
                   
-                      <a href="/categories/Linux/">Linux</a>
+                      <a href="/categories/Mybatis/">Mybatis</a>
                   
               </li>
           
         <li>
-          <i class="fa fa-calendar"></i>  2019-03-27
+          <i class="fa fa-calendar"></i>  2019-05-31
         </li>
         <li>
           <i class="fa fa-eye"></i>
@@ -152,41 +155,45 @@
     <div class="article-entry post-content" itemprop="articleBody">
       
             
-            <p>进程是正在执行的一个程序或命令，每一个进程都是一个运行的实体，都有自己的地址空间，并占用一定的系统资源。</p>
-<p>#类似LS之类的命令都会产生进程。</p>
-<h2 id="1、查看系统运行了哪些进程"><a href="#1、查看系统运行了哪些进程" class="headerlink" title="1、查看系统运行了哪些进程"></a>1、查看系统运行了哪些进程</h2><p>ps aux #查看系统中所有的进程，使用BSD操作系统格式</p>
-<p>ps -le #查看系统中所有的进程，使用LINUX标准格式</p>
-<p><img src="https://s2.ax1x.com/2019/03/27/Ad0279.png" alt="Ad0279.png"></p>
-<p><img src="https://s2.ax1x.com/2019/03/27/Ad0cm4.png" alt="Ad0cm4.png"></p>
-<h2 id="2、动态查看电脑负载状态"><a href="#2、动态查看电脑负载状态" class="headerlink" title="2、动态查看电脑负载状态"></a>2、动态查看电脑负载状态</h2><p> top [选项]</p>
-<p>-d 秒数：指定top命令每隔几秒更新，默认是3秒。</p>
-<p>在top命令的交互模式当中可以执行的命令：</p>
-<p>?或h：查看帮助文档</p>
-<p>P:以CPU使用率排序，默认就是此项</p>
-<p>M:以内存使用率排序</p>
-<p>N:以PID排序</p>
-<p>q:退出top</p>
-<p> <strong>第一行任务列队信息</strong></p>
-<p><img src="https://s2.ax1x.com/2019/03/27/Ad0yXF.png" alt="Ad0yXF.png"></p>
-<p><strong>第二行进程信息</strong></p>
-<p><img src="https://s2.ax1x.com/2019/03/27/Ad0s6U.png" alt="Ad0s6U.png"></p>
-<p><strong>第三行CPU行为信息</strong></p>
-<p><img src="https://s2.ax1x.com/2019/03/27/Ad0WkR.png" alt="Ad0WkR.png"></p>
-<p><strong>第四行物理内存信息</strong></p>
-<p><img src="https://s2.ax1x.com/2019/03/27/Ad0hfx.png" alt="Ad0hfx.png"></p>
-<p><strong>第五行交换分区（swap）信息</strong></p>
-<p><img src="https://s2.ax1x.com/2019/03/27/Ad0ft1.png" alt="Ad0ft1.png"></p>
-<h2 id="3、停止进程运命令"><a href="#3、停止进程运命令" class="headerlink" title="3、停止进程运命令"></a>3、停止进程运命令</h2><p>kill [选项]</p>
-<p>-l ：查看可用的进程信号</p>
-<p><img src="https://s2.ax1x.com/2019/03/27/Ad05p6.png" alt="Ad05p6.png"></p>
-<p>eg:</p>
-<p>Kill -1 22354 #重启PID为22354的程序</p>
-<p>Kill -9 22354 #强制杀死PID为22354的程序</p>
+            <h1 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h1><p>基本的jar包配置就不说了直接上手分析</p>
+<p>1）、Mapper中的根据多参数获取对象的方法</p>
+<p><img src="https://s2.ax1x.com/2019/05/31/V1SHpV.jpg" alt="V1SHpV.jpg"></p>
+<p>2）、在测试类中调用该方法</p>
+<p><img src="https://s2.ax1x.com/2019/05/31/V1S4Ts.jpg" alt="V1S4Ts.jpg"></p>
+<p><strong>1、设置断点并debug启动，进入该方法</strong></p>
+<p><strong>把参数传进来，然后判断该方法的定义类是不是Object中的方法(比如toString(),equals())</strong></p>
+<p><strong>如果是就直接返回方法的实现，显然我们这个并不是，在else代码块中设置断点</strong></p>
+<p><img src="https://s2.ax1x.com/2019/05/31/V1p5uD.jpg" alt="V1p5uD.jpg"></p>
+<p><strong>2、进入mapperMethod.execute(this.sqlSession,args)方法看到该方法就是判断你这个是增删改查中的哪一个，并且每种情况都有convertArgsToSqlCommandParam(args)这个方法，意思是根据传过来的参数转换成sql命令参数，很明显我们这是个查询。</strong></p>
+<p><img src="https://s2.ax1x.com/2019/05/31/V1Sv79.jpg" alt="V1Sv79.jpg"></p>
+<p><strong>3、我们进入case SELECT: 这里面就是进行了一些判断，我们这里返回值要的是一个对象蓑衣进入到了65行，我们进入converArgsToSqlCommandParam(args)</strong></p>
+<p><img src="https://s2.ax1x.com/2019/05/31/V1p7Ed.jpg" alt="V1p7Ed.jpg"></p>
+<p><strong>4、接着再进入</strong></p>
+<p><img src="https://s2.ax1x.com/2019/05/31/V1pHUA.jpg" alt="V1pHUA.jpg"></p>
+<p><strong>5、进入到了核心方法中发现有个Map类型的names变量并且还有我们传过来的参数，这是因为该类在初始化的时候就进行了一些操作。</strong></p>
+<p><img src="https://s2.ax1x.com/2019/05/31/V1pb4I.jpg" alt="V1pb4I.jpg"></p>
+<p><strong>6、找到该类的构造方法、上面一堆就是获取到参数上的类型，参数上的注解类型，然后进行遍历。看我圈起来的for循环</strong></p>
+<p><strong>意思就是获得到参数上的类型，如果属于Param这个注解类就拿到该注解上的值赋值给name</strong></p>
+<p><img src="https://s2.ax1x.com/2019/05/31/V1pO8P.jpg" alt="V1pO8P.jpg"></p>
+<p><strong>6.1、接着看构造方法下面：</strong></p>
+<p><strong>第一个红框：if(config.isUseActualParamName())，判断是否进行了全局配置（这个配置是在Mybatis中的setting标签中配置的）如果配置了，name就等于他的参数名，下面再判断如果name==null（意思就是参数中没有@param），我们就设置name等于map的大小</strong></p>
+<p><strong>，因为下面每次循环都会给map添加一个键值对(循环的下标作为key,name作为value)。最后把这个map给names，最后经过这个操作，上面那个核心方法的names的值就是这样得到了。</strong></p>
+<p><img src="https://s2.ax1x.com/2019/05/31/V1pLCt.jpg" alt="V1pLCt.jpg"></p>
+<p><strong>7、我们回到核心方法getNamedParams(Object[] args),为了更好的解释我就把方法的内容复制到notepad++中进行解释</strong></p>
+<p><strong>原始方法</strong></p>
+<p><img src="https://s2.ax1x.com/2019/05/31/V1pjv8.jpg" alt="V1pjv8.jpg"></p>
+<p><strong>notepad++中的解释</strong></p>
+<p><img src="https://s2.ax1x.com/2019/05/31/V1pXgf.jpg" alt="V1pXgf.jpg"></p>
+<h1 id="结论："><a href="#结论：" class="headerlink" title="结论："></a><strong>结论：</strong></h1><p><strong>在sql映射文件中取多参数类型(通过ognl表达式在Map中取数据的方式)</strong></p>
+<p><strong>1、如果参数类型有@Param就 #{注解上的value}</strong></p>
+<p><strong>2、没有注解就可以用 #{param1} #{param2} #{paramN}</strong></p>
+<p><strong>3、没有注解也可以使用 #{0} #{1}….</strong></p>
+<p><strong>如果是业务JavaBean就直接传一个Bean对象就行，不是业务Javabean而且常用也可以另外封装成一个对象 ，不常用就可以用上面那种方式</strong></p>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2019年05月25日 15:36</p>
-        <p>原始链接： <a class="post-url" href="/2019/03/27/2019-03-27-Linux进程管理方法/" title="Linux进程管理">https://yangrijian.top/2019/03/27/2019-03-27-Linux进程管理方法/</a></p>
+        <p>最后更新： 2019年05月31日 22:15</p>
+        <p>原始链接： <a class="post-url" href="/2019/05/31/2019-05-31-Mybatis封装多参数的过程/" title="Mybatis封装多参数的过程">https://yangrijian.top/2019/05/31/2019-05-31-Mybatis封装多参数的过程/</a></p>
         <footer>
             <a href="https://yangrijian.top">
                 <img src="/images/logo.png" alt="Yang">
@@ -243,7 +250,7 @@
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yangrijian.top/2019/03/27/2019-03-27-Linux进程管理方法/&title=《Linux进程管理》 — Yang&pic=images/cate/linux.jpg" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yangrijian.top/2019/05/31/2019-05-31-Mybatis封装多参数的过程/&title=《Mybatis封装多参数的过程》 — Yang&pic=images/cate/mybatis.jpg" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -253,22 +260,22 @@
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yangrijian.top/2019/03/27/2019-03-27-Linux进程管理方法/&title=《Linux进程管理》 — Yang&source=" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yangrijian.top/2019/05/31/2019-05-31-Mybatis封装多参数的过程/&title=《Mybatis封装多参数的过程》 — Yang&source=" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
           <li>
-            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yangrijian.top/2019/03/27/2019-03-27-Linux进程管理方法/" data-title="Facebook">
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yangrijian.top/2019/05/31/2019-05-31-Mybatis封装多参数的过程/" data-title="Facebook">
               <i class="fa fa-facebook"></i>
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Linux进程管理》 — Yang&url=https://yangrijian.top/2019/03/27/2019-03-27-Linux进程管理方法/&via=https://yangrijian.top" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Mybatis封装多参数的过程》 — Yang&url=https://yangrijian.top/2019/05/31/2019-05-31-Mybatis封装多参数的过程/&via=https://yangrijian.top" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
           <li>
-            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yangrijian.top/2019/03/27/2019-03-27-Linux进程管理方法/" data-title="Google+">
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yangrijian.top/2019/05/31/2019-05-31-Mybatis封装多参数的过程/" data-title="Google+">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -278,7 +285,7 @@
 <div class="post-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;" id="wxShare-close">×</a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yangrijian.top/2019/03/27/2019-03-27-Linux进程管理方法/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yangrijian.top/2019/05/31/2019-05-31-Mybatis封装多参数的过程/" alt="微信分享二维码">
 </div>
 
 <div class="mask"></div>
@@ -290,7 +297,7 @@
   <li class="article-footer-tags">
     <i class="fa fa-tags"></i>
       
-    <a href="/tags/Linux/" class="color1">Linux</a>
+    <a href="/tags/Mybatis/" class="color3">Mybatis</a>
       
   </li>
 
@@ -303,26 +310,16 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1、查看系统运行了哪些进程"><span class="post-toc-text">1、查看系统运行了哪些进程</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2、动态查看电脑负载状态"><span class="post-toc-text">2、动态查看电脑负载状态</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3、停止进程运命令"><span class="post-toc-text">3、停止进程运命令</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#源码分析"><span class="post-toc-text">源码分析</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#结论："><span class="post-toc-text">结论：</span></a></li></ol>
         </nav>
     </aside>
     
 
 <nav id="article-nav">
   
-    <a href="/2019/03/28/2019-03-28-SpringBoot学习04_web静态资源映射规则/" id="article-nav-newer" class="article-nav-link-wrap">
-
-      <span class="article-nav-title">
-        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
-        
-          Spring Boot学习04_web静态资源映射规则(源码)
-        
-      </span>
-    </a>
   
-  
-    <a href="/2019/03/27/2019-03-27-Linux压缩解压文件/" id="article-nav-older" class="article-nav-link-wrap">
-      <span class="article-nav-title">Linux压缩解压文件</span>
+    <a href="/2019/05/30/2019-05-30-SpringMVC运行流程/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">SpringMVC运行流程</span>
       <i class="fa fa-hand-o-right" aria-hidden="true"></i>
     </a>
   
