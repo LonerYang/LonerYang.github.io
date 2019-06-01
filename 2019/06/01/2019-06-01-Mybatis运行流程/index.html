@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>Mybatis运行流程 | Yang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Yang,Yang's Blog">
+  
+  <meta name="description" content="一个框架的运行流程从最简单的一个helloworld来看其源码就能了解到框架的原理是什么，以下面这个简单的查询代码为入口来分析Mybatis的运行流程 123456789101112131415161718192021222324   @Test   public void testMybatis() &amp;#123;      InputStream in = null;      try &amp;#12">
+<meta name="keywords" content="Mybatis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mybatis运行流程">
+<meta property="og:url" content="https://yangrijian.top/2019/06/01/2019-06-01-Mybatis运行流程/index.html">
+<meta property="og:site_name" content="Yang">
+<meta property="og:description" content="一个框架的运行流程从最简单的一个helloworld来看其源码就能了解到框架的原理是什么，以下面这个简单的查询代码为入口来分析Mybatis的运行流程 123456789101112131415161718192021222324   @Test   public void testMybatis() &amp;#123;      InputStream in = null;      try &amp;#12">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39Sw4.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39Al6.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39pTJ.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V3pzmF.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V3pvOU.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39PYR.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39Ck9.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39if1.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39E6K.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39emD.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39kSx.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39VOO.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39YnS.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39m0e.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39nTH.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39Kkd.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39MtA.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V391pt.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39QfI.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V3931P.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V3986f.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39dts.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39GX8.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39N7Q.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39t0g.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39akj.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39Bpq.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39whn.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39rcV.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V396nU.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39RAJ.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39Ic6.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39g74.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39cBF.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39ojK.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39WN9.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39fhR.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39491.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V3951x.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V397nO.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39HBD.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V3CCDS.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39bHe.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39LAH.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39ONd.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39x3t.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39X4A.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39v9I.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V39zgP.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V3C9u8.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V3CSjf.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V3CPHg.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V3CkNj.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V3CFEQ.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V3CuuT.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V3CA4s.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V3CZ3q.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V3CVCn.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V3Ceg0.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V3CmvV.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V3im0U.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V3iN7D.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V3iemT.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V3iVXV.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V3iE60.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V3in7F.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V3iQh9.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V3iKk4.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V3iMtJ.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V3i1pR.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V3i311.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V3i86x.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V3iGX6.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V3iYnK.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V3iB9A.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/01/V3it0O.png">
+<meta property="og:updated_time" content="2019-06-01T07:40:16.804Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mybatis运行流程">
+<meta name="twitter:description" content="一个框架的运行流程从最简单的一个helloworld来看其源码就能了解到框架的原理是什么，以下面这个简单的查询代码为入口来分析Mybatis的运行流程 123456789101112131415161718192021222324   @Test   public void testMybatis() &amp;#123;      InputStream in = null;      try &amp;#12">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/06/01/V39Sw4.png">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Yang&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Yang&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        一个专注 Java 开发的技术博客
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Yang" target="_blank" href="//yangrijian.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/loneryang">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/u/5595731265?is_hot=1">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-2019-06-01-Mybatis运行流程" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Mybatis运行流程
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Mybatis/">Mybatis</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-06-01
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <p>一个框架的运行流程从最简单的一个helloworld来看其源码就能了解到框架的原理是什么，以下面这个简单的查询代码为入口来分析Mybatis的运行流程</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">   <span class="meta">@Test</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testMybatis</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      InputStream in = <span class="keyword">null</span>;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">         in = Resources.getResourceAsStream(<span class="string">"mybatis-config.xml"</span>);</span><br><span class="line">         SqlSessionFactory sqlSessionFactory = <span class="keyword">new</span> SqlSessionFactoryBuilder().build(in);</span><br><span class="line">         SqlSession session = sqlSessionFactory.openSession();</span><br><span class="line">         UserMapper userMapper = session.getMapper(UserMapper.class);</span><br><span class="line">         User user = userMapper.selectUserById(<span class="number">1</span>);</span><br><span class="line">         System.out.println(user);</span><br><span class="line">         session.close();</span><br><span class="line">      &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">         e.printStackTrace();</span><br><span class="line">      &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">         <span class="keyword">if</span> (in != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">               in.close();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">               e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="一、获取SqlSessionFactory"><a href="#一、获取SqlSessionFactory" class="headerlink" title="一、获取SqlSessionFactory"></a>一、获取SqlSessionFactory</h1><p>1、将一个文件转换为一个输入流就不看了，学过IO的都知道怎么回事，在获取SqlSessionFactory这里打上断点，debug运行，进入build()（构建者模式）中，放行到下面build()，创建一个解析器parser</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39Sw4.png" alt="V39Sw4.png"></p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39Al6.png" alt="V39Al6.png"></p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39pTJ.png" alt="V39pTJ.png"></p>
+<p>2、进入parser.parse()中，这里会调用parseConfiguration()并把Mybatis全局配置文件中的根元素configuration传进去</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V3pzmF.png" alt="V3pzmF.png"></p>
+<p>3、进入parseConfiguration()，这里面会解析全局配置文件中的所有元素配置并把信息存到一个Configuration对象中去（其他方法都会将信息存到configuration中去，这里只截图了loadCustomVfs(settings)的）</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V3pvOU.png" alt="V3pvOU.png"></p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39PYR.png" alt="V39PYR.png"></p>
+<p>4、这里要注意解析mappers标签的方法，进去看下，mappers标签中可以使用package标签和mapper标签来配置SQL映射文件的位置，mapper标签中又有resource、url、class属性，这里根据配置的不同标签都有对应的处理逻辑，会根据配置的SQL映射文件的路径字符串转换成一个输入流，又创建一个解析器去解析其中的信息mapperParser.parse();</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39Ck9.png" alt="V39Ck9.png"></p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39if1.png" alt="V39if1.png"></p>
+<p>5、进入mapperParser.parse();，这里会调用configurationElement方法并把SQL映射文件中的根节点元素mapper传进去</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39E6K.png" alt="V39E6K.png"></p>
+<p>6、进入this.configurationElement(this.parser.evalNode(“/mapper”));，这里会对mapper根节点标签中的所有标签解析，最重要的是解析select|insert|update|delete这四个CRUD标签</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39emD.png" alt="V39emD.png"></p>
+<p>7、进入this.buildStatementFromContext(context.evalNodes(“select|insert|update|delete”));的buildStatementFromContext方法中会把所有的CRUD标签当作list传进去，全局配置文件中并没有使用DatabaseId的功能，所以执行buildStatementFromContext方法</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39kSx.png" alt="V39kSx.png"></p>
+<p>8、进入buildStatementFromContext方法，遍历处理所有的CRUD标签，进入statementParser.parseStatementNode()，会解析某个CRUD标签中的所有属性，重要的是this.builderAssistant.addMappedStatement(…)这行代码</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39VOO.png" alt="V39VOO.png"></p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39YnS.png" alt="V39YnS.png"></p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39m0e.png" alt="V39m0e.png"></p>
+<p>9、进入this.builderAssistant.addMappedStatement(…)中，并将某个CRUD<strong>标签中解析的所有属性信息</strong>传进去</p>
+<p>这里会根据<strong>所有属性信息创建MappedStatement</strong>对象</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39nTH.png" alt="V39nTH.png"></p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39Kkd.png" alt="V39Kkd.png"></p>
+<p>10、重要的处理结束，一步一步返回到第二步那里，返回包含所有配置文件信息的configuration对象，将其作为DefaultSqlSessionFactory类的构造参数，创建DefaultSqlSessionFactory对象返回给前面的Demo程序接收</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39MtA.png" alt="V39MtA.png"></p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V391pt.png" alt="V391pt.png"></p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39QfI.png" alt="V39QfI.png"></p>
+<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><ul>
+<li><p>configuration对象中有两个很重要的属性</p>
+<ul>
+<li><p>mappedStatements(Map类型，key为SQL映射文件中的namespace+CRUD标签中的id，value就是前面说到的mappedStatement对象)</p>
+</li>
+<li><p>mapperRegistry对象，其中有个knownMappers属性(Map类型，key为接口类型，value为一个MapperProxyFactory，后面会讲到，作用就是用来获取一个MapperProxy类的)</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://s2.ax1x.com/2019/06/01/V3931P.png" alt="V3931P.png"></p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V3986f.png" alt="V3986f.png"></p>
+<ul>
+<li><p>大致流程图</p>
+<p><strong>把配置文件的信息解析并保存在Configuration对象中，返回包含了Configuration的DefaultSqlSessionFactory对象。</strong></p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39dts.png" alt="V39dts.png"></p>
+</li>
+</ul>
+<h1 id="二、获取SqlSession"><a href="#二、获取SqlSession" class="headerlink" title="二、获取SqlSession"></a>二、获取SqlSession</h1><p>1、在获取SqlSession上打上断点，debug运行，进入openSession()方法</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39GX8.png" alt="V39GX8.png"></p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39N7Q.png" alt="V39N7Q.png"></p>
+<p>2、进入this.openSessionFromDataSource(…)中，会获取全局配置中使用的哪种环境，然后创建事务，还创建一个很重要的对象Executor</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39t0g.png" alt="V39t0g.png"></p>
+<p>3、进this.configuration.newExecutor(tx, execType);</p>
+<ul>
+<li><p>根据在全局配置文件中配置的值这里决定使用哪种Executor（BATCH、REUSE、SIMPLE三种可选，默认SIMPLE）</p>
+</li>
+<li><p>还会看是否开启一级缓存，如果开启了一级缓存再包装成CachingExecutor（默认开启）</p>
+</li>
+<li><p>没有写插件，如果写了插件，还会将Executor给所有的插件包装一下再返回真正的Executor（第三个框住的代码里面就是遍历所有的拦截器（也就是插件）然后将Executor传进去再重新赋值给Executor）</p>
+<p>所有类型的Executor都实现了Executor接口，接口中是一些CRUD的方法，也就是说Executor是用来CRUD</p>
+</li>
+</ul>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39akj.png" alt="V39akj.png"></p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39Bpq.png" alt="V39Bpq.png"></p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39whn.png" alt="V39whn.png"></p>
+<p>4、创建完Executor（CachingExecutor），会创建一个包含configuration和executor的DefaultSqlSession对象并返回</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39rcV.png" alt="V39rcV.png"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>返回SqlSession的实现类DefaultSqlSession对象。</p>
+<p>他里面包含了Executor和Configuration；</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V396nU.png" alt="V396nU.png"></p>
+<h1 id="三、获取Mapper代理对象"><a href="#三、获取Mapper代理对象" class="headerlink" title="三、获取Mapper代理对象"></a>三、获取Mapper代理对象</h1><p>1、在获取Mapper代理对象的这里打上断点，debug运行，进入session.getMapper(…)</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39RAJ.png" alt="V39RAJ.png"></p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39Ic6.png" alt="V39Ic6.png"></p>
+<p>2、进入this.configuration.getMapper(type,this)，把接口类型和SqlSession对象传进去，前面获取SqlSessionFactory的总结说到的mapperRegistry出现了</p>
+<p>进入this.mapperRegistry.getMapper(type, sqlSession); 会根据接口的类型去mapperRegistry中的knownMappers属性中获取一个MapperProxyFactory（Mapper代理工厂）</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39g74.png" alt="V39g74.png"></p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39cBF.png" alt="V39cBF.png"></p>
+<p>3、进入mapperProxyFactory.newInstance(sqlSession);</p>
+<p>进入MapperProxy的构造方法，MapperProxy就是一个InvocationHandler，jdk中的动态代理，代理类对目标类所做的事情都会在其invoke方法中</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39ojK.png" alt="V39ojK.png"></p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39WN9.png" alt="V39WN9.png"></p>
+<p>4、构造完回来，通过jdk动态代理创建出Mapper的代理对象（Mapper接口的构造器、Mapper接口、MapperProxy[InvocationHandler]）并返回，Mapper代理类包含了SqlSession引用</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39fhR.png" alt="V39fhR.png"></p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39491.png" alt="V39491.png"></p>
+<h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2><p>getMapper返回接口的代理对象</p>
+<p>包含了SqlSession对象</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V3951x.png" alt="V3951x.png"></p>
+<h1 id="四、查询"><a href="#四、查询" class="headerlink" title="四、查询"></a>四、查询</h1><p>1、给查询方法打上断点debug运行，进入到了MapperProxy(InvocationHandler)的invoke方法</p>
+<h2 id="动态代理的原理："><a href="#动态代理的原理：" class="headerlink" title="动态代理的原理："></a>动态代理的原理：</h2><p>在Proxy.newInstance(…)中会通过ASM字节码框架动态的在内存中生成一份字节码，可以通过<strong>System.getProperties().put(“sun.misc.ProxyGenerator.saveGeneratedFiles”, “true”);</strong>将这份运行时动态生成的字节码保存下来，反编译就可以看到代理类实现了目标类的接口（Proxy.newInstance(…)第二个参数），继承了Proxy类，构造方法中调用了父类的构造方法，把InvocationHandler对象（Proxy.newInstance(…)第三个参数）当作参数传进去赋值给其InvocationHandler属性，子类也就是当前代理类就继承了父类中InvocationHandler的属性，因为实现了目标类所实现的接口，所以就有和目标类一样的方法实现，返回的是代理对象，当调用代理对象中与目标对象中相同的方法时，就会在其方法中，调用InvocationHandler的invoke方法（param1：this当前代理对象，param2：通过接口类型获取的Method对象，param3：目标方法的参数），而InvocationHandler是我们自己编写的，所以最终就会执行到invoke方法</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V397nO.png" alt="V397nO.png"></p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39HBD.png" alt="V39HBD.png"></p>
+<p>2、前面会判断当前是否为Object中的方法比如toString()、hashCode()，显然不是</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V3CCDS.png" alt="V3CCDS.png"></p>
+<p>3、进入mapperMethod.execute(this.sqlSession,args)，这里判断为CRUD哪种类型，显然是SELECT类型，第二框住的代码是去封装参数，之前博客中已经详细解释过了，就是将参数包装为一个Map或直接返回。之后执行selectOne方法</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39bHe.png" alt="V39bHe.png"></p>
+<p>4、进入selectOne方法，进入selectList(…)</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39LAH.png" alt="V39LAH.png"></p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39ONd.png" alt="V39ONd.png"></p>
+<p>5、在selectList(…)中会获取MappedStatement对象（通过接口的全路径类名+方法名当作key去MappedStatements[存了所有的增删改查语句的Map]获取），进入this.executor.query(ms, this.wrapCollection(parameter), rowBounds, Executor.NO_RESULT_HANDLER);</p>
+<p>会在mappedStatement对象中获取要给BoundSql对象，BoundSql对象包含了SQL语句的详细信息</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39x3t.png" alt="V39x3t.png"></p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39X4A.png" alt="V39X4A.png"></p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39v9I.png" alt="V39v9I.png"></p>
+<p>6、继续获取缓存的key：方法id+sql+参数xxx+当前环境</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V39zgP.png" alt="V39zgP.png"></p>
+<p>7、进入this.query(ms, parameterObject, rowBounds, resultHandler, key, boundSql);</p>
+<p>判断缓存中有没有数据，显然没有，就调用之前包装进来的SimpleExecutor中的query方法</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V3C9u8.png" alt="V3C9u8.png"></p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V3CSjf.png" alt="V3CSjf.png"></p>
+<p>8、进入SimpleExecutor的query方法，判断当前缓存中有没有对应的数据，没有就调用this.queryFromDatabase(ms, parameter, rowBounds, resultHandler, key, boundSql);，</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V3CPHg.png" alt="V3CPHg.png"></p>
+<p>9、进入this.queryFromDatabase(ms, parameter, rowBounds, resultHandler, key, boundSql);，这里会调用doQuery方法，后面会将查到的list放入缓存中</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V3CkNj.png" alt="V3CkNj.png"></p>
+<p>10、进入doQuery方法，这里看到一个熟悉的对象Statement，Mybatis底层是使用JDBC来操作数据库的</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V3CFEQ.png" alt="V3CFEQ.png"></p>
+<p>11、进入configuration.newStatementHandler(…);，会创建一个RoutingStatementHandler对象，进入构造方法，从MappedStatement对象中获取statementType类型，根据CRUD标签中配置的不同创建不同的StatementHandler对象（默认PREPARED）</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V3CuuT.png" alt="V3CuuT.png"></p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V3CA4s.png" alt="V3CA4s.png"></p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V3CZ3q.png" alt="V3CZ3q.png"></p>
+<p>12、创建完成之后返回到newStatementHandler方法中，又看到了(StatementHandler)this.interceptorChain.pluginAll(statementHandler);，之前已经解释了，会将preparedStatementHandler经过拦截器链（插件）包装下并返回</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V3CVCn.png" alt="V3CVCn.png"></p>
+<p>13、往下执行返回到第10步的doQuery方法，进入prepareStatement(…)，这里会获取JDBC连接，会预编译SQL产生PrepareStatement对象，还会确定参数</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V3Ceg0.png" alt="V3Ceg0.png"></p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V3CmvV.png" alt="V3CmvV.png"></p>
+<p>14、进入parameterize()，这里会调用preparedStatementHandler.parameterize()，这里会调用parameterHandler来设置参数，在PreparedStatementHandler的父类BaseStatementHandler的构造方法中会实例化parameterHandler和resultSetHandler，在实例化这两个对象时，都经过拦截器链（插件）包装了下</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V3im0U.png" alt="V3im0U.png"></p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V3iN7D.png" alt="V3iN7D.png"></p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V3iemT.png" alt="V3iemT.png"></p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V3iVXV.png" alt="V3iVXV.png"></p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V3iE60.png" alt="V3iE60.png"></p>
+<p>15、进入调用parameterHandler来设置参数的方法，这里其实是调用TypeHandler来设置参数</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V3in7F.png" alt="V3in7F.png"></p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V3iQh9.png" alt="V3iQh9.png"></p>
+<p>16、设置完参数往下执行回到第13步的doQuery方法中，进入query方法（把第13步获得PrepareStatement对象传进去），跟第14步一样会调用preparedStatementHandler的query方法</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V3iKk4.png" alt="V3iKk4.png"></p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V3iMtJ.png" alt="V3iMtJ.png"></p>
+<p>17、进入preparedStatementHandler的query方法，这里会执行SQL语句（调用PrepareStatement的execute方法），下面就是调用第14步中创建的resultSetHandler处理结果</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V3i1pR.png" alt="V3i1pR.png"></p>
+<p>18、进入resultSetHandler.handleResultSets(ps)中，这个方法中一步步调用到DefaultResultSetHandler类中的getPropertyMappingValue方法，通过TypeHandler来获取值</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V3i311.png" alt="V3i311.png"></p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V3i86x.png" alt="V3i86x.png"></p>
+<p>19、回到第16步的doQuery方法中，关闭所有的资源，最后回到第4步的selectOne方法中，会将获得list的第一个数返回给我们的程序</p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V3iGX6.png" alt="V3iGX6.png"></p>
+<p><img src="https://s2.ax1x.com/2019/06/01/V3iYnK.png" alt="V3iYnK.png"></p>
+<h2 id="总结-2"><a href="#总结-2" class="headerlink" title="总结"></a>总结</h2><p><img src="https://s2.ax1x.com/2019/06/01/V3iB9A.png" alt="V3iB9A.png"></p>
+<ul>
+<li><p>StatementHandler：处理sql语句预编译，设置参数等相关工作；</p>
+</li>
+<li><p>ParameterHandler：设置预编译参数用的</p>
+</li>
+<li><p>ResultSetHandler：处理结果集</p>
+</li>
+<li><p>TypeHandler：在整个过程中，进行数据库类型和javaBean类型的映射</p>
+</li>
+</ul>
+<p><img src="https://s2.ax1x.com/2019/06/01/V3it0O.png" alt="V3it0O.png"></p>
+<h1 id="总结-3"><a href="#总结-3" class="headerlink" title="总结"></a>总结</h1><ul>
+<li><p>根据配置文件（全局、sql映射）初始化出Configuration对象</p>
+</li>
+<li><p>创建一个DefaultSqlSession对象</p>
+<ul>
+<li>它里面包含Configuration以及Executor（根据全局配置文件中的defaultExecutorType创建出对应的Executor）</li>
+</ul>
+</li>
+<li>DefaultSqlSession.getMapper()，拿到Mapper接口对应的MapperProxy（里面有DefaultSqlSession）</li>
+<li>执行CRUD方法：<ul>
+<li>调用DefaultSqlSession的CRUD（Executor）</li>
+<li>会创建一个StatementHandler对象，同时也会创建出ParameterHandler和ResultSetHandler</li>
+<li>调用StatementHandler预编译以及设置参数值，使用ParameterHandler来给sql设置参数</li>
+<li>ResultSetHandler封装结果</li>
+</ul>
+</li>
+</ul>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年06月01日 15:40</p>
+        <p>原始链接： <a class="post-url" href="/2019/06/01/2019-06-01-Mybatis运行流程/" title="Mybatis运行流程">https://yangrijian.top/2019/06/01/2019-06-01-Mybatis运行流程/</a></p>
+        <footer>
+            <a href="https://yangrijian.top">
+                <img src="/images/logo.png" alt="Yang">
+                Yang
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我喝可口可乐~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yangrijian.top/2019/06/01/2019-06-01-Mybatis运行流程/&title=《Mybatis运行流程》 — Yang&pic=images/cate/mybatis.jpg" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yangrijian.top/2019/06/01/2019-06-01-Mybatis运行流程/&title=《Mybatis运行流程》 — Yang&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yangrijian.top/2019/06/01/2019-06-01-Mybatis运行流程/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Mybatis运行流程》 — Yang&url=https://yangrijian.top/2019/06/01/2019-06-01-Mybatis运行流程/&via=https://yangrijian.top" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yangrijian.top/2019/06/01/2019-06-01-Mybatis运行流程/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yangrijian.top/2019/06/01/2019-06-01-Mybatis运行流程/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Mybatis/" class="color3">Mybatis</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#一、获取SqlSessionFactory"><span class="post-toc-text">一、获取SqlSessionFactory</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#总结："><span class="post-toc-text">总结：</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#二、获取SqlSession"><span class="post-toc-text">二、获取SqlSession</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#总结"><span class="post-toc-text">总结</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#三、获取Mapper代理对象"><span class="post-toc-text">三、获取Mapper代理对象</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#总结-1"><span class="post-toc-text">总结</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#四、查询"><span class="post-toc-text">四、查询</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#动态代理的原理："><span class="post-toc-text">动态代理的原理：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#总结-2"><span class="post-toc-text">总结</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#总结-3"><span class="post-toc-text">总结</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2019/05/31/2019-05-31-Mybatis封装多参数的过程/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Mybatis封装多参数的过程</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2019 Yang<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://yangrijian.top",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Linux/">Linux</a><a class="category-link" href="/categories/Mybatis/">Mybatis</a><a class="category-link" href="/categories/SpringBoot/">SpringBoot</a><a class="category-link" href="/categories/SpringMVC/">SpringMVC</a><a class="category-link" href="/categories/代码的艺术/">代码的艺术</a><a class="category-link" href="/categories/并发/">并发</a><a class="category-link" href="/categories/随笔/">随笔</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Docker/" style="font-size: 12px;">Docker</a> <a href="/tags/Dubbo/" style="font-size: 10px;">Dubbo</a> <a href="/tags/Elasticsearch/" style="font-size: 10px;">Elasticsearch</a> <a href="/tags/JDBC/" style="font-size: 12px;">JDBC</a> <a href="/tags/JPA/" style="font-size: 10px;">JPA</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/Log/" style="font-size: 10px;">Log</a> <a href="/tags/Mybatis/" style="font-size: 14px;">Mybatis</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Security/" style="font-size: 10px;">Security</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/SpringMVC/" style="font-size: 10px;">SpringMVC</a> <a href="/tags/Task/" style="font-size: 10px;">Task</a> <a href="/tags/Thymeleaf/" style="font-size: 10px;">Thymeleaf</a> <a href="/tags/WebSocket/" style="font-size: 10px;">WebSocket</a> <a href="/tags/YAML/" style="font-size: 10px;">YAML</a> <a href="/tags/Zookeeper/" style="font-size: 10px;">Zookeeper</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/缓存/" style="font-size: 12px;">缓存</a> <a href="/tags/邮件/" style="font-size: 10px;">邮件</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Docker/" style="font-size: 12px;">Docker</a> <a href="/tags/Dubbo/" style="font-size: 10px;">Dubbo</a> <a href="/tags/Elasticsearch/" style="font-size: 10px;">Elasticsearch</a> <a href="/tags/JDBC/" style="font-size: 12px;">JDBC</a> <a href="/tags/JPA/" style="font-size: 10px;">JPA</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/Log/" style="font-size: 10px;">Log</a> <a href="/tags/Mybatis/" style="font-size: 14px;">Mybatis</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Security/" style="font-size: 10px;">Security</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/SpringMVC/" style="font-size: 10px;">SpringMVC</a> <a href="/tags/Task/" style="font-size: 10px;">Task</a> <a href="/tags/Thymeleaf/" style="font-size: 10px;">Thymeleaf</a> <a href="/tags/WebSocket/" style="font-size: 10px;">WebSocket</a> <a href="/tags/YAML/" style="font-size: 10px;">YAML</a> <a href="/tags/Zookeeper/" style="font-size: 10px;">Zookeeper</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/缓存/" style="font-size: 12px;">缓存</a> <a href="/tags/邮件/" style="font-size: 10px;">邮件</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
