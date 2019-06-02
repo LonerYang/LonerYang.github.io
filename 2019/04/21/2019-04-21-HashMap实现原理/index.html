@@ -17,7 +17,7 @@
 <meta property="og:description" content="HashMap底层是通过数组加单项链表的方式实现的  初始数组长度为16 链表中的节点具有的元素为 hash：用hashCode（哈希码）通过hash算法计算出来的哈希值 key：键值对的key value：键值对的value next：下一个节点 123456static class Node&amp;lt;K,V&amp;gt; implements Map.Entry&amp;lt;K,V&amp;gt; &amp;#123;">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://s2.ax1x.com/2019/04/21/EFcEDS.md.png">
-<meta property="og:updated_time" content="2019-05-25T07:40:25.251Z">
+<meta property="og:updated_time" content="2019-06-02T05:48:16.004Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HashMap实现原理">
 <meta name="twitter:description" content="HashMap底层是通过数组加单项链表的方式实现的  初始数组长度为16 链表中的节点具有的元素为 hash：用hashCode（哈希码）通过hash算法计算出来的哈希值 key：键值对的key value：键值对的value next：下一个节点 123456static class Node&amp;lt;K,V&amp;gt; implements Map.Entry&amp;lt;K,V&amp;gt; &amp;#123;">
@@ -164,6 +164,7 @@
 <p>hashCode本身是根据在jvm中的内存地址使用hash算法算出来的int类型的数，如果equals为true，说明两个对象在内存中的地址是一样的，所以根据在jvm中的内存地址使用hash算法算出来的hashCode肯定也一样。</p>
 <p>hashCode一样，equals也有可能为false，因为hashCode是int类型的，最多允许存在2^32个分组，也是有限的，而jvm中的内存地址不止这么多，因此不同的内存地址根据hash算法算出来的hashCode也是有可能一致的。所以hashCode一样，equals不一定为true</p>
 <p><strong>2、重写equals方法一定要重写hashCode方法</strong></p>
+<p>因为在Java中的HashMap判断key是否重复，就是先判断hashCode()是否一致，如果一样再判断equals()是否为true，如果为true就说明重复了。所以自定义的类重写了equals方法一定要重写hashCode方法，这样在使用HashMap或HashSet（底层就是用HashMap来实现的）时就能自定义重复的规则了</p>
 </li>
 <li><p>get(key)</p>
 <p>根据key获取对应hashCode，根据hash算法算出对应的哈希值，把哈希值当作下标去数组找找到对应的位置，使用key从头节点开始遍历，equals每个节点中的key，如果返回true，就将其对应的value返回</p>
@@ -173,7 +174,7 @@
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2019年05月25日 15:40</p>
+        <p>最后更新： 2019年06月02日 13:48</p>
         <p>原始链接： <a class="post-url" href="/2019/04/21/2019-04-21-HashMap实现原理/" title="HashMap实现原理">https://yangrijian.top/2019/04/21/2019-04-21-HashMap实现原理/</a></p>
         <footer>
             <a href="https://yangrijian.top">
