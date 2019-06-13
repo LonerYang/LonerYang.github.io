@@ -17,7 +17,7 @@
 <meta property="og:description" content="HashMap底层是通过数组加单项链表的方式实现的  初始数组长度为16 链表中的节点具有的元素为 hash：用hashCode（哈希码）通过hash算法计算出来的哈希值 key：键值对的key value：键值对的value next：下一个节点 123456static class Node&amp;lt;K,V&amp;gt; implements Map.Entry&amp;lt;K,V&amp;gt; &amp;#123;">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://s2.ax1x.com/2019/04/21/EFcEDS.md.png">
-<meta property="og:updated_time" content="2019-06-04T14:41:59.724Z">
+<meta property="og:updated_time" content="2019-06-13T13:48:27.607Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HashMap实现原理">
 <meta name="twitter:description" content="HashMap底层是通过数组加单项链表的方式实现的  初始数组长度为16 链表中的节点具有的元素为 hash：用hashCode（哈希码）通过hash算法计算出来的哈希值 key：键值对的key value：键值对的value next：下一个节点 123456static class Node&amp;lt;K,V&amp;gt; implements Map.Entry&amp;lt;K,V&amp;gt; &amp;#123;">
@@ -162,7 +162,7 @@
 <p><strong>Java中规定</strong></p>
 <p><strong>1、equals为true，则hashCode必须一样。反之不成立，也就是hashCode一样，equals不一定为true</strong></p>
 <p>hashCode本身是根据在jvm中的内存地址使用hash算法算出来的int类型的数，如果equals为true，说明两个对象在内存中的地址是一样的，所以根据在jvm中的内存地址使用hash算法算出来的hashCode肯定也一样。</p>
-<p>hashCode一样，equals也有可能为false，因为hashCode是int类型的，最多允许存在2^32个分组，也是有限的，而jvm中的内存地址不止这么多，因此不同的内存地址根据hash算法算出来的hashCode也是有可能一致的。所以hashCode一样，equals不一定为true</p>
+<p>根据hash算法算出来的hashCode()，两个不同的对象难免会重复hashCode()，比如15%16=15，31%16=15，这时候结果都是一样的，但是15是不等于31的，所以hashCode()一样，equals不一定为true</p>
 <p><strong>2、重写equals方法一定要重写hashCode方法</strong></p>
 <p>Java中规定equals()为true，hashCode()的值也要一样，hashCode()的值是将内存中的地址根据哈希算法算出来的一个int类型的值，没有重写时，equals()对比的就是内存地址，这时候hashCode()也是一样。</p>
 <p>以下面这个程序为例，我重写了equals()方法，如果对象中的属性一样返回true，但是我并没有重写hashCode()方法，这样的话person1和person2两个对象equals()为true，但是hashCode()并不是同一个值，违反了Java中的规定，所以重写equals()一定要重写hashCode()。</p>
@@ -179,7 +179,7 @@
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2019年06月04日 22:41</p>
+        <p>最后更新： 2019年06月13日 21:48</p>
         <p>原始链接： <a class="post-url" href="/2019/04/21/2019-04-21-HashMap实现原理/" title="HashMap实现原理">https://yangrijian.top/2019/04/21/2019-04-21-HashMap实现原理/</a></p>
         <footer>
             <a href="https://yangrijian.top">
