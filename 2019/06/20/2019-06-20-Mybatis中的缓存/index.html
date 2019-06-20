@@ -3,38 +3,30 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
-  <title>Spring Boot学习04_外部Servlet容器JSP支持 | Yang</title>
+  <title>Mybatis中的缓存 | Yang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Yang,Yang's Blog">
   
-  <meta name="description" content="Spring Boot的嵌入式的Servlet容器虽然方便，快捷，支持jar包的方式运行项目 但是却是不能支持jsp的，这时候我们可以使用外部的Servlet容器。 1、新建一个Module，然后next  2、项目的坐标，这里要改成war包，下一步  3、选中web模块，然后next，再finish完成项目的创建   4、但是我们项目中并没有webapp，不需要自己创建，可以通过ide来自动创建">
-<meta name="keywords" content="SpringBoot">
+  <meta name="description" content="Mybatis系统中默认定义了两级缓存:一级缓存和二级缓存,默认情况下,Mybatis只会开启一级缓存,基于SqlSession级别的。二级缓存需要手动开启和配置，他是基于namespace级别的, 为了提高可扩展性，Mybatis提供了Cache接口，可以通过实现Cache接口自定义二级缓存。 一、一级缓存1、概述一级缓存(即本地缓存)是基于SqlSession级别的，当Session flus">
+<meta name="keywords" content="Mybatis">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spring Boot学习04_外部Servlet容器JSP支持">
-<meta property="og:url" content="https://yangrijian.top/2019/04/04/2019-04-04-SpringBoot学习04_外部Servlet容器JSP支持/index.html">
+<meta property="og:title" content="Mybatis中的缓存">
+<meta property="og:url" content="https://yangrijian.top/2019/06/20/2019-06-20-Mybatis中的缓存/index.html">
 <meta property="og:site_name" content="Yang">
-<meta property="og:description" content="Spring Boot的嵌入式的Servlet容器虽然方便，快捷，支持jar包的方式运行项目 但是却是不能支持jsp的，这时候我们可以使用外部的Servlet容器。 1、新建一个Module，然后next  2、项目的坐标，这里要改成war包，下一步  3、选中web模块，然后next，再finish完成项目的创建   4、但是我们项目中并没有webapp，不需要自己创建，可以通过ide来自动创建">
+<meta property="og:description" content="Mybatis系统中默认定义了两级缓存:一级缓存和二级缓存,默认情况下,Mybatis只会开启一级缓存,基于SqlSession级别的。二级缓存需要手动开启和配置，他是基于namespace级别的, 为了提高可扩展性，Mybatis提供了Cache接口，可以通过实现Cache接口自定义二级缓存。 一、一级缓存1、概述一级缓存(即本地缓存)是基于SqlSession级别的，当Session flus">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARnVl8.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARn8pV.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARnkfP.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARnESf.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARnFYt.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARnZ6S.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARnnmQ.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARneOg.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARnuwj.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARnKTs.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARnQkn.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARnlYq.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARn1f0.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARnGlT.jpg">
-<meta property="og:updated_time" content="2019-05-25T07:37:30.048Z">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/20/VxYCUH.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/20/VxYSbD.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/20/VxYk8I.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/20/VxYP5d.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/20/VxY9Ve.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/20/VxYFPA.jpg">
+<meta property="og:updated_time" content="2019-06-20T15:57:16.309Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spring Boot学习04_外部Servlet容器JSP支持">
-<meta name="twitter:description" content="Spring Boot的嵌入式的Servlet容器虽然方便，快捷，支持jar包的方式运行项目 但是却是不能支持jsp的，这时候我们可以使用外部的Servlet容器。 1、新建一个Module，然后next  2、项目的坐标，这里要改成war包，下一步  3、选中web模块，然后next，再finish完成项目的创建   4、但是我们项目中并没有webapp，不需要自己创建，可以通过ide来自动创建">
-<meta name="twitter:image" content="https://s2.ax1x.com/2019/04/04/ARnVl8.jpg">
+<meta name="twitter:title" content="Mybatis中的缓存">
+<meta name="twitter:description" content="Mybatis系统中默认定义了两级缓存:一级缓存和二级缓存,默认情况下,Mybatis只会开启一级缓存,基于SqlSession级别的。二级缓存需要手动开启和配置，他是基于namespace级别的, 为了提高可扩展性，Mybatis提供了Cache接口，可以通过实现Cache接口自定义二级缓存。 一、一级缓存1、概述一级缓存(即本地缓存)是基于SqlSession级别的，当Session flus">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/06/20/VxYCUH.jpg">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -122,14 +114,14 @@
     </div>
 </header>
       <div class="outer">
-        <section id="main" class="body-wrap"><article id="post-2019-04-04-SpringBoot学习04_外部Servlet容器JSP支持" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main" class="body-wrap"><article id="post-2019-06-20-Mybatis中的缓存" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="post-title" itemprop="name">
-      Spring Boot学习04_外部Servlet容器JSP支持
+      Mybatis中的缓存
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -137,12 +129,12 @@
               <li>
                   <i class="fa fa-book"></i>
                   
-                      <a href="/categories/SpringBoot/">SpringBoot</a>
+                      <a href="/categories/Mybatis/">Mybatis</a>
                   
               </li>
           
         <li>
-          <i class="fa fa-calendar"></i>  2019-04-04
+          <i class="fa fa-calendar"></i>  2019-06-20
         </li>
         <li>
           <i class="fa fa-eye"></i>
@@ -158,37 +150,70 @@
     <div class="article-entry post-content" itemprop="articleBody">
       
             
-            <p>Spring Boot的嵌入式的Servlet容器虽然方便，快捷，支持jar包的方式运行项目</p>
-<p>但是却是不能支持jsp的，这时候我们可以使用外部的Servlet容器。</p>
-<p>1、新建一个Module，然后next</p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARnVl8.jpg" alt="ARnVl8.jpg"></p>
-<p>2、项目的坐标，这里要<strong>改成war包，</strong>下一步</p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARn8pV.jpg" alt="ARn8pV.jpg"></p>
-<p>3、选中web模块，然后next，再finish完成项目的创建</p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARnkfP.jpg" alt="ARnkfP.jpg"></p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARnESf.jpg" alt="ARnESf.jpg"></p>
-<p>4、但是我们项目中并没有webapp，不需要自己创建，可以通过ide来自动创建</p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARnFYt.jpg" alt="ARnFYt.jpg"></p>
-<p>5、选中项目按f4或右键open module setting，点击web</p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARnZ6S.jpg" alt="ARnZ6S.jpg"></p>
-<p>6、点击右边的添加</p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARnnmQ.jpg" alt="ARnnmQ.jpg"></p>
-<p>7、把地址修改成如下图，点击ok，然后apply</p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARneOg.jpg" alt="ARneOg.jpg"></p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARnuwj.jpg" alt="ARnuwj.jpg"></p>
-<p>8、点击右上角的添加选中web.xml</p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARnKTs.jpg" alt="ARnKTs.jpg"></p>
-<p>9、修改地址如下，版本也是可以选择的，点击ok，apply，ok，关闭</p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARnQkn.jpg" alt="ARnQkn.jpg"></p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARnlYq.jpg" alt="ARnlYq.jpg"></p>
-<p>10、创建hello.jsp，<strong>这时候需要添加tomcat容器(自行添加)，</strong>部署项目到tomcat容器上，访问成功</p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARn1f0.jpg" alt="ARn1f0.jpg"></p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARnGlT.jpg" alt="ARnGlT.jpg"></p>
+            <p>Mybatis系统中默认定义了两级缓存:<strong>一级缓存</strong>和<strong>二级缓存,</strong>默认情况下,Mybatis只会开启一级缓存,基于SqlSession级别的。二级缓存需要手动开启和配置，他是基于namespace级别的,</p>
+<p>为了提高可扩展性，Mybatis提供了Cache接口，可以通过实现Cache接口自定义二级缓存。</p>
+<h1 id="一、一级缓存"><a href="#一、一级缓存" class="headerlink" title="一、一级缓存"></a>一、一级缓存</h1><h2 id="1、概述"><a href="#1、概述" class="headerlink" title="1、概述"></a>1、概述</h2><p>一级缓存(即本地缓存)是基于SqlSession级别的，当Session flush或close后，该Session中的所有Cache将被清空，本地缓存不能被关闭，但可以调用clearCache()来清空本地缓存或者改变缓存的作用于，在Mybatis3.1之后，可以配置本地缓存的作用域–》在核心配置文件中settings标签中配置localCacheScope（SESSION | STATEMENT）默认为SESSION,也就是在一次会话中，STATEMENT只用在语句执行上，同一个SqlSession数据不会被共享</p>
+<p>测试同一个SqlSession两次查询同一个对象只发了一条查询SQL，而且对象也相等</p>
+<p><img src="https://s2.ax1x.com/2019/06/20/VxYCUH.jpg" alt="VxYCUH.jpg"></p>
+<h2 id="2、一级缓存失效的四种方式"><a href="#2、一级缓存失效的四种方式" class="headerlink" title="2、一级缓存失效的四种方式"></a>2、一级缓存失效的四种方式</h2><p>1）同一个SqlSession条件不一样</p>
+<p><img src="https://s2.ax1x.com/2019/06/20/VxYSbD.jpg" alt="VxYSbD.jpg"></p>
+<p>2）不同的SqlSession</p>
+<p><img src="https://s2.ax1x.com/2019/06/20/VxYk8I.jpg" alt="VxYk8I.jpg"></p>
+<p>3）同一个SqlSession两次查询之间执行了增删改操作</p>
+<p><img src="https://s2.ax1x.com/2019/06/20/VxYP5d.jpg" alt="VxYP5d.jpg"></p>
+<p>4）两次查询之间执行了clearCache() 清理了缓存</p>
+<p><img src="https://s2.ax1x.com/2019/06/20/VxY9Ve.jpg" alt="VxY9Ve.jpg"></p>
+<h1 id="二、二级缓存"><a href="#二、二级缓存" class="headerlink" title="二、二级缓存"></a>二、二级缓存</h1><p>也称为全局缓存,基于namespace级别的缓存:一个namespace对应一个二级缓存</p>
+<h2 id="工作机制："><a href="#工作机制：" class="headerlink" title="工作机制："></a>工作机制：</h2><p>1)、一个会话，查询一条数据，这个数据就会被放在当前会话的一级缓存中；</p>
+<p>2)、如果会话关闭，一级缓存中的数据会被保存到二级缓存中，新的会话查询息可</p>
+<p>以参照二级缓存中的数据；</p>
+<p>3)、不同的namesapce查出的数据会放在自己对应的缓存中(Map)</p>
+<p>查出的数据都会默认先放在一级缓存中</p>
+<p>只有会话提交或者关闭以后，一级缓存中的数据才会转移到二级缓中</p>
+<h2 id="二级缓存的使用："><a href="#二级缓存的使用：" class="headerlink" title="二级缓存的使用："></a>二级缓存的使用：</h2><p>1)、开启全局二级缓存配置：<setting name="cacheEnabled" value="true"></setting></p>
+<p>2)、去mapper.xml中配置使用二级缓存：<cache></cache></p>
+<p>cache的配置信息</p>
+<p>1、 eviction=“FIFO”： 缓存回收策略：</p>
+<p>• LRU – 最近最少使用的：移除最长时间不被使用的对象。</p>
+<p>• FIFO – 先进先出：按对象进入缓存的顺序来移除它们。</p>
+<p>• SOFT – 软引用：移除基于垃圾回收器状态和软引用规则的对象。</p>
+<p>• WEAK – 弱引用：更积极地移除基于垃圾收集器状态和弱引用规则的对象。</p>
+<p>• 默认的是 LRU。</p>
+<p>2、 flushInterval： 刷新间隔，单位毫秒</p>
+<p>• 默认情况是不设置，也就是没有刷新间隔，缓存仅仅调用语句时刷新</p>
+<p>3、 size： 引用数目，正整数</p>
+<p>• 代表缓存最多可以存储多少个对象，太大容易导致内存溢出</p>
+<p>4、 readOnly： 只读， true/false</p>
+<p>• true：只读缓存；会给所有调用者返回缓存对象的相同实例。 因此这些对象</p>
+<p>不能被修改。这提供了很重要的性能优势。</p>
+<p>• false：读写缓存； 会返回缓存对象的拷贝（通过序列化）。这会慢一些，</p>
+<p>但是安全，因此默认是 false。</p>
+<p>3)、pojo需要实现序列化接口</p>
+<h1 id="三、缓存中的配置"><a href="#三、缓存中的配置" class="headerlink" title="三、缓存中的配置"></a>三、缓存中的配置</h1><p>1、(setting)cacheEnabled：true:开启二级缓存, false:关闭二级缓存 一级缓存仍然使用</p>
+<p>2、每个select标签都有一个useCache:默认为true 使用缓存, false:不使用二级缓存，一级缓</p>
+<p>存仍然使用</p>
+<p>3、增删改标签都有一个flushCache：默认为true 刷新缓存测试：《《***一级二级都会都清</p>
+<p>空***》》</p>
+<p>select标签中的flushCache默认为false，如果设置为true每次查询之后都会清空缓存</p>
+<p>4、sqlSession.clearCache()：只是清除当前session的一级缓存；</p>
+<h1 id="四、整合EhCache"><a href="#四、整合EhCache" class="headerlink" title="四、整合EhCache"></a>四、整合EhCache</h1><p>1、EhCache 是一个纯Java的进程内缓存框架，具有快速、精干等特点，是Hibernate中默认的CacheProvider，MyBatis定义了Cache接口方便我们进行自定义扩展。</p>
+<p>2、流程</p>
+<p>1）、导入第三方缓存包和依赖包即可；</p>
+<p>ehcache-core-2.6.8.jar</p>
+<p>mybatis-ehcache-1.0.3.jar</p>
+<p>slf4j-api-1.6.1.jar</p>
+<p>slf4j-log4j12-1.6.2.jar</p>
+<p>2）、mapper.xml中使用自定义缓存</p>
+<cache type="org.mybatis.caches.ehcache.EhcacheCache"></cache>
+
+<p>3、若想在命名空间中共享相同的缓存配置和实例。可以使用 cache-ref 元素来引用另外一个</p>
+<p>缓存。<cache-ref namespace="com.ahead.dao.EmployeeMapper"></cache-ref></p>
+<h1 id="五、缓存原理图"><a href="#五、缓存原理图" class="headerlink" title="五、缓存原理图"></a>五、缓存原理图</h1><p><img src="https://s2.ax1x.com/2019/06/20/VxYFPA.jpg" alt="VxYFPA.jpg"></p>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2019年05月25日 15:37</p>
-        <p>原始链接： <a class="post-url" href="/2019/04/04/2019-04-04-SpringBoot学习04_外部Servlet容器JSP支持/" title="Spring Boot学习04_外部Servlet容器JSP支持">https://yangrijian.top/2019/04/04/2019-04-04-SpringBoot学习04_外部Servlet容器JSP支持/</a></p>
+        <p>最后更新： 2019年06月20日 23:57</p>
+        <p>原始链接： <a class="post-url" href="/2019/06/20/2019-06-20-Mybatis中的缓存/" title="Mybatis中的缓存">https://yangrijian.top/2019/06/20/2019-06-20-Mybatis中的缓存/</a></p>
         <footer>
             <a href="https://yangrijian.top">
                 <img src="/images/logo.png" alt="Yang">
@@ -245,7 +270,7 @@
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yangrijian.top/2019/04/04/2019-04-04-SpringBoot学习04_外部Servlet容器JSP支持/&title=《Spring Boot学习04_外部Servlet容器JSP支持》 — Yang&pic=images/cate/springboot.jpg" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yangrijian.top/2019/06/20/2019-06-20-Mybatis中的缓存/&title=《Mybatis中的缓存》 — Yang&pic=images/cate/mybatis.jpg" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -255,22 +280,22 @@
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yangrijian.top/2019/04/04/2019-04-04-SpringBoot学习04_外部Servlet容器JSP支持/&title=《Spring Boot学习04_外部Servlet容器JSP支持》 — Yang&source=" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yangrijian.top/2019/06/20/2019-06-20-Mybatis中的缓存/&title=《Mybatis中的缓存》 — Yang&source=" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
           <li>
-            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yangrijian.top/2019/04/04/2019-04-04-SpringBoot学习04_外部Servlet容器JSP支持/" data-title="Facebook">
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yangrijian.top/2019/06/20/2019-06-20-Mybatis中的缓存/" data-title="Facebook">
               <i class="fa fa-facebook"></i>
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Spring Boot学习04_外部Servlet容器JSP支持》 — Yang&url=https://yangrijian.top/2019/04/04/2019-04-04-SpringBoot学习04_外部Servlet容器JSP支持/&via=https://yangrijian.top" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Mybatis中的缓存》 — Yang&url=https://yangrijian.top/2019/06/20/2019-06-20-Mybatis中的缓存/&via=https://yangrijian.top" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
           <li>
-            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yangrijian.top/2019/04/04/2019-04-04-SpringBoot学习04_外部Servlet容器JSP支持/" data-title="Google+">
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yangrijian.top/2019/06/20/2019-06-20-Mybatis中的缓存/" data-title="Google+">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -280,7 +305,7 @@
 <div class="post-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;" id="wxShare-close">×</a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yangrijian.top/2019/04/04/2019-04-04-SpringBoot学习04_外部Servlet容器JSP支持/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yangrijian.top/2019/06/20/2019-06-20-Mybatis中的缓存/" alt="微信分享二维码">
 </div>
 
 <div class="mask"></div>
@@ -292,7 +317,7 @@
   <li class="article-footer-tags">
     <i class="fa fa-tags"></i>
       
-    <a href="/tags/SpringBoot/" class="color1">SpringBoot</a>
+    <a href="/tags/Mybatis/" class="color3">Mybatis</a>
       
   </li>
 
@@ -303,22 +328,18 @@
 </article>
 
 
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#一、一级缓存"><span class="post-toc-text">一、一级缓存</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1、概述"><span class="post-toc-text">1、概述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2、一级缓存失效的四种方式"><span class="post-toc-text">2、一级缓存失效的四种方式</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#二、二级缓存"><span class="post-toc-text">二、二级缓存</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#工作机制："><span class="post-toc-text">工作机制：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二级缓存的使用："><span class="post-toc-text">二级缓存的使用：</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#三、缓存中的配置"><span class="post-toc-text">三、缓存中的配置</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#四、整合EhCache"><span class="post-toc-text">四、整合EhCache</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#五、缓存原理图"><span class="post-toc-text">五、缓存原理图</span></a></li></ol>
+        </nav>
+    </aside>
+    
 
 <nav id="article-nav">
   
-    <a href="/2019/04/04/2019-04-04-SpringBoot学习04_外部Servlet容器启动原理/" id="article-nav-newer" class="article-nav-link-wrap">
-
-      <span class="article-nav-title">
-        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
-        
-          Spring Boot学习04_外部Servlet容器启动原理
-        
-      </span>
-    </a>
   
-  
-    <a href="/2019/04/04/2019-04-04-SpringBoot学习04_嵌入式Servlet容器启动原理/" id="article-nav-older" class="article-nav-link-wrap">
-      <span class="article-nav-title">Spring Boot学习04_嵌入式Servlet容器启动原理</span>
+    <a href="/2019/06/20/2019-06-20-Mybatis中的关联查询与懒加载配置/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Mybatis中的关联查询与懒加载配置</span>
       <i class="fa fa-hand-o-right" aria-hidden="true"></i>
     </a>
   

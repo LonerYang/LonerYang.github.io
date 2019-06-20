@@ -104,6 +104,140 @@
       <div class="outer">
         <section id="main" class="body-wrap">
   
+    <article id="post-2019-06-20-Mybatis中的缓存" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/20/2019-06-20-Mybatis中的缓存/">Mybatis中的缓存</a>
+    </h1>
+  
+
+          
+              <span class="header-cate">
+                <i class="fa fa-map-marker"></i>
+                  
+                  <a href="/categories/Mybatis/">Mybatis</a>
+                  
+              </span>
+          
+      </header>
+    
+    <div class="article-entry " itemprop="articleBody">
+      
+        <div class="article-img">
+            <a href="/2019/06/20/2019-06-20-Mybatis中的缓存/">
+                
+                <img src="https://yangrijian.top/images/cate/mybatis.jpg" alt="Mybatis中的缓存" title="Mybatis中的缓存">
+                
+            </a>
+        </div>
+        <div class="article-feed">
+            <p>
+                Mybatis系统中默认定义了两级缓存:一级缓存和二级缓存,默认情况下,Mybatis只会开启一级缓存,基于SqlSession级别的。二级缓存需要手动开启和配置，他是基于namespace级别的,
+为了提高可扩展性，Mybatis提供了Cache接口，可以通过实现Cache接口自定义二级缓存。
+一、一级缓存1、概述一级缓存(即本地缓存)是基于SqlSession级别的，...
+            </p>
+        </div>
+      
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+                <li><i class="fa fa-calendar"></i>2019-06-20</li>
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Mybatis/" class="color3">Mybatis</a>
+      
+  </li>
+
+        </ul>
+        
+            <a href="/2019/06/20/2019-06-20-Mybatis中的缓存/#more" class="article-more-link">more&gt;&gt;</a>
+        
+    </footer>
+  </div>
+</article>
+
+
+  
+    <article id="post-2019-06-20-Mybatis中的关联查询与懒加载配置" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/20/2019-06-20-Mybatis中的关联查询与懒加载配置/">Mybatis中的关联查询与懒加载配置</a>
+    </h1>
+  
+
+          
+              <span class="header-cate">
+                <i class="fa fa-map-marker"></i>
+                  
+                  <a href="/categories/Mybatis/">Mybatis</a>
+                  
+              </span>
+          
+      </header>
+    
+    <div class="article-entry " itemprop="articleBody">
+      
+        <div class="article-img">
+            <a href="/2019/06/20/2019-06-20-Mybatis中的关联查询与懒加载配置/">
+                
+                <img src="https://yangrijian.top/images/cate/mybatis.jpg" alt="Mybatis中的关联查询与懒加载配置" title="Mybatis中的关联查询与懒加载配置">
+                
+            </a>
+        </div>
+        <div class="article-feed">
+            <p>
+                还是老样子，基本的jar包和配置就不用说了。
+Mybatis中的一对多，一对一，多对一，多对多，不是和Hibernate中那样麻烦每个都有对应的配置,只有两种情况，无非就是一个类里面有一个成员变量是实例，另一种情况就是一个类中有一个成员变量是集合。
+pojo：
+
+对应的数据库环境：
+
+一、一对一/多对一Student属于哪个Grade
+1、级联属性封装结果
+执行得到结果：...
+            </p>
+        </div>
+      
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+                <li><i class="fa fa-calendar"></i>2019-06-20</li>
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Mybatis/" class="color3">Mybatis</a>
+      
+  </li>
+
+        </ul>
+        
+            <a href="/2019/06/20/2019-06-20-Mybatis中的关联查询与懒加载配置/#more" class="article-more-link">more&gt;&gt;</a>
+        
+    </footer>
+  </div>
+</article>
+
+
+  
     <article id="post-2019-06-08-Proxy(代理模式)" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -631,139 +765,6 @@ WebSocket 使得客户端和服务器之间的数据交换变得更加简单，�
 
 
   
-    <article id="post-2019-04-27-volatile和synchronized的区别" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/27/2019-04-27-volatile和synchronized的区别/">volatile和synchronized的区别</a>
-    </h1>
-  
-
-          
-              <span class="header-cate">
-                <i class="fa fa-map-marker"></i>
-                  
-                  <a href="/categories/并发/">并发</a>
-                  
-              </span>
-          
-      </header>
-    
-    <div class="article-entry " itemprop="articleBody">
-      
-        <div class="article-img">
-            <a href="/2019/04/27/2019-04-27-volatile和synchronized的区别/">
-                
-                <img src="https://yangrijian.top/images/cate/concurrence.jpg" alt="volatile和synchronized的区别" title="volatile和synchronized的区别">
-                
-            </a>
-        </div>
-        <div class="article-feed">
-            <p>
-                1、先看一段代码
-123456789101112131415161718192021222324public class T &#123;		boolean isRunning = true;		public void m() &#123;		System.out.println("m start...");		while(isRunning) &#123;				&#1...
-            </p>
-        </div>
-      
-        
-    </div>
-    <footer class="article-footer">
-        
-        <ul class="article-footer-menu">
-            
-                <li><i class="fa fa-calendar"></i>2019-04-27</li>
-            
-            
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/tags/并发/" class="color3">并发</a>
-      
-  </li>
-
-        </ul>
-        
-            <a href="/2019/04/27/2019-04-27-volatile和synchronized的区别/#more" class="article-more-link">more&gt;&gt;</a>
-        
-    </footer>
-  </div>
-</article>
-
-
-  
-    <article id="post-2019-04-21-HashMap实现原理" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/21/2019-04-21-HashMap实现原理/">HashMap实现原理</a>
-    </h1>
-  
-
-          
-              <span class="header-cate">
-                <i class="fa fa-map-marker"></i>
-                  
-                  <a href="/categories/Java/">Java</a>
-                  
-              </span>
-          
-      </header>
-    
-    <div class="article-entry " itemprop="articleBody">
-      
-        <div class="article-img">
-            <a href="/2019/04/21/2019-04-21-HashMap实现原理/">
-                
-                <img src="https://yangrijian.top/images/cate/java.jpg" alt="HashMap实现原理" title="HashMap实现原理">
-                
-            </a>
-        </div>
-        <div class="article-feed">
-            <p>
-                HashMap底层是通过数组加单项链表的方式实现的
-
-初始数组长度为16
-链表中的节点具有的元素为
-hash：用hashCode（哈希码）通过hash算法计算出来的哈希值
-key：键值对的key
-value：键值对的value
-next：下一个节点
-123456static class Node&lt;K,V&gt; implements Map.Entry&lt;K,V...
-            </p>
-        </div>
-      
-        
-    </div>
-    <footer class="article-footer">
-        
-        <ul class="article-footer-menu">
-            
-                <li><i class="fa fa-calendar"></i>2019-04-21</li>
-            
-            
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/tags/Java/" class="color5">Java</a>
-      
-  </li>
-
-        </ul>
-        
-            <a href="/2019/04/21/2019-04-21-HashMap实现原理/#more" class="article-more-link">more&gt;&gt;</a>
-        
-    </footer>
-  </div>
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -825,7 +826,7 @@ next：下一个节点
             <a class="category-link" href="/categories/23种设计模式/">23种设计模式</a><a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Linux/">Linux</a><a class="category-link" href="/categories/Mybatis/">Mybatis</a><a class="category-link" href="/categories/SpringBoot/">SpringBoot</a><a class="category-link" href="/categories/SpringMVC/">SpringMVC</a><a class="category-link" href="/categories/代码的艺术/">代码的艺术</a><a class="category-link" href="/categories/并发/">并发</a><a class="category-link" href="/categories/随笔/">随笔</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/23种设计模式/" style="font-size: 10px;">23种设计模式</a> <a href="/tags/Docker/" style="font-size: 12px;">Docker</a> <a href="/tags/Dubbo/" style="font-size: 10px;">Dubbo</a> <a href="/tags/Elasticsearch/" style="font-size: 10px;">Elasticsearch</a> <a href="/tags/JDBC/" style="font-size: 12px;">JDBC</a> <a href="/tags/JPA/" style="font-size: 10px;">JPA</a> <a href="/tags/Java/" style="font-size: 12px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/Log/" style="font-size: 10px;">Log</a> <a href="/tags/Mybatis/" style="font-size: 14px;">Mybatis</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Security/" style="font-size: 10px;">Security</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/SpringMVC/" style="font-size: 10px;">SpringMVC</a> <a href="/tags/Task/" style="font-size: 10px;">Task</a> <a href="/tags/Thymeleaf/" style="font-size: 10px;">Thymeleaf</a> <a href="/tags/WebSocket/" style="font-size: 10px;">WebSocket</a> <a href="/tags/YAML/" style="font-size: 10px;">YAML</a> <a href="/tags/Zookeeper/" style="font-size: 10px;">Zookeeper</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/缓存/" style="font-size: 12px;">缓存</a> <a href="/tags/邮件/" style="font-size: 10px;">邮件</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+            <a href="/tags/23种设计模式/" style="font-size: 10px;">23种设计模式</a> <a href="/tags/Docker/" style="font-size: 11.67px;">Docker</a> <a href="/tags/Dubbo/" style="font-size: 10px;">Dubbo</a> <a href="/tags/Elasticsearch/" style="font-size: 10px;">Elasticsearch</a> <a href="/tags/JDBC/" style="font-size: 11.67px;">JDBC</a> <a href="/tags/JPA/" style="font-size: 10px;">JPA</a> <a href="/tags/Java/" style="font-size: 11.67px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.33px;">Linux</a> <a href="/tags/Log/" style="font-size: 10px;">Log</a> <a href="/tags/Mybatis/" style="font-size: 16.67px;">Mybatis</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Security/" style="font-size: 10px;">Security</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/SpringMVC/" style="font-size: 10px;">SpringMVC</a> <a href="/tags/Task/" style="font-size: 10px;">Task</a> <a href="/tags/Thymeleaf/" style="font-size: 10px;">Thymeleaf</a> <a href="/tags/WebSocket/" style="font-size: 10px;">WebSocket</a> <a href="/tags/YAML/" style="font-size: 10px;">YAML</a> <a href="/tags/Zookeeper/" style="font-size: 10px;">Zookeeper</a> <a href="/tags/代码的艺术/" style="font-size: 11.67px;">代码的艺术</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/并发/" style="font-size: 15px;">并发</a> <a href="/tags/缓存/" style="font-size: 11.67px;">缓存</a> <a href="/tags/邮件/" style="font-size: 10px;">邮件</a> <a href="/tags/随笔/" style="font-size: 13.33px;">随笔</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -858,7 +859,7 @@ next：下一个节点
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/23种设计模式/" style="font-size: 10px;">23种设计模式</a> <a href="/tags/Docker/" style="font-size: 12px;">Docker</a> <a href="/tags/Dubbo/" style="font-size: 10px;">Dubbo</a> <a href="/tags/Elasticsearch/" style="font-size: 10px;">Elasticsearch</a> <a href="/tags/JDBC/" style="font-size: 12px;">JDBC</a> <a href="/tags/JPA/" style="font-size: 10px;">JPA</a> <a href="/tags/Java/" style="font-size: 12px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/Log/" style="font-size: 10px;">Log</a> <a href="/tags/Mybatis/" style="font-size: 14px;">Mybatis</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Security/" style="font-size: 10px;">Security</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/SpringMVC/" style="font-size: 10px;">SpringMVC</a> <a href="/tags/Task/" style="font-size: 10px;">Task</a> <a href="/tags/Thymeleaf/" style="font-size: 10px;">Thymeleaf</a> <a href="/tags/WebSocket/" style="font-size: 10px;">WebSocket</a> <a href="/tags/YAML/" style="font-size: 10px;">YAML</a> <a href="/tags/Zookeeper/" style="font-size: 10px;">Zookeeper</a> <a href="/tags/代码的艺术/" style="font-size: 12px;">代码的艺术</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/并发/" style="font-size: 16px;">并发</a> <a href="/tags/缓存/" style="font-size: 12px;">缓存</a> <a href="/tags/邮件/" style="font-size: 10px;">邮件</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+            <a href="/tags/23种设计模式/" style="font-size: 10px;">23种设计模式</a> <a href="/tags/Docker/" style="font-size: 11.67px;">Docker</a> <a href="/tags/Dubbo/" style="font-size: 10px;">Dubbo</a> <a href="/tags/Elasticsearch/" style="font-size: 10px;">Elasticsearch</a> <a href="/tags/JDBC/" style="font-size: 11.67px;">JDBC</a> <a href="/tags/JPA/" style="font-size: 10px;">JPA</a> <a href="/tags/Java/" style="font-size: 11.67px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.33px;">Linux</a> <a href="/tags/Log/" style="font-size: 10px;">Log</a> <a href="/tags/Mybatis/" style="font-size: 16.67px;">Mybatis</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Security/" style="font-size: 10px;">Security</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/SpringMVC/" style="font-size: 10px;">SpringMVC</a> <a href="/tags/Task/" style="font-size: 10px;">Task</a> <a href="/tags/Thymeleaf/" style="font-size: 10px;">Thymeleaf</a> <a href="/tags/WebSocket/" style="font-size: 10px;">WebSocket</a> <a href="/tags/YAML/" style="font-size: 10px;">YAML</a> <a href="/tags/Zookeeper/" style="font-size: 10px;">Zookeeper</a> <a href="/tags/代码的艺术/" style="font-size: 11.67px;">代码的艺术</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/并发/" style="font-size: 15px;">并发</a> <a href="/tags/缓存/" style="font-size: 11.67px;">缓存</a> <a href="/tags/邮件/" style="font-size: 10px;">邮件</a> <a href="/tags/随笔/" style="font-size: 13.33px;">随笔</a>
         </div>
     </div>
 </div>

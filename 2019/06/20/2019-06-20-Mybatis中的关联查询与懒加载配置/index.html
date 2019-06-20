@@ -3,38 +3,43 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
-  <title>Spring Boot学习04_外部Servlet容器JSP支持 | Yang</title>
+  <title>Mybatis中的关联查询与懒加载配置 | Yang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Yang,Yang's Blog">
   
-  <meta name="description" content="Spring Boot的嵌入式的Servlet容器虽然方便，快捷，支持jar包的方式运行项目 但是却是不能支持jsp的，这时候我们可以使用外部的Servlet容器。 1、新建一个Module，然后next  2、项目的坐标，这里要改成war包，下一步  3、选中web模块，然后next，再finish完成项目的创建   4、但是我们项目中并没有webapp，不需要自己创建，可以通过ide来自动创建">
-<meta name="keywords" content="SpringBoot">
+  <meta name="description" content="还是老样子，基本的jar包和配置就不用说了。 Mybatis中的一对多，一对一，多对一，多对多，不是和Hibernate中那样麻烦每个都有对应的配置,只有两种情况，无非就是一个类里面有一个成员变量是实例，另一种情况就是一个类中有一个成员变量是集合。 pojo：  对应的数据库环境：  一、一对一/多对一Student属于哪个Grade 1、级联属性封装结果 执行得到结果：  2、associati">
+<meta name="keywords" content="Mybatis">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spring Boot学习04_外部Servlet容器JSP支持">
-<meta property="og:url" content="https://yangrijian.top/2019/04/04/2019-04-04-SpringBoot学习04_外部Servlet容器JSP支持/index.html">
+<meta property="og:title" content="Mybatis中的关联查询与懒加载配置">
+<meta property="og:url" content="https://yangrijian.top/2019/06/20/2019-06-20-Mybatis中的关联查询与懒加载配置/index.html">
 <meta property="og:site_name" content="Yang">
-<meta property="og:description" content="Spring Boot的嵌入式的Servlet容器虽然方便，快捷，支持jar包的方式运行项目 但是却是不能支持jsp的，这时候我们可以使用外部的Servlet容器。 1、新建一个Module，然后next  2、项目的坐标，这里要改成war包，下一步  3、选中web模块，然后next，再finish完成项目的创建   4、但是我们项目中并没有webapp，不需要自己创建，可以通过ide来自动创建">
+<meta property="og:description" content="还是老样子，基本的jar包和配置就不用说了。 Mybatis中的一对多，一对一，多对一，多对多，不是和Hibernate中那样麻烦每个都有对应的配置,只有两种情况，无非就是一个类里面有一个成员变量是实例，另一种情况就是一个类中有一个成员变量是集合。 pojo：  对应的数据库环境：  一、一对一/多对一Student属于哪个Grade 1、级联属性封装结果 执行得到结果：  2、associati">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARnVl8.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARn8pV.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARnkfP.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARnESf.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARnFYt.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARnZ6S.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARnnmQ.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARneOg.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARnuwj.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARnKTs.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARnQkn.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARnlYq.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARn1f0.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/04/04/ARnGlT.jpg">
-<meta property="og:updated_time" content="2019-05-25T07:37:30.048Z">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/20/VxQXgU.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/20/VxQ7En.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/20/VxQHNq.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/20/VxQb40.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/20/VxQLCV.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/20/VxQO3T.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/20/VxQzDJ.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/20/VxQjvF.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/20/VxlSb9.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/20/VxQxu4.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/20/Vxl9ER.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/20/VxlCU1.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/20/VxlP4x.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/20/VxlAgO.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/20/VxlFC6.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/20/VxlEvD.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/20/Vxlk8K.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/20/VxlZKe.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/20/VxleDH.jpg">
+<meta property="og:updated_time" content="2019-06-20T15:34:11.764Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spring Boot学习04_外部Servlet容器JSP支持">
-<meta name="twitter:description" content="Spring Boot的嵌入式的Servlet容器虽然方便，快捷，支持jar包的方式运行项目 但是却是不能支持jsp的，这时候我们可以使用外部的Servlet容器。 1、新建一个Module，然后next  2、项目的坐标，这里要改成war包，下一步  3、选中web模块，然后next，再finish完成项目的创建   4、但是我们项目中并没有webapp，不需要自己创建，可以通过ide来自动创建">
-<meta name="twitter:image" content="https://s2.ax1x.com/2019/04/04/ARnVl8.jpg">
+<meta name="twitter:title" content="Mybatis中的关联查询与懒加载配置">
+<meta name="twitter:description" content="还是老样子，基本的jar包和配置就不用说了。 Mybatis中的一对多，一对一，多对一，多对多，不是和Hibernate中那样麻烦每个都有对应的配置,只有两种情况，无非就是一个类里面有一个成员变量是实例，另一种情况就是一个类中有一个成员变量是集合。 pojo：  对应的数据库环境：  一、一对一/多对一Student属于哪个Grade 1、级联属性封装结果 执行得到结果：  2、associati">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/06/20/VxQXgU.jpg">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -122,14 +127,14 @@
     </div>
 </header>
       <div class="outer">
-        <section id="main" class="body-wrap"><article id="post-2019-04-04-SpringBoot学习04_外部Servlet容器JSP支持" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main" class="body-wrap"><article id="post-2019-06-20-Mybatis中的关联查询与懒加载配置" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="post-title" itemprop="name">
-      Spring Boot学习04_外部Servlet容器JSP支持
+      Mybatis中的关联查询与懒加载配置
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -137,12 +142,12 @@
               <li>
                   <i class="fa fa-book"></i>
                   
-                      <a href="/categories/SpringBoot/">SpringBoot</a>
+                      <a href="/categories/Mybatis/">Mybatis</a>
                   
               </li>
           
         <li>
-          <i class="fa fa-calendar"></i>  2019-04-04
+          <i class="fa fa-calendar"></i>  2019-06-20
         </li>
         <li>
           <i class="fa fa-eye"></i>
@@ -158,37 +163,51 @@
     <div class="article-entry post-content" itemprop="articleBody">
       
             
-            <p>Spring Boot的嵌入式的Servlet容器虽然方便，快捷，支持jar包的方式运行项目</p>
-<p>但是却是不能支持jsp的，这时候我们可以使用外部的Servlet容器。</p>
-<p>1、新建一个Module，然后next</p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARnVl8.jpg" alt="ARnVl8.jpg"></p>
-<p>2、项目的坐标，这里要<strong>改成war包，</strong>下一步</p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARn8pV.jpg" alt="ARn8pV.jpg"></p>
-<p>3、选中web模块，然后next，再finish完成项目的创建</p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARnkfP.jpg" alt="ARnkfP.jpg"></p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARnESf.jpg" alt="ARnESf.jpg"></p>
-<p>4、但是我们项目中并没有webapp，不需要自己创建，可以通过ide来自动创建</p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARnFYt.jpg" alt="ARnFYt.jpg"></p>
-<p>5、选中项目按f4或右键open module setting，点击web</p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARnZ6S.jpg" alt="ARnZ6S.jpg"></p>
-<p>6、点击右边的添加</p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARnnmQ.jpg" alt="ARnnmQ.jpg"></p>
-<p>7、把地址修改成如下图，点击ok，然后apply</p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARneOg.jpg" alt="ARneOg.jpg"></p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARnuwj.jpg" alt="ARnuwj.jpg"></p>
-<p>8、点击右上角的添加选中web.xml</p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARnKTs.jpg" alt="ARnKTs.jpg"></p>
-<p>9、修改地址如下，版本也是可以选择的，点击ok，apply，ok，关闭</p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARnQkn.jpg" alt="ARnQkn.jpg"></p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARnlYq.jpg" alt="ARnlYq.jpg"></p>
-<p>10、创建hello.jsp，<strong>这时候需要添加tomcat容器(自行添加)，</strong>部署项目到tomcat容器上，访问成功</p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARn1f0.jpg" alt="ARn1f0.jpg"></p>
-<p><img src="https://s2.ax1x.com/2019/04/04/ARnGlT.jpg" alt="ARnGlT.jpg"></p>
+            <p>还是老样子，基本的jar包和配置就不用说了。</p>
+<p><strong>Mybatis中的一对多，一对一，多对一，多对多，不是和Hibernate中那样麻烦每个都有对应的配置,只有两种情况，无非就是一个类里面有一个成员变量是实例，另一种情况就是一个类中有一个成员变量是集合。</strong></p>
+<p>pojo：</p>
+<p><img src="https://s2.ax1x.com/2019/06/20/VxQXgU.jpg" alt="VxQXgU.jpg"></p>
+<p>对应的数据库环境：</p>
+<p><img src="https://s2.ax1x.com/2019/06/20/VxQ7En.jpg" alt="VxQ7En.jpg"></p>
+<h1 id="一、一对一-多对一"><a href="#一、一对一-多对一" class="headerlink" title="一、一对一/多对一"></a>一、一对一/多对一</h1><p><strong>Student属于哪个Grade</strong></p>
+<h2 id="1、级联属性封装结果"><a href="#1、级联属性封装结果" class="headerlink" title="1、级联属性封装结果"></a>1、级联属性封装结果</h2><p><img src="https://s2.ax1x.com/2019/06/20/VxQHNq.jpg" alt="VxQHNq.jpg"></p>
+<p>执行得到结果：</p>
+<p><img src="https://s2.ax1x.com/2019/06/20/VxQb40.jpg" alt="VxQb40.jpg"></p>
+<h2 id="2、association定义关联对象封装规则"><a href="#2、association定义关联对象封装规则" class="headerlink" title="2、association定义关联对象封装规则"></a>2、association定义关联对象封装规则</h2><p><img src="https://s2.ax1x.com/2019/06/20/VxQLCV.jpg" alt="VxQLCV.jpg"></p>
+<p>执行得到结果：</p>
+<p><img src="https://s2.ax1x.com/2019/06/20/VxQO3T.jpg" alt="VxQO3T.jpg"></p>
+<h2 id="3、分步查询"><a href="#3、分步查询" class="headerlink" title="3、分步查询"></a>3、分步查询</h2><p><strong>运行流程：调用select指定的方法(把column当作参数传过去)得到结果赋值给property</strong></p>
+<p><img src="https://s2.ax1x.com/2019/06/20/VxQzDJ.jpg" alt="VxQzDJ.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/06/20/VxQjvF.jpg" alt="VxQjvF.jpg"></p>
+<p>执行得到结果</p>
+<p><img src="https://s2.ax1x.com/2019/06/20/VxlSb9.jpg" alt="VxlSb9.jpg"></p>
+<h1 id="二、一对多-多对多"><a href="#二、一对多-多对多" class="headerlink" title="二、一对多/多对多"></a>二、一对多/多对多</h1><p><strong>Grade下有多少个学生</strong></p>
+<p>这种集合类型的成员变量就不能用级联属性封装结果</p>
+<h2 id="1、collection定义关联对象封装规则"><a href="#1、collection定义关联对象封装规则" class="headerlink" title="1、collection定义关联对象封装规则"></a>1、collection定义关联对象封装规则</h2><p><img src="https://s2.ax1x.com/2019/06/20/VxQxu4.jpg" alt="VxQxu4.jpg"></p>
+<p>执行得到结果</p>
+<p><img src="https://s2.ax1x.com/2019/06/20/Vxl9ER.jpg" alt="Vxl9ER.jpg"></p>
+<h2 id="2、分步查询"><a href="#2、分步查询" class="headerlink" title="2、分步查询"></a>2、分步查询</h2><p><strong>运行流程：调用select指定的方法(把column当作参数传过去)得到结果赋值给property</strong></p>
+<p><img src="https://s2.ax1x.com/2019/06/20/VxlCU1.jpg" alt="VxlCU1.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/06/20/VxlP4x.jpg" alt="VxlP4x.jpg"></p>
+<p>执行得到结果</p>
+<p><img src="https://s2.ax1x.com/2019/06/20/VxlAgO.jpg" alt="VxlAgO.jpg"></p>
+<h1 id="三、懒加载"><a href="#三、懒加载" class="headerlink" title="三、懒加载"></a><strong>三、懒加载</strong></h1><p>官方文档全局配置：</p>
+<p>lazyLoadingEnabled:激活就可以使用懒加载，fetchType属性可以覆盖。设置为true</p>
+<p>aggressiveLazyLoading:当启用时,一个延迟加载的对象将加载属性就会加载所有的属</p>
+<p>性，否则将按需加载，所以我们要设置为false</p>
+<p><img src="https://s2.ax1x.com/2019/06/20/VxlFC6.jpg" alt="VxlFC6.jpg"></p>
+<p><img src="https://s2.ax1x.com/2019/06/20/VxlEvD.jpg" alt="VxlEvD.jpg"></p>
+<p>测试看的出来，使用哪个就会发送相关的SQL语句</p>
+<p><img src="https://s2.ax1x.com/2019/06/20/Vxlk8K.jpg" alt="Vxlk8K.jpg"></p>
+<p>我们也可以设置fetchType为<strong>eager</strong>属性覆盖全局配置</p>
+<p><img src="https://s2.ax1x.com/2019/06/20/VxlZKe.jpg" alt="VxlZKe.jpg"></p>
+<p>执行得到结果</p>
+<p><img src="https://s2.ax1x.com/2019/06/20/VxleDH.jpg" alt="VxleDH.jpg"></p>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2019年05月25日 15:37</p>
-        <p>原始链接： <a class="post-url" href="/2019/04/04/2019-04-04-SpringBoot学习04_外部Servlet容器JSP支持/" title="Spring Boot学习04_外部Servlet容器JSP支持">https://yangrijian.top/2019/04/04/2019-04-04-SpringBoot学习04_外部Servlet容器JSP支持/</a></p>
+        <p>最后更新： 2019年06月20日 23:34</p>
+        <p>原始链接： <a class="post-url" href="/2019/06/20/2019-06-20-Mybatis中的关联查询与懒加载配置/" title="Mybatis中的关联查询与懒加载配置">https://yangrijian.top/2019/06/20/2019-06-20-Mybatis中的关联查询与懒加载配置/</a></p>
         <footer>
             <a href="https://yangrijian.top">
                 <img src="/images/logo.png" alt="Yang">
@@ -245,7 +264,7 @@
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yangrijian.top/2019/04/04/2019-04-04-SpringBoot学习04_外部Servlet容器JSP支持/&title=《Spring Boot学习04_外部Servlet容器JSP支持》 — Yang&pic=images/cate/springboot.jpg" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yangrijian.top/2019/06/20/2019-06-20-Mybatis中的关联查询与懒加载配置/&title=《Mybatis中的关联查询与懒加载配置》 — Yang&pic=images/cate/mybatis.jpg" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -255,22 +274,22 @@
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yangrijian.top/2019/04/04/2019-04-04-SpringBoot学习04_外部Servlet容器JSP支持/&title=《Spring Boot学习04_外部Servlet容器JSP支持》 — Yang&source=" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yangrijian.top/2019/06/20/2019-06-20-Mybatis中的关联查询与懒加载配置/&title=《Mybatis中的关联查询与懒加载配置》 — Yang&source=" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
           <li>
-            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yangrijian.top/2019/04/04/2019-04-04-SpringBoot学习04_外部Servlet容器JSP支持/" data-title="Facebook">
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yangrijian.top/2019/06/20/2019-06-20-Mybatis中的关联查询与懒加载配置/" data-title="Facebook">
               <i class="fa fa-facebook"></i>
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Spring Boot学习04_外部Servlet容器JSP支持》 — Yang&url=https://yangrijian.top/2019/04/04/2019-04-04-SpringBoot学习04_外部Servlet容器JSP支持/&via=https://yangrijian.top" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Mybatis中的关联查询与懒加载配置》 — Yang&url=https://yangrijian.top/2019/06/20/2019-06-20-Mybatis中的关联查询与懒加载配置/&via=https://yangrijian.top" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
           <li>
-            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yangrijian.top/2019/04/04/2019-04-04-SpringBoot学习04_外部Servlet容器JSP支持/" data-title="Google+">
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yangrijian.top/2019/06/20/2019-06-20-Mybatis中的关联查询与懒加载配置/" data-title="Google+">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -280,7 +299,7 @@
 <div class="post-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;" id="wxShare-close">×</a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yangrijian.top/2019/04/04/2019-04-04-SpringBoot学习04_外部Servlet容器JSP支持/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yangrijian.top/2019/06/20/2019-06-20-Mybatis中的关联查询与懒加载配置/" alt="微信分享二维码">
 </div>
 
 <div class="mask"></div>
@@ -292,7 +311,7 @@
   <li class="article-footer-tags">
     <i class="fa fa-tags"></i>
       
-    <a href="/tags/SpringBoot/" class="color1">SpringBoot</a>
+    <a href="/tags/Mybatis/" class="color3">Mybatis</a>
       
   </li>
 
@@ -303,22 +322,28 @@
 </article>
 
 
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#一、一对一-多对一"><span class="post-toc-text">一、一对一/多对一</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1、级联属性封装结果"><span class="post-toc-text">1、级联属性封装结果</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2、association定义关联对象封装规则"><span class="post-toc-text">2、association定义关联对象封装规则</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3、分步查询"><span class="post-toc-text">3、分步查询</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#二、一对多-多对多"><span class="post-toc-text">二、一对多/多对多</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1、collection定义关联对象封装规则"><span class="post-toc-text">1、collection定义关联对象封装规则</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2、分步查询"><span class="post-toc-text">2、分步查询</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#三、懒加载"><span class="post-toc-text">三、懒加载</span></a></li></ol>
+        </nav>
+    </aside>
+    
 
 <nav id="article-nav">
   
-    <a href="/2019/04/04/2019-04-04-SpringBoot学习04_外部Servlet容器启动原理/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/06/20/2019-06-20-Mybatis中的缓存/" id="article-nav-newer" class="article-nav-link-wrap">
 
       <span class="article-nav-title">
         <i class="fa fa-hand-o-left" aria-hidden="true"></i>
         
-          Spring Boot学习04_外部Servlet容器启动原理
+          Mybatis中的缓存
         
       </span>
     </a>
   
   
-    <a href="/2019/04/04/2019-04-04-SpringBoot学习04_嵌入式Servlet容器启动原理/" id="article-nav-older" class="article-nav-link-wrap">
-      <span class="article-nav-title">Spring Boot学习04_嵌入式Servlet容器启动原理</span>
+    <a href="/2019/06/08/2019-06-08-Proxy(代理模式)/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Proxy(代理模式)</span>
       <i class="fa fa-hand-o-right" aria-hidden="true"></i>
     </a>
   
