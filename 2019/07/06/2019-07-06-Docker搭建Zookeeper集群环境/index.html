@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>Docker搭建Zookeeper集群环境 | Yang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Yang,Yang's Blog">
+  
+  <meta name="description" content="半个月没写文章了，最近考完试放暑假回家了，到家花了一个礼拜简单入了下门SpringCloud，SpringCloud都是一些配置，而且有对应的书籍，感觉没有必要写下来。暑假想学下分布式，微服务之类的知识，那肯定得学Zookeeper，我就想在一台机器上通过Docker搭建伪集群，这样也方便点，搭建过程中，碰到一些坑，这里记录下来。 一、单节点环境搭建拉取Zookeeper镜像1docker pul">
+<meta name="keywords" content="-随笔 -Zookeeper">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker搭建Zookeeper集群环境">
+<meta property="og:url" content="https://yangrijian.top/2019/07/06/2019-07-06-Docker搭建Zookeeper集群环境/index.html">
+<meta property="og:site_name" content="Yang">
+<meta property="og:description" content="半个月没写文章了，最近考完试放暑假回家了，到家花了一个礼拜简单入了下门SpringCloud，SpringCloud都是一些配置，而且有对应的书籍，感觉没有必要写下来。暑假想学下分布式，微服务之类的知识，那肯定得学Zookeeper，我就想在一台机器上通过Docker搭建伪集群，这样也方便点，搭建过程中，碰到一些坑，这里记录下来。 一、单节点环境搭建拉取Zookeeper镜像1docker pul">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-07-06T05:08:29.935Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Docker搭建Zookeeper集群环境">
+<meta name="twitter:description" content="半个月没写文章了，最近考完试放暑假回家了，到家花了一个礼拜简单入了下门SpringCloud，SpringCloud都是一些配置，而且有对应的书籍，感觉没有必要写下来。暑假想学下分布式，微服务之类的知识，那肯定得学Zookeeper，我就想在一台机器上通过Docker搭建伪集群，这样也方便点，搭建过程中，碰到一些坑，这里记录下来。 一、单节点环境搭建拉取Zookeeper镜像1docker pul">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Yang&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Yang&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        一个专注 Java 开发的技术博客
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Yang" target="_blank" href="//yangrijian.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/loneryang">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/u/5595731265?is_hot=1">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-2019-07-06-Docker搭建Zookeeper集群环境" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Docker搭建Zookeeper集群环境
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/随笔/">随笔</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-07-06
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <p>半个月没写文章了，最近考完试放暑假回家了，到家花了一个礼拜简单入了下门SpringCloud，SpringCloud都是一些配置，而且有对应的书籍，感觉没有必要写下来。暑假想学下分布式，微服务之类的知识，那肯定得学Zookeeper，我就想在一台机器上通过Docker搭建伪集群，这样也方便点，搭建过程中，碰到一些坑，这里记录下来。</p>
+<h1 id="一、单节点环境搭建"><a href="#一、单节点环境搭建" class="headerlink" title="一、单节点环境搭建"></a>一、单节点环境搭建</h1><h3 id="拉取Zookeeper镜像"><a href="#拉取Zookeeper镜像" class="headerlink" title="拉取Zookeeper镜像"></a>拉取Zookeeper镜像</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull zookeeper</span><br></pre></td></tr></table></figure>
+<h3 id="Zookeeper单节点启动"><a href="#Zookeeper单节点启动" class="headerlink" title="Zookeeper单节点启动"></a>Zookeeper单节点启动</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name zk1 -d zookeeper</span><br></pre></td></tr></table></figure>
+<h3 id="查看zookeeper镜像启动日志"><a href="#查看zookeeper镜像启动日志" class="headerlink" title="查看zookeeper镜像启动日志"></a>查看zookeeper镜像启动日志</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker logs zk1</span><br></pre></td></tr></table></figure>
+<h3 id="查看镜像中zookeeper的配置情况"><a href="#查看镜像中zookeeper的配置情况" class="headerlink" title="查看镜像中zookeeper的配置情况"></a>查看镜像中zookeeper的配置情况</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it zk1 /bin/bash</span><br></pre></td></tr></table></figure>
+<p>使用vi 进入配置文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker vi /conf/zoo.cfg</span><br></pre></td></tr></table></figure>
+<p><strong>注意：这里需要先安装vim</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br><span class="line">apt-get install vim</span><br></pre></td></tr></table></figure>
+<p><strong>注意：进入配置文件后，需要添加如下配置，不然下面无法查看Zookeeper运行状态</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">4lw.commands.whitelist=*</span><br></pre></td></tr></table></figure>
+<p>保存退出，重启Zookeeper容器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker restart zk1</span><br></pre></td></tr></table></figure>
+<h3 id="Zookeeper运行状态"><a href="#Zookeeper运行状态" class="headerlink" title="Zookeeper运行状态"></a>Zookeeper运行状态</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker inspect zk1</span><br></pre></td></tr></table></figure>
+<p>查看docker 容器的一些构建信息, 这里我主要是查询该容器的ip地址</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">"IPAddress": "172.17.0.2"</span><br></pre></td></tr></table></figure>
+<p>接下在宿主机中执行命令, 查看Zookeeper运行状态（上面已经在配置文件中添加了配置）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ echo stat | nc 172.17.0.2 2181</span><br><span class="line">Zookeeper version: 3.5.5-390fe37ea45dee01bf87dc1c042b5e3dcce88653, built on 05/03/2019 12:07 GMT</span><br><span class="line">Clients:</span><br><span class="line"> /172.17.0.1:47470[0](queued=0,recved=1,sent=0)</span><br><span class="line"></span><br><span class="line">Latency min/avg/max: 0/0/0</span><br><span class="line">Received: 1</span><br><span class="line">Sent: 0</span><br><span class="line">Connections: 1</span><br><span class="line">Outstanding: 0</span><br><span class="line">Zxid: 0x0</span><br><span class="line">Mode: standalone</span><br><span class="line">Node count: 5</span><br></pre></td></tr></table></figure>
+<h1 id="二、集群环境搭建"><a href="#二、集群环境搭建" class="headerlink" title="二、集群环境搭建"></a>二、集群环境搭建</h1><h3 id="启动两个节点"><a href="#启动两个节点" class="headerlink" title="启动两个节点"></a>启动两个节点</h3><p>重新按照如上命令启动两个节点, 加上zk1就3个节点了通过<code>docker inspect {container_name}</code>命令我们可以获取到所有Zookeeper单节点的ip地址</p>
+<ul>
+<li>zk1: 172.17.0.2</li>
+<li>zk2: 172.17.0.3</li>
+<li>zk3: 172.17.0.4</li>
+</ul>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>1、进入zk1, 编辑配置文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it zk1 /bin/bash</span><br></pre></td></tr></table></figure>
+<p>2、加上集群的配置信息</p>
+<p><strong>注意：</strong>删掉<code>server.1=localhost:2888:3888;2181</code>添加<code>clientPort=2181</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">dataDir=/data</span><br><span class="line">dataLogDir=/datalog</span><br><span class="line">tickTime=2000</span><br><span class="line">initLimit=5</span><br><span class="line">syncLimit=2</span><br><span class="line">autopurge.snapRetainCount=3</span><br><span class="line">autopurge.purgeInterval=0</span><br><span class="line">maxClientCnxns=60</span><br><span class="line">standaloneEnabled=true</span><br><span class="line">admin.enableServer=true</span><br><span class="line">4lw.commands.whitelist=*</span><br><span class="line">clientPort=2181</span><br><span class="line">server.1=172.17.0.2:2888:3888</span><br><span class="line">server.2=172.17.0.3:2888:3888</span><br><span class="line">server.3=172.17.0.4:2888:3888</span><br></pre></td></tr></table></figure>
+<p>2888, 是zk之间通信的端口<br>3888, 是zk之间投票选举的端口</p>
+<p>保存退出</p>
+<p>3、修改服务名称为1</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@db6f08303a62:/apache-zookeeper-3.5.5-bin# vi /data/myid</span><br></pre></td></tr></table></figure>
+<p>保存退出</p>
+<p>4、zk2和zk3同上配置，注意zk2的myid是2，zk3的myid是3</p>
+<h3 id="全部保存退出，重启容器"><a href="#全部保存退出，重启容器" class="headerlink" title="全部保存退出，重启容器"></a>全部保存退出，重启容器</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker restart zk1</span><br><span class="line">docker restart zk2</span><br><span class="line">docker restart zk3</span><br></pre></td></tr></table></figure>
+<h3 id="查看集群是否部署成功"><a href="#查看集群是否部署成功" class="headerlink" title="查看集群是否部署成功"></a>查看集群是否部署成功</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# echo stat | nc 172.17.0.2 2181</span><br><span class="line">Zookeeper version: 3.5.5-390fe37ea45dee01bf87dc1c042b5e3dcce88653, built on 05/03/2019 12:07 GMT</span><br><span class="line">Clients:</span><br><span class="line"> /172.17.0.1:47604[0](queued=0,recved=1,sent=0)</span><br><span class="line"></span><br><span class="line">Latency min/avg/max: 0/0/0</span><br><span class="line">Received: 4</span><br><span class="line">Sent: 3</span><br><span class="line">Connections: 1</span><br><span class="line">Outstanding: 0</span><br><span class="line">Zxid: 0x400000000</span><br><span class="line">Mode: follower</span><br><span class="line">Node count: 5</span><br><span class="line">[root@localhost ~]# echo stat | nc 172.17.0.3 2181</span><br><span class="line">Zookeeper version: 3.5.5-390fe37ea45dee01bf87dc1c042b5e3dcce88653, built on 05/03/2019 12:07 GMT</span><br><span class="line">Clients:</span><br><span class="line"> /172.17.0.1:49454[0](queued=0,recved=1,sent=0)</span><br><span class="line"></span><br><span class="line">Latency min/avg/max: 0/0/0</span><br><span class="line">Received: 2</span><br><span class="line">Sent: 1</span><br><span class="line">Connections: 1</span><br><span class="line">Outstanding: 0</span><br><span class="line">Zxid: 0x600000000</span><br><span class="line">Mode: leader</span><br><span class="line">Node count: 5</span><br><span class="line">Proposal sizes last/min/max: -1/-1/-1</span><br><span class="line">[root@localhost ~]# echo stat | nc 172.17.0.4 2181</span><br><span class="line">Zookeeper version: 3.5.5-390fe37ea45dee01bf87dc1c042b5e3dcce88653, built on 05/03/2019 12:07 GMT</span><br><span class="line">Clients:</span><br><span class="line"> /172.17.0.1:48764[0](queued=0,recved=1,sent=0)</span><br><span class="line"></span><br><span class="line">Latency min/avg/max: 0/0/0</span><br><span class="line">Received: 2</span><br><span class="line">Sent: 1</span><br><span class="line">Connections: 1</span><br><span class="line">Outstanding: 0</span><br><span class="line">Zxid: 0x600000000</span><br><span class="line">Mode: follower</span><br><span class="line">Node count: 5</span><br></pre></td></tr></table></figure>
+<p>可以看到zk2成了leader，zk1和zk3为follwer</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年07月06日 13:08</p>
+        <p>原始链接： <a class="post-url" href="/2019/07/06/2019-07-06-Docker搭建Zookeeper集群环境/" title="Docker搭建Zookeeper集群环境">https://yangrijian.top/2019/07/06/2019-07-06-Docker搭建Zookeeper集群环境/</a></p>
+        <footer>
+            <a href="https://yangrijian.top">
+                <img src="/images/logo.png" alt="Yang">
+                Yang
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我喝可口可乐~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yangrijian.top/2019/07/06/2019-07-06-Docker搭建Zookeeper集群环境/&title=《Docker搭建Zookeeper集群环境》 — Yang&pic=images/cate/myself.jpg" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yangrijian.top/2019/07/06/2019-07-06-Docker搭建Zookeeper集群环境/&title=《Docker搭建Zookeeper集群环境》 — Yang&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yangrijian.top/2019/07/06/2019-07-06-Docker搭建Zookeeper集群环境/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Docker搭建Zookeeper集群环境》 — Yang&url=https://yangrijian.top/2019/07/06/2019-07-06-Docker搭建Zookeeper集群环境/&via=https://yangrijian.top" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yangrijian.top/2019/07/06/2019-07-06-Docker搭建Zookeeper集群环境/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yangrijian.top/2019/07/06/2019-07-06-Docker搭建Zookeeper集群环境/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/-随笔-Zookeeper/" class="color5">-随笔 -Zookeeper</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#一、单节点环境搭建"><span class="post-toc-text">一、单节点环境搭建</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#拉取Zookeeper镜像"><span class="post-toc-text">拉取Zookeeper镜像</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Zookeeper单节点启动"><span class="post-toc-text">Zookeeper单节点启动</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#查看zookeeper镜像启动日志"><span class="post-toc-text">查看zookeeper镜像启动日志</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#查看镜像中zookeeper的配置情况"><span class="post-toc-text">查看镜像中zookeeper的配置情况</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Zookeeper运行状态"><span class="post-toc-text">Zookeeper运行状态</span></a></li></ol></li></ol><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#二、集群环境搭建"><span class="post-toc-text">二、集群环境搭建</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#启动两个节点"><span class="post-toc-text">启动两个节点</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#配置"><span class="post-toc-text">配置</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#全部保存退出，重启容器"><span class="post-toc-text">全部保存退出，重启容器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#查看集群是否部署成功"><span class="post-toc-text">查看集群是否部署成功</span></a></li></ol></li>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2019/06/20/2019-06-20-Mybatis中的缓存/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Mybatis中的缓存</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2019 Yang<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://yangrijian.top",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/23种设计模式/">23种设计模式</a><a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Linux/">Linux</a><a class="category-link" href="/categories/Mybatis/">Mybatis</a><a class="category-link" href="/categories/SpringBoot/">SpringBoot</a><a class="category-link" href="/categories/SpringMVC/">SpringMVC</a><a class="category-link" href="/categories/代码的艺术/">代码的艺术</a><a class="category-link" href="/categories/并发/">并发</a><a class="category-link" href="/categories/随笔/">随笔</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/随笔-Zookeeper/" style="font-size: 10px;">-随笔 -Zookeeper</a> <a href="/tags/23种设计模式/" style="font-size: 10px;">23种设计模式</a> <a href="/tags/Docker/" style="font-size: 11.67px;">Docker</a> <a href="/tags/Dubbo/" style="font-size: 10px;">Dubbo</a> <a href="/tags/Elasticsearch/" style="font-size: 10px;">Elasticsearch</a> <a href="/tags/JDBC/" style="font-size: 11.67px;">JDBC</a> <a href="/tags/JPA/" style="font-size: 10px;">JPA</a> <a href="/tags/Java/" style="font-size: 11.67px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.33px;">Linux</a> <a href="/tags/Log/" style="font-size: 10px;">Log</a> <a href="/tags/Mybatis/" style="font-size: 16.67px;">Mybatis</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Security/" style="font-size: 10px;">Security</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/SpringMVC/" style="font-size: 10px;">SpringMVC</a> <a href="/tags/Task/" style="font-size: 10px;">Task</a> <a href="/tags/Thymeleaf/" style="font-size: 10px;">Thymeleaf</a> <a href="/tags/WebSocket/" style="font-size: 10px;">WebSocket</a> <a href="/tags/YAML/" style="font-size: 10px;">YAML</a> <a href="/tags/Zookeeper/" style="font-size: 10px;">Zookeeper</a> <a href="/tags/代码的艺术/" style="font-size: 11.67px;">代码的艺术</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/并发/" style="font-size: 15px;">并发</a> <a href="/tags/缓存/" style="font-size: 11.67px;">缓存</a> <a href="/tags/邮件/" style="font-size: 10px;">邮件</a> <a href="/tags/随笔/" style="font-size: 13.33px;">随笔</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/随笔-Zookeeper/" style="font-size: 10px;">-随笔 -Zookeeper</a> <a href="/tags/23种设计模式/" style="font-size: 10px;">23种设计模式</a> <a href="/tags/Docker/" style="font-size: 11.67px;">Docker</a> <a href="/tags/Dubbo/" style="font-size: 10px;">Dubbo</a> <a href="/tags/Elasticsearch/" style="font-size: 10px;">Elasticsearch</a> <a href="/tags/JDBC/" style="font-size: 11.67px;">JDBC</a> <a href="/tags/JPA/" style="font-size: 10px;">JPA</a> <a href="/tags/Java/" style="font-size: 11.67px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.33px;">Linux</a> <a href="/tags/Log/" style="font-size: 10px;">Log</a> <a href="/tags/Mybatis/" style="font-size: 16.67px;">Mybatis</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Security/" style="font-size: 10px;">Security</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/SpringMVC/" style="font-size: 10px;">SpringMVC</a> <a href="/tags/Task/" style="font-size: 10px;">Task</a> <a href="/tags/Thymeleaf/" style="font-size: 10px;">Thymeleaf</a> <a href="/tags/WebSocket/" style="font-size: 10px;">WebSocket</a> <a href="/tags/YAML/" style="font-size: 10px;">YAML</a> <a href="/tags/Zookeeper/" style="font-size: 10px;">Zookeeper</a> <a href="/tags/代码的艺术/" style="font-size: 11.67px;">代码的艺术</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/并发/" style="font-size: 15px;">并发</a> <a href="/tags/缓存/" style="font-size: 11.67px;">缓存</a> <a href="/tags/邮件/" style="font-size: 10px;">邮件</a> <a href="/tags/随笔/" style="font-size: 13.33px;">随笔</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
