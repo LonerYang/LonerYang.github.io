@@ -8,18 +8,18 @@
   
     <meta name="keywords" content="Yang,Yang's Blog">
   
-  <meta name="description" content="1、自定义模块 第一个参数是可选的，用于声明该模块所依赖的模块，可以为数组依赖多个模块，也可以为单个字符串依赖单个模块。第二个参数即为模块加载完毕的回调函数，它返回一个exports参数，用于输出该模块的接口。 exports参数是一个函数，第一个参数指定自定义模块的模块名，第二个参数为模块接口（对象、函数、变量等等）。第一个参数可以认为是Java中的对象引用名，第二个参数是真正的对象。 注意：j">
+  <meta name="description" content="一、模块使用1、自定义模块第一个参数是可选的，用于声明该模块所依赖的模块，可以为数组依赖多个模块，也可以为单个字符串依赖单个模块。第二个参数即为模块加载完毕的回调函数，它返回一个exports参数，用于输出该模块的接口。 exports参数是一个函数，第一个参数指定自定义模块的模块名，第二个参数为模块接口（对象、函数、变量等等）。第一个参数可以认为是Java中的对象引用名，第二个参数是真正的对象。">
 <meta name="keywords" content="前端,LayUI">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LayUI的模块使用">
 <meta property="og:url" content="https://yangrijian.top/2019/07/25/2019-07-25-LayUI的模块使用/index.html">
 <meta property="og:site_name" content="Yang">
-<meta property="og:description" content="1、自定义模块 第一个参数是可选的，用于声明该模块所依赖的模块，可以为数组依赖多个模块，也可以为单个字符串依赖单个模块。第二个参数即为模块加载完毕的回调函数，它返回一个exports参数，用于输出该模块的接口。 exports参数是一个函数，第一个参数指定自定义模块的模块名，第二个参数为模块接口（对象、函数、变量等等）。第一个参数可以认为是Java中的对象引用名，第二个参数是真正的对象。 注意：j">
+<meta property="og:description" content="一、模块使用1、自定义模块第一个参数是可选的，用于声明该模块所依赖的模块，可以为数组依赖多个模块，也可以为单个字符串依赖单个模块。第二个参数即为模块加载完毕的回调函数，它返回一个exports参数，用于输出该模块的接口。 exports参数是一个函数，第一个参数指定自定义模块的模块名，第二个参数为模块接口（对象、函数、变量等等）。第一个参数可以认为是Java中的对象引用名，第二个参数是真正的对象。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-25T13:29:18.281Z">
+<meta property="og:updated_time" content="2019-07-29T07:04:36.044Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LayUI的模块使用">
-<meta name="twitter:description" content="1、自定义模块 第一个参数是可选的，用于声明该模块所依赖的模块，可以为数组依赖多个模块，也可以为单个字符串依赖单个模块。第二个参数即为模块加载完毕的回调函数，它返回一个exports参数，用于输出该模块的接口。 exports参数是一个函数，第一个参数指定自定义模块的模块名，第二个参数为模块接口（对象、函数、变量等等）。第一个参数可以认为是Java中的对象引用名，第二个参数是真正的对象。 注意：j">
+<meta name="twitter:description" content="一、模块使用1、自定义模块第一个参数是可选的，用于声明该模块所依赖的模块，可以为数组依赖多个模块，也可以为单个字符串依赖单个模块。第二个参数即为模块加载完毕的回调函数，它返回一个exports参数，用于输出该模块的接口。 exports参数是一个函数，第一个参数指定自定义模块的模块名，第二个参数为模块接口（对象、函数、变量等等）。第一个参数可以认为是Java中的对象引用名，第二个参数是真正的对象。">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -143,21 +143,20 @@
     <div class="article-entry post-content" itemprop="articleBody">
       
             
-            <p>1、自定义模块</p>
-<p>第一个参数是可选的，用于声明该模块所依赖的模块，可以为数组依赖多个模块，也可以为单个字符串依赖单个模块。第二个参数即为模块加载完毕的回调函数，它返回一个exports参数，用于输出该模块的接口。</p>
+            <h1 id="一、模块使用"><a href="#一、模块使用" class="headerlink" title="一、模块使用"></a>一、模块使用</h1><h2 id="1、自定义模块"><a href="#1、自定义模块" class="headerlink" title="1、自定义模块"></a>1、自定义模块</h2><p>第一个参数是可选的，用于声明该模块所依赖的模块，可以为数组依赖多个模块，也可以为单个字符串依赖单个模块。第二个参数即为模块加载完毕的回调函数，它返回一个exports参数，用于输出该模块的接口。</p>
 <p>exports参数是一个函数，第一个参数指定自定义模块的模块名，第二个参数为模块接口（对象、函数、变量等等）。第一个参数可以认为是Java中的对象引用名，第二个参数是真正的对象。</p>
 <p><strong>注意：</strong>js文件名要和模块名一致</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">layui.define([<span class="string">'layer'</span>, <span class="string">'laypage'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">exports</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"进入helloworld的define"</span>)</span><br><span class="line">    <span class="keyword">var</span> obj = &#123;</span><br><span class="line">        name : <span class="string">"yang"</span>,</span><br><span class="line">        hello : <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">"helloworld"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    exports(<span class="string">'helloworld'</span>, obj);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>2、使用模块</p>
-<p>需要先引入layui.js文件才能生效，这时候页面加载完成后就会通过layui.use加载helloworld模块，加载完成后回调第二个参数的函数。</p>
+<h2 id="2、使用模块"><a href="#2、使用模块" class="headerlink" title="2、使用模块"></a>2、使用模块</h2><p>需要先引入layui.js文件才能生效，这时候页面加载完成后就会通过layui.use加载helloworld模块，加载完成后回调第二个参数的函数。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">    <span class="comment">//全局配置</span></span><br><span class="line">    layui.config(&#123;</span><br><span class="line">    	<span class="comment">//你存放新模块的目录，注意，不是layui的模块目录，引入第三方模块需要定义的</span></span><br><span class="line">   		 base: <span class="string">'resource/lay/modules/'</span> </span><br><span class="line">    &#125;);</span><br><span class="line">    layui.use(<span class="string">'helloworld'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    	<span class="comment">//获取模块实例</span></span><br><span class="line">        <span class="keyword">var</span> helloworld = layui.helloworld;</span><br><span class="line">        <span class="comment">//使用模块实例中的变量和函数（如果模块实例定义的接口是仅仅是一个函数通过helloworld()调用）</span></span><br><span class="line">        <span class="built_in">console</span>.log(helloworld.name);</span><br><span class="line">        helloworld.hello();</span><br><span class="line">    &#125;);</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">进入helloworld的define</span><br><span class="line">yang</span><br><span class="line">helloworld</span><br></pre></td></tr></table></figure>
 <p>其实关于模块的核心，就是 layui.js 的两个底层方法：一个用于定义模块的 <code>layui.define()</code>，一个加载模块的 <code>layui.use()</code>。</p>
 <p><a href="https://www.layui.com/doc/base/modules.html#extend" target="_blank" rel="noopener">官方文档</a></p>
+<h1 id="二、LayUI的坑"><a href="#二、LayUI的坑" class="headerlink" title="二、LayUI的坑"></a>二、LayUI的坑</h1><p>1、不要动下载好的layui的css和js文件路径，会导致后面样式找不到的问题</p>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2019年07月25日 21:29</p>
+        <p>最后更新： 2019年07月29日 15:04</p>
         <p>原始链接： <a class="post-url" href="/2019/07/25/2019-07-25-LayUI的模块使用/" title="LayUI的模块使用">https://yangrijian.top/2019/07/25/2019-07-25-LayUI的模块使用/</a></p>
         <footer>
             <a href="https://yangrijian.top">
@@ -275,6 +274,12 @@
 </article>
 
 
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#一、模块使用"><span class="post-toc-text">一、模块使用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1、自定义模块"><span class="post-toc-text">1、自定义模块</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2、使用模块"><span class="post-toc-text">2、使用模块</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#二、LayUI的坑"><span class="post-toc-text">二、LayUI的坑</span></a></li></ol>
+        </nav>
+    </aside>
+    
 
 <nav id="article-nav">
   
